@@ -4,26 +4,26 @@
     <item
         android:id="@+id/action_bitacora"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@drawable/icon_aventuras"
         android:title="@string/bitacora"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_add"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@drawable/icon_agregar_carpeta"
         android:title="@string/agregar"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_map"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@drawable/icon_marcador_mapa"
         android:title="@string/mapa"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_travelers"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@drawable/icon_grupo_usuarios"
         android:title="@string/viajeros"
         app:showAsAction="ifRoom" />
 </menu>
