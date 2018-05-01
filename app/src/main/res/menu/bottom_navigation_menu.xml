@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_bitacora"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="@string/bitacora"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="@string/agregar"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_map"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="@string/mapa"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_travelers"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="@string/viajeros"
+        app:showAsAction="ifRoom" />
+</menu>
