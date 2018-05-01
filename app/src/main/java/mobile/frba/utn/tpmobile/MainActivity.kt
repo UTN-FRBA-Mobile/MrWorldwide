@@ -11,14 +11,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-
+        bottomNavigationView.menu.getItem(2).isChecked = true
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             var selectedFragment: Fragment? = null
             when (item.itemId) {
-                //R.id.action_bitacora -> selectedFragment = throw RuntimeException()
-               // R.id.action_add -> selectedFragment = throw RuntimeException()
-                //R.id.action_map -> selectedFragment = supportFragmentManager.findFragmentById(R.id.map)
-                //R.id.action_travelers -> selectedFragment = throw RuntimeException()
+                //R.id.action_bitacora -> selectedFragment = BitacoraFragment()
+                // R.id.action_add -> selectedFragment = AddFragment()
+                R.id.action_map -> selectedFragment = RunMapFragment()
+                //R.id.action_travelers -> selectedFragment = TravelersFragment()
             }
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frame_layout, selectedFragment)
