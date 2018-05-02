@@ -2,13 +2,16 @@ package mobile.frba.utn.tpmobile
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import android.support.v7.widget.LinearLayoutManager
+
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -16,11 +19,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        //setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        //val mapFragment = supportFragmentManager
+        //        .findFragmentById(R.id.map) as SupportMapFragment
+        //mapFragment.getMapAsync(this)
+
+        setContentView(R.layout.travelers_list_fragment)
+        val recyclerView: RecyclerView = findViewById(R.id.travelers_list)
+        val travelers : MutableList<ModelTraveler> = ArrayList()
+        travelers.add(ModelTraveler("pepito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("saraza1"))
+        travelers.add(ModelTraveler("saraza2"))
+        travelers.add(ModelTraveler("saraza3"))
+        travelers.add(ModelTraveler("saraza4"))
+        travelers.add(ModelTraveler("saraza5"))
+        travelers.add(ModelTraveler("saraza6"))
+        travelers.add(ModelTraveler("saraza saraza"))
+        travelers.add(ModelTraveler("saraza saraza saraza"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+        travelers.add(ModelTraveler("juancito"))
+
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = ModelTravelerAdapter(travelers);
     }
 
     /**
