@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">TPMobile</string>
     <string name="title_activity_maps">Map</string>
+    <string name="bitacora">Bitácora</string>
+    <string name="agregar">Agregar</string>
+    <string name="mapa">Mapa</string>
+    <string name="viajeros">Viajeros</string>
 </resources>
