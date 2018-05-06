@@ -1,9 +1,11 @@
-package mobile.frba.utn.tpmobile
+package mobile.frba.utn.tpmobile.activities
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.fragments.RunMapFragment
 
 class MainActivity : AppCompatActivity() {
 
