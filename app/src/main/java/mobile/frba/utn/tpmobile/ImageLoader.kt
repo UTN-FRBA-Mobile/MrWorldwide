@@ -1,12 +1,12 @@
 package mobile.frba.utn.tpmobile
 
 import android.widget.ImageView
+import com.squareup.picasso.Picasso
 
 class ImageLoader{
     companion object {
         fun loadImageIn(imageView: ImageView, url: String){
-            //TODO: Implement this
-            imageView.setImageResource(R.drawable.trip_photo_example)
+            Picasso.get().load(url).resize(1920,1080).centerCrop().placeholder(R.drawable.trip_photo_example).into(imageView)
         }
     }
 
