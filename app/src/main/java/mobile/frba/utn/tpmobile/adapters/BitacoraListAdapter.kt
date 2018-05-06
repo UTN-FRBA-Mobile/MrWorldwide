@@ -12,8 +12,6 @@ import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
-import java.text.SimpleDateFormat
-import java.util.*
 
 class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
