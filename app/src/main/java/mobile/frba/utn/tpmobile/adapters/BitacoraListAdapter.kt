@@ -8,9 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
@@ -42,7 +45,7 @@ class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<Recycler
 
         override fun bind(event: Event) = with(event as Text) {
                 titleView.text = title
-                dateView.text = date.toString()
+                dateView.text = DateFormatter.format(date)
                 textView.text = text
             }
     }
@@ -53,7 +56,7 @@ class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<Recycler
 
         override fun bind(event: Event) = with(event as Photo){
             ImageLoader.loadImageIn(photoView, url)
-            dateView.text=date.toString()
+            dateView.text= DateFormatter.format(date)
         }
 
     }
