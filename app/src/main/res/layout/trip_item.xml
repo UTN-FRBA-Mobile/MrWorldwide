@@ -33,8 +33,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                <TextView
                     android:id="@+id/trip_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,6 +47,17 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:fontFamily="@font/RalewaySemiBold"/>
+
+                <ImageButton
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/icon_edit"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_gravity="right|center_vertical"
+                    />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/trip_date"
