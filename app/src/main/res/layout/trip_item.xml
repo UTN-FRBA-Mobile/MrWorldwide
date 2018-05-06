@@ -12,24 +12,34 @@
         android:layout_margin="5dp"
         android:padding="5dp">
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/roma"
-            android:scaleType="centerCrop" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/nyc" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/gradient" />
+
+            <TextView
+                android:id="@+id/trip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="7dp"
+                android:text="New York"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+
+
+        </FrameLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/text_item_card_view2"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_margin="5dp"
-        android:padding="5dp">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/nyc"
-            android:scaleType="centerCrop" />
-    </android.support.v7.widget.CardView>
 </LinearLayout>
