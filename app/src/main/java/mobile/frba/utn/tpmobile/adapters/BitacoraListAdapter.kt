@@ -11,7 +11,7 @@ import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
 
-class BitacoraListAdapter(var items: List<Event>, var listener: (Event) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
         when(viewType){
@@ -23,13 +23,13 @@ class BitacoraListAdapter(var items: List<Event>, var listener: (Event) -> Unit)
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as BitacoraViewHolder).bind(items[position], listener)
+        (holder as BitacoraViewHolder).bind(items[position])
     }
 
     override fun getItemViewType(position: Int): Int = items[position].viewType
 
     abstract class BitacoraViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        abstract fun bind(event: Event, listener: (Event) -> Unit)
+        abstract fun bind(event: Event)
     }
 
     class TextViewHolder(itemView: View) : BitacoraViewHolder(itemView) {
@@ -38,7 +38,7 @@ class BitacoraListAdapter(var items: List<Event>, var listener: (Event) -> Unit)
         val dateView :TextView = itemView.findViewById(R.id.text_item_date)
         val textView :TextView = itemView.findViewById(R.id.text_item_text)
 
-        override fun bind(event: Event, listener: (Event) -> Unit) = with(event as Text) {
+        override fun bind(event: Event) = with(event as Text) {
                 titleView.text = title
                 dateView.text = date.toString()
                 textView.text = text
@@ -49,7 +49,7 @@ class BitacoraListAdapter(var items: List<Event>, var listener: (Event) -> Unit)
         val photoView : ImageView = itemView.findViewById(R.id.image_item_photo)
         val dateView : TextView = itemView.findViewById(R.id.image_item_date)
 
-        override fun bind(event: Event, listener: (Event) -> Unit) = with(event as Photo){
+        override fun bind(event: Event) = with(event as Photo){
             ImageLoader.loadImageIn(photoView, url)
             dateView.text=date.toString()
         }
