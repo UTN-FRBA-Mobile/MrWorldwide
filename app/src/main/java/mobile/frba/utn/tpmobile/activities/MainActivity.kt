@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.RunMapFragment
+import mobile.frba.utn.tpmobile.fragments.TravelersFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
                 //R.id.action_bitacora -> selectedFragment = BitacoraFragment()
                 // R.id.action_add -> selectedFragment = AddFragment()
                 R.id.action_map -> selectedFragment = RunMapFragment()
-                //R.id.action_travelers -> selectedFragment = TravelersFragment()
+                R.id.action_travelers -> selectedFragment = TravelersFragment()
             }
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frame_layout, selectedFragment)
