@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_item_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_placeholder"
@@ -38,6 +39,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/text_item_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/date_placeholder"
@@ -46,6 +48,7 @@
                 android:textStyle="italic" />
 
             <TextView
+                android:id="@+id/text_item_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_placeholder"
