@@ -14,9 +14,10 @@ import mobile.frba.utn.tpmobile.models.Text
 class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
-        when(viewType){
+        return when(viewType){
             0 -> TextViewHolder(parent)
             1 -> ImageViewHolder(parent)
+            else -> throw RuntimeException("Invalid viewType")
         }
     }
 
