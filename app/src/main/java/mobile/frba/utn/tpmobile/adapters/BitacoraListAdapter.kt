@@ -1,6 +1,7 @@
 package mobile.frba.utn.tpmobile.adapters
 
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,8 +16,8 @@ class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<Recycler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
         return when(viewType){
-            0 -> TextViewHolder(parent)
-            1 -> ImageViewHolder(parent)
+            0 -> TextViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.text_item, parent, false))
+            1 -> ImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false))
             else -> throw RuntimeException("Invalid viewType")
         }
     }
