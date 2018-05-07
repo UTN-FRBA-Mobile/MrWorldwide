@@ -8,7 +8,7 @@
         android:title="@string/bitacora"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/action_trips"
         android:enabled="true"
         android:icon="@drawable/icon_bag"
         android:title="@string/viajes"
