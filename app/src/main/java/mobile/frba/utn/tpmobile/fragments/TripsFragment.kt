@@ -25,9 +25,9 @@ class TripsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val romaPhoto = Photo("https://www.losmundosdeceli.com/fin-de-semana-en-roma/", DateTime.now())
-        val romaTrip = Trip("Roma", romaPhoto, Date(2018, 2, 10), Date(2018, 2, 22), emptyList())
+        val romaTrip = Trip("Roma", romaPhoto, DateTime().withDate(2018, 2, 10), DateTime().withDate(2018, 2, 22), emptyList())
         val nyPhoto = Photo("https://www.lonelyplanet.com/usa/new-york-city", DateTime.now())
-        val nyTrip = Trip("New York", nyPhoto, Date(2019, 2, 10), Date(2019, 2, 22), emptyList())
+        val nyTrip = Trip("New York", nyPhoto, DateTime().withDate(2019, 2, 10), DateTime().withDate(2019, 2, 22), emptyList())
 
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)

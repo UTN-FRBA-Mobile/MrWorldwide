@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Trip
 
 /**
@@ -31,7 +32,7 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
 
         fun bind(trip: Trip) = with(trip) {
             titleView.text = title
-            dateView.text = "Del ${startDate} al ${finishDate}"
+            dateView.text = "Del ${DateFormatter.format(startDate)} al ${DateFormatter.format(finishDate)}"
             ImageLoader.loadImageIn(photoView, tripPhoto.url)
         }
     }
