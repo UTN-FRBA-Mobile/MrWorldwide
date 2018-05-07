@@ -11,6 +11,10 @@
     <string name="date_placeholder">31 de Febrero de 2014</string>
     <string name="trip_title_hint">Mi viaje a NYC</string>
     <string name="trip_title_label">Nombre del viaje</string>
+    <string name="start_date_label">Fecha de inicio</string>
+    <string name="finish_date_label">Fecha de finalización</string>
+    <string name="start_date_hint">07/08/2018</string>
+    <string name="finish_date_hint">25/08/2018</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

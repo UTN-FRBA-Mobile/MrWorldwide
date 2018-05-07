@@ -25,14 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:hint="@string/trip_title_label"
+        android:hint="@string/start_date_label"
         android:textColor="@color/colorAccent"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/trip_title_hint"
-        android:inputType="text"/>
+        android:layout_marginBottom="20dp"
+        android:hint="@string/start_date_hint"
+        android:inputType="date"/>
+
 
 
 </LinearLayout>
