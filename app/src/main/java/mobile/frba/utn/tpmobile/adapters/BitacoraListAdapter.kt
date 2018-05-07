@@ -51,10 +51,12 @@ class BitacoraListAdapter(var items: List<Event>): RecyclerView.Adapter<Recycler
     class ImageViewHolder(itemView: View): BitacoraViewHolder(itemView){
         val photoView : ImageView = itemView.findViewById(R.id.image_item_photo)
         val dateView : TextView = itemView.findViewById(R.id.image_item_date)
+        val descriptionView : TextView = itemView.findViewById(R.id.image_item_text)
 
         override fun bind(event: Event) = with(event as Photo){
             ImageLoader.loadImageIn(photoView, url)
             dateView.text= DateFormatter.format(date)
+            descriptionView.text = description
         }
 
     }

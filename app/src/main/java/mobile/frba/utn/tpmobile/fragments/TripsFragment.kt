@@ -11,6 +11,7 @@ import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.models.TripPhoto
 import org.joda.time.DateTime
 import java.sql.Date
 
@@ -24,9 +25,9 @@ class TripsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val romaPhoto = Photo("https://www.losmundosdeceli.com/wp-content/uploads/2017/05/coliseo_roma_atardecer-1080x640.jpg", DateTime.now())
+        val romaPhoto = TripPhoto("https://www.losmundosdeceli.com/wp-content/uploads/2017/05/coliseo_roma_atardecer-1080x640.jpg", DateTime.now())
         val romaTrip = Trip("Roma", romaPhoto, DateTime().withDate(2018, 2, 10), DateTime().withDate(2018, 2, 22), emptyList())
-        val nyPhoto = Photo("https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001", DateTime.now())
+        val nyPhoto = TripPhoto("https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001", DateTime.now())
         val nyTrip = Trip("New York", nyPhoto, DateTime().withDate(2019, 2, 10), DateTime().withDate(2019, 2, 22), emptyList())
 
         recyclerView = getView()!!.findViewById(R.id.trip_list)
