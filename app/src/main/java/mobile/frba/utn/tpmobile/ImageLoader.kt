@@ -9,5 +9,4 @@ class ImageLoader{
             Picasso.get().load(url).fit().centerCrop().placeholder(R.drawable.trip_photo_example).into(imageView)
         }
     }
-
 }
