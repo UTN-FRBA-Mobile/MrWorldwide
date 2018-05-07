@@ -6,7 +6,7 @@ import com.squareup.picasso.Picasso
 class ImageLoader{
     companion object {
         fun loadImageIn(imageView: ImageView, url: String){
-            Picasso.get().load(url).fit().centerCrop().placeholder(R.drawable.trip_photo_example).into(imageView)
+            Picasso.get().load(url).fit().centerCrop().placeholder(R.drawable.image_placeholder).into(imageView)
         }
     }
 }
