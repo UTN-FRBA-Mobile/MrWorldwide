@@ -10,8 +10,8 @@
     <item
         android:id="@+id/action_add"
         android:enabled="true"
-        android:icon="@drawable/icon_agregar_carpeta"
-        android:title="@string/agregar"
+        android:icon="@drawable/icon_bag"
+        android:title="@string/viajes"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_map"
