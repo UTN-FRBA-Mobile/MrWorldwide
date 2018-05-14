@@ -22,7 +22,6 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             2 -> VideoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.traveler_activity_item, parent, false))
             else -> throw RuntimeException("Invalid viewType")
         }
-
     }
 
     override fun getItemCount(): Int = items.size
@@ -47,7 +46,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
 
         init{
             val frame = itemView.findViewById<FrameLayout>(R.id.traveler_activity_content)
-            val text = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.abstract_text_item,(itemView as ViewGroup),false)
+            val text = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.text_item,(itemView as ViewGroup),false)
             frame.addView(text)
         }
 
@@ -58,7 +57,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
     class ImageViewHolder(itemView: View): TravelersViewHolder(itemView){
         init{
             val frame = itemView.findViewById<FrameLayout>(R.id.traveler_activity_content)
-            val img = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.photo_item,(itemView as ViewGroup),false)
+            val img = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.image_item,(itemView as ViewGroup),false)
             frame.addView(img)
         }
         override fun bind(event: Event) = with(event as Photo){

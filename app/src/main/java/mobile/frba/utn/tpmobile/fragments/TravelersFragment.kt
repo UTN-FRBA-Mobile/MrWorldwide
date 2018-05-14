@@ -27,7 +27,7 @@ class TravelersFragment : Fragment(){
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		val photo = Photo("asd", DateTime.now())
+		val photo = Photo("asd", DateTime.now(), "LALALALA")
 		val text = Text("Soy un titulo de relleno", DateTime.now(),"Soy un texto de relleno")
 		val video = Video("Soy un titulo de relleno", "saraza")
 
