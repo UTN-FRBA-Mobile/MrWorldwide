@@ -24,7 +24,7 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:text="@string/date_placeholder"
-        android:textColor="@color/primaryTextLight"
+        android:textColor="@color/secondaryColor"
         android:textSize="12sp"
         android:textStyle="italic" />
 

@@ -7,4 +7,6 @@
     <color name="primaryText">#616161</color>
     <color name="primaryTextDark">#212121</color>
     <color name="primaryTextLight">#757575</color>
+    <color name="secondaryColorLight">#f8bbd0</color>
+    <color name="secondaryColor">#f06292</color>
 </resources>
