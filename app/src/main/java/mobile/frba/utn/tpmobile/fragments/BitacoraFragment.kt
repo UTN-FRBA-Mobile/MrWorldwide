@@ -27,6 +27,6 @@ class BitacoraFragment: Fragment() {
         val text = Text("Soy un titulo de relleno",DateTime.now(),"Soy un texto de relleno")
         recyclerView = getView()!!.findViewById(R.id.bitacora_list)
         recyclerView.layoutManager=LinearLayoutManager(activity)
-        recyclerView.adapter = BitacoraListAdapter(listOf(photo,text))
+        recyclerView.adapter = BitacoraListAdapter(listOf(photo,photo,photo))
     }
 }
