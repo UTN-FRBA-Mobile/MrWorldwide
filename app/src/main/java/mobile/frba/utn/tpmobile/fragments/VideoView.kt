@@ -10,7 +10,7 @@ import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.helpers.CustomController
 
 
-fun newVideoView(videoURL: String, itemView : View): View {
+fun newVideoView(itemView : View): View {
 	var view = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_view, (itemView as ViewGroup), false)
 	var myVideoView = view.findViewById(R.id.video_view) as VideoView
 	var	mediaControls = CustomController(myVideoView!!.context, myVideoView!!)
@@ -20,9 +20,6 @@ fun newVideoView(videoURL: String, itemView : View): View {
 		//set the media controller in the VideoView
 		myVideoView!!.setMediaController(mediaControls)
 
-		//set the uri of the video to be played
-		myVideoView!!.setVideoURI( Uri.parse(videoURL))
-
 	} catch (e: Exception) {
 		Log.e("Error", e.message)
 		e.printStackTrace()
@@ -31,3 +28,5 @@ fun newVideoView(videoURL: String, itemView : View): View {
 	return view
 
 }
+
+fun updateVideoView(videoURL: String, videoView: VideoView) = videoView.setVideoURI(Uri.parse(videoURL))
