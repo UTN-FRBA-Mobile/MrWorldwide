@@ -1,6 +1,31 @@
 <resources>
-    <string name="app_name">TPMobile</string>
+    <string name="app_name">MrWorldwide</string>
     <string name="title_activity_maps">Map</string>
+    <string name="facebook_app_id">234262307308413</string>
+    <string name="fb_login_protocol_scheme">fb234262307308413</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to add trip  -->
+    <string name="trip_title_label">Nombre del viaje</string>
+    <string name="trip_title_hint">Mi viaje a NYC</string>
+    <string name="start_date_label">Fecha de inicio</string>
+    <string name="finish_date_label">Fecha de finalización</string>
+    <string name="finish_date_hint">25/08/2018</string>
+    <string name="start_date_hint">07/08/2018</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
     <string name="bitacora">Bitácora</string>
     <string name="agregar">Agregar</string>
     <string name="mapa">Mapa</string>
@@ -9,4 +34,9 @@
     <string name="text_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="viajes">Viajes</string>
     <string name="date_placeholder">31 de Febrero de 2014</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

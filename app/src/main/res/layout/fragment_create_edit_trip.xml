@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/trip_title_label"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="@font/raleway_medium"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/trip_title_hint"
+        android:inputType="text"
+        android:fontFamily="@font/raleway_medium"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:hint="@string/start_date_label"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="@font/raleway_medium"/>
+
+    <EditText
+        android:id="@+id/start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/start_date_hint"
+        android:inputType="date"
+        android:focusable="false"
+        android:clickable="true"
+        android:maxLines="1"
+        android:fontFamily="@font/raleway_medium"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:hint="@string/finish_date_label"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="@font/raleway_medium"/>
+
+    <EditText
+        android:id="@+id/finish_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/finish_date_hint"
+        android:inputType="date"
+        android:fontFamily="@font/raleway_medium"/>
+
+
+
+</LinearLayout>
