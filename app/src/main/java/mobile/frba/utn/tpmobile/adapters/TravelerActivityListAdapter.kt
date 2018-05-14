@@ -70,7 +70,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             val frame = itemView.findViewById<FrameLayout>(R.id.traveler_activity_content)
             val videoItem = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_item,(itemView as ViewGroup),false)
             frame.addView(videoItem)
-            val videoView = newVideoView("android.resource://" + itemView.context.packageName + "/" + R.raw.video_example,videoItem)
+            val videoView = newVideoView(videoItem)
             val frameVideo = videoItem.findViewById<FrameLayout>(R.id.video_container)
             frameVideo.addView(videoView)
         }

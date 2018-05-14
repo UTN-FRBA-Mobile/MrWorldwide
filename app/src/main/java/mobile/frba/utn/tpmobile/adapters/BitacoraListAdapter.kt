@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.VideoView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
+import mobile.frba.utn.tpmobile.fragments.newVideoView
+import mobile.frba.utn.tpmobile.fragments.updateVideoView
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
+import mobile.frba.utn.tpmobile.models.Video
 
 class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -21,6 +25,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         return when (viewType) {
             0 -> TextViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.bitacora_activity_item, parent, false))
             1 -> ImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.bitacora_activity_item, parent, false))
+            2 -> VideoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.bitacora_activity_item, parent, false))
             else -> throw RuntimeException("Invalid viewType")
         }
     }
@@ -79,5 +84,24 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             descriptionView.text = description
         }
 
+    }
+
+    class VideoViewHolder(itemView: View): BitacoraViewHolder(itemView){
+
+        var videoContainer : View = newVideoView(itemView)
+        var videoView : VideoView
+        var videoItem : View
+
+        init{
+            val frame :FrameLayout = itemView.findViewById(R.id.bitacora_activity_content)
+            videoItem = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_item,(itemView as ViewGroup),false)
+            frame.addView(videoItem)
+            val frameVideo = videoItem.findViewById<FrameLayout>(R.id.video_container)
+            frameVideo.addView(videoContainer)
+            videoView = videoContainer.findViewById(R.id.video_view)
+        }
+        override fun bind(event: Event): Unit = with(event as Video){
+            updateVideoView(url ,videoView)
+        }
     }
 }
