@@ -15,18 +15,19 @@ import mobile.frba.utn.tpmobile.R
 
 class LoginActivity : AppCompatActivity() {
     val callbackManager = CallbackManager.Factory.create()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         FacebookSdk.sdkInitialize(getApplicationContext())
         AppEventsLogger.activateApp(application)
-        val loginButton = findViewById(R.id.login_button) as LoginButton ;
+        val loginButton = findViewById(R.id.login_button) as LoginButton
         loginButton.setReadPermissions("email");
         loginButton.registerCallback(callbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
                     Toast.makeText(this@LoginActivity, "Login exitoso!", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
                 }
 
                 override fun onCancel() {
