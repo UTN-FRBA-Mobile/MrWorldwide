@@ -55,5 +55,4 @@
         android:fontFamily="@font/raleway_medium"
         android:hint="@string/finish_date_hint" />
 
-
 </LinearLayout>
