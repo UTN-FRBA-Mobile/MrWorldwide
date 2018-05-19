@@ -31,16 +31,12 @@
         android:textColor="@color/colorAccent"
         android:fontFamily="@font/raleway_medium"/>
 
-    <EditText
+    <TextView
         android:id="@+id/start_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:hint="@string/start_date_hint"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:maxLines="1"
         android:fontFamily="@font/raleway_medium"/>
 
     <TextView
@@ -51,15 +47,12 @@
         android:textColor="@color/colorAccent"
         android:fontFamily="@font/raleway_medium"/>
 
-    <EditText
+    <TextView
         android:id="@+id/finish_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:hint="@string/finish_date_hint"
-        android:inputType="date"
-        android:fontFamily="@font/raleway_medium"/>
-
-
+        android:fontFamily="@font/raleway_medium"
+        android:hint="@string/finish_date_hint" />
 
 </LinearLayout>

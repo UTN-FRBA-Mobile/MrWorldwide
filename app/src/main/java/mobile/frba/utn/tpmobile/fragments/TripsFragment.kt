@@ -15,6 +15,7 @@ import mobile.frba.utn.tpmobile.models.TripPhoto
 import org.joda.time.DateTime
 import java.sql.Date
 
+
 class TripsFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
 
@@ -33,6 +34,19 @@ class TripsFragment : Fragment() {
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = TripListAdapter(listOf(romaTrip, nyTrip))
+
+        val addButton = getView()!!.findViewById<View>(R.id.trip_add)
+        addButton.setOnClickListener {
+            openCreateFragment(view)
+        }
+
+    }
+
+    fun openCreateFragment(view: View) {
+        var createEditTripFragment = CreateEditTripFragment()
+        var fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, createEditTripFragment)
+        fragmentTransaction.commit()
     }
 }
 
