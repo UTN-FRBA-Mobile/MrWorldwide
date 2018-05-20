@@ -1,6 +1,5 @@
 package mobile.frba.utn.tpmobile.fragments
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,8 +14,7 @@ import mobile.frba.utn.tpmobile.models.Video
 import org.joda.time.DateTime
 
 
-class TravelersFragment : Fragment(){
-
+class TravelersFragment : NavigatorFragment(R.id.action_travelers) {
 	lateinit var recyclerView: RecyclerView
 
 

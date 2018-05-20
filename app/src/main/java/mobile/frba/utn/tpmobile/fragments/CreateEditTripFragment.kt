@@ -2,7 +2,6 @@ package mobile.frba.utn.tpmobile.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import mobile.frba.utn.tpmobile.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateEditTripFragment : Fragment() {
+class CreateEditTripFragment : NavigatorFragment(null) {
 
     var startDate: TextView? = null
     var finishDate: TextView? = null
