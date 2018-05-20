@@ -6,13 +6,13 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to add trip  -->
-    <string name="trip_title_label">Nombre del viaje</string>
+    <string name="trip_title_label">Nombre del viaje:</string>
     <string name="trip_title_hint">Mi viaje a NYC</string>
     <string name="start_date_label">Fecha de inicio</string>
     <string name="finish_date_label">Fecha de finalización</string>
     <string name="finish_date_hint">25/08/2018</string>
     <string name="start_date_hint">07/08/2018</string>
-
+    <string name="create_edit_title">Crear/Modificar Viaje</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

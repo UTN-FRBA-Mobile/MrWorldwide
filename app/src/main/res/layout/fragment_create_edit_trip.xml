@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -8,52 +8,101 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/trip_title_label"
-        android:textColor="@color/colorAccent"
-        android:fontFamily="@font/raleway_medium"/>
+        android:layout_width="match_parent"
+        android:fontFamily="@font/raleway_regular"
+        android:text="@string/create_edit_title"
+        android:textSize="20sp"
+        android:layout_marginTop="23dp"
+        android:textColor="@color/primaryText" />
 
-    <EditText
+    <View
+        android:layout_height="2dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:hint="@string/trip_title_hint"
-        android:inputType="text"
-        android:fontFamily="@font/raleway_medium"/>
+        android:background="@color/colorAccent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="6dp" />
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:hint="@string/start_date_label"
-        android:textColor="@color/colorAccent"
-        android:fontFamily="@font/raleway_medium"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
-    <TextView
-        android:id="@+id/start_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:hint="@string/start_date_hint"
-        android:fontFamily="@font/raleway_medium"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/raleway_regular"
+            android:text="Nombre del viaje:"
+            android:layout_marginRight="2dp"
+            android:textSize="15sp"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/primaryText" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:hint="@string/finish_date_label"
-        android:textColor="@color/colorAccent"
-        android:fontFamily="@font/raleway_medium"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/raleway_medium"
+            android:hint="@string/trip_title_hint"
+            android:inputType="text" />
 
-    <TextView
-        android:id="@+id/finish_date"
-        android:layout_width="match_parent"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/raleway_medium"
-        android:hint="@string/finish_date_hint" />
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/raleway_regular"
+            android:text="Fecha de inicio:"
+            android:layout_marginRight="2dp"
+            android:textSize="15sp"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/primaryText" />
+
+        <EditText
+            android:id="@+id/start_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginStart="2dp"
+            android:hint="@string/start_date_hint"
+            android:fontFamily="@font/raleway_medium"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/raleway_regular"
+            android:text="Fecha de finalización:"
+            android:layout_marginRight="2dp"
+            android:textSize="15sp"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/primaryText" />
+
+        <EditText
+            android:id="@+id/finish_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginStart="2dp"
+            android:hint="@string/start_date_hint"
+            android:fontFamily="@font/raleway_medium"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
