@@ -39,13 +39,13 @@ class TripsFragment : Fragment() {
         addButton.setOnClickListener {
             openCreateFragment(view)
         }
-
     }
 
     fun openCreateFragment(view: View) {
-        var createEditTripFragment = CreateEditTripFragment()
-        var fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+        val createEditTripFragment = CreateEditTripFragment()
+        val fragmentTransaction = childFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, createEditTripFragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 }
