@@ -57,7 +57,4 @@ class CreateEditTripFragment : Fragment() {
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         date.text = sdf.format(calendar.time)
     }
-
-
-
 }
