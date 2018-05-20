@@ -9,12 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
-import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.models.TripPhoto
 import org.joda.time.DateTime
-import java.sql.Date
-
 
 class TripsFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
@@ -38,7 +35,7 @@ class TripsFragment : Fragment() {
         val addButton = getView()!!.findViewById<View>(R.id.trip_add)
         addButton.setOnClickListener {
             val createEditTripFragment = CreateEditTripFragment()
-            val fragmentTransaction = childFragmentManager.beginTransaction()
+            val fragmentTransaction = fragmentManager!!.beginTransaction()
             fragmentTransaction.replace(R.id.container, createEditTripFragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()

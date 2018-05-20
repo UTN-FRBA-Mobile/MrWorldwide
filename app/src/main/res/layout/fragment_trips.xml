@@ -9,6 +9,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:windowBackground"
         android:id="@+id/trip_list"/>
 
     <android.support.design.widget.FloatingActionButton
@@ -18,7 +19,5 @@
         android:layout_gravity="end|bottom"
         android:src="@drawable/plus_icon"
         android:tint="@color/colorPrimary"
-        android:layout_margin="16dp"
-        />
-
+        android:layout_margin="16dp" />
 </FrameLayout>
