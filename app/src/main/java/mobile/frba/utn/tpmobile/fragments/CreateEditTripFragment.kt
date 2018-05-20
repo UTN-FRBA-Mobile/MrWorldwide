@@ -74,7 +74,7 @@ class CreateEditTripFragment : Fragment() {
         }
 
         date.setOnClickListener {
-            DatePickerDialog(activity!!.applicationContext,
+            DatePickerDialog(activity,
                     dateSetListener,
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
@@ -176,7 +176,6 @@ class CreateEditTripFragment : Fragment() {
         }
     }
 }
-
 
 
 }

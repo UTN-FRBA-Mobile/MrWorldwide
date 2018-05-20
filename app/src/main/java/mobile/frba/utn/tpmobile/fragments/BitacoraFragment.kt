@@ -1,6 +1,7 @@
 package mobile.frba.utn.tpmobile.fragments
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -30,5 +31,15 @@ class BitacoraFragment: Fragment() {
         recyclerView = getView()!!.findViewById(R.id.bitacora_list)
         recyclerView.layoutManager=LinearLayoutManager(activity)
         recyclerView.adapter = BitacoraListAdapter(listOf(photo,text,video))
+
+        val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.bitacora_add) as FloatingActionButton
+        addButton.setOnClickListener {
+            addButton.hide()
+            val createEditEventFragment = CreateEditEventFragment()
+            val fragmentTransaction = fragmentManager!!.beginTransaction()
+            fragmentTransaction.replace(R.id.bitacora_container, createEditEventFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
     }
 }
