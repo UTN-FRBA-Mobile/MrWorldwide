@@ -17,9 +17,12 @@ class CreateEditTripFragment : Fragment() {
     var startDate: TextView? = null
     var calendar = Calendar.getInstance()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_create_edit_trip, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         startDate = view!!.findViewById(R.id.start_date)
 
         startDate!!.text = "--/--/----"
@@ -38,8 +41,6 @@ class CreateEditTripFragment : Fragment() {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
-
-        return inflater.inflate(R.layout.fragment_create_edit_trip, container, false)
     }
 
     private fun updateDateInView() {
