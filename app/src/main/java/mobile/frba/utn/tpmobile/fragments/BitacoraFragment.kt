@@ -32,6 +32,10 @@ class BitacoraFragment: Fragment() {
         recyclerView.layoutManager=LinearLayoutManager(activity)
         recyclerView.adapter = BitacoraListAdapter(listOf(photo,text,video))
 
+        onAddButtonClick()
+    }
+
+    private fun onAddButtonClick() {
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.bitacora_add) as FloatingActionButton
         addButton.setOnClickListener {
             addButton.hide()

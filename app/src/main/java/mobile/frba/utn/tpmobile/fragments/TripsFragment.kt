@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
-import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.models.TripPhoto
 import org.joda.time.DateTime
-import java.sql.Date
 
 
 class TripsFragment : Fragment() {
@@ -36,7 +34,11 @@ class TripsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = TripListAdapter(listOf(romaTrip, nyTrip))
 
-        val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
+        onAddButtonClick()
+    }
+
+    private fun onAddButtonClick() {
+        val addButton: FloatingActionButton = view!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
@@ -46,6 +48,5 @@ class TripsFragment : Fragment() {
             fragmentTransaction.commit()
         }
     }
-
 }
 

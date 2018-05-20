@@ -119,6 +119,7 @@
         android:layout_gravity="center_horizontal">
 
         <Button
+            android:id="@+id/accept_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -126,11 +127,12 @@
             android:fontFamily="@font/raleway_medium"
             android:paddingEnd="30dp"
             android:paddingStart="30dp"
-            android:text="Aceptar"
+            android:text="@string/acceptButton"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
 
         <Button
+            android:id="@+id/cancel_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -138,7 +140,7 @@
             android:fontFamily="@font/raleway_medium"
             android:paddingEnd="28dp"
             android:paddingStart="28dp"
-            android:text="Cancelar"
+            android:text="@string/cancelButton"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
 
