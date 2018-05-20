@@ -1,6 +1,7 @@
 package mobile.frba.utn.tpmobile.fragments
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -9,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
+import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.models.TripPhoto
 import org.joda.time.DateTime
+import java.sql.Date
+
 
 class TripsFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
@@ -32,8 +36,9 @@ class TripsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = TripListAdapter(listOf(romaTrip, nyTrip))
 
-        val addButton = getView()!!.findViewById<View>(R.id.trip_add)
+        val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
+            addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
             val fragmentTransaction = fragmentManager!!.beginTransaction()
             fragmentTransaction.replace(R.id.container, createEditTripFragment)
