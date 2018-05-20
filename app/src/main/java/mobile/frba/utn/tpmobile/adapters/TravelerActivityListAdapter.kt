@@ -6,8 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.VideoView
+import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.newVideoView
+import mobile.frba.utn.tpmobile.fragments.updateVideoView
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
@@ -43,38 +49,64 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
     }
 
     class TextViewHolder(itemView: View) : TravelersViewHolder(itemView) {
+        var titleView: TextView
+        var dateView: TextView
+        var textView: TextView
 
         init{
-            val frame = itemView.findViewById<FrameLayout>(R.id.traveler_activity_content)
-            val text = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.text_item,(itemView as ViewGroup),false)
-            frame.addView(text)
+            val frame: FrameLayout = itemView.findViewById(R.id.traveler_activity_content)
+            val textContent = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.text_item, (itemView as ViewGroup), false)
+            frame.addView(textContent)
+            titleView = itemView.findViewById(R.id.text_item_title)
+            dateView = itemView.findViewById(R.id.text_item_date)
+            textView = itemView.findViewById(R.id.text_item_text)
         }
 
+
         override fun bind(event: Event) = with(event as Text) {
+            titleView.text = title
+            dateView.text = DateFormatter.format(date)
+            textView.text = text
         }
     }
 
     class ImageViewHolder(itemView: View): TravelersViewHolder(itemView){
-        init{
-            val frame = itemView.findViewById<FrameLayout>(R.id.traveler_activity_content)
-            val img = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.image_item,(itemView as ViewGroup),false)
-            frame.addView(img)
+        var photoView: ImageView
+        var dateView: TextView
+        var descriptionView: TextView
+
+        init {
+            val frame: FrameLayout = itemView.findViewById(R.id.traveler_activity_content)
+            val imageContent = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.image_item, (itemView as ViewGroup), false)
+            frame.addView(imageContent)
+            photoView = itemView.findViewById(R.id.image_item_photo)
+            dateView = itemView.findViewById(R.id.image_item_date)
+            descriptionView = itemView.findViewById(R.id.image_item_text)
         }
-        override fun bind(event: Event) = with(event as Photo){
+
+        override fun bind(event: Event) = with(event as Photo) {
+            ImageLoader.loadImageIn(photoView, url)
+            dateView.text = DateFormatter.format(date)
+            descriptionView.text = description
         }
 
     }
     class VideoViewHolder(itemView: View): TravelersViewHolder(itemView){
 
+        var videoContainer : View = newVideoView(itemView)
+        var videoView : VideoView
+        var videoItem : View
+
         init{
-            val frame = itemView.findViewById<FrameLayout>(R.id.traveler_activity_content)
-            val videoItem = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_item,(itemView as ViewGroup),false)
+            val frame :FrameLayout = itemView.findViewById(R.id.traveler_activity_content)
+            videoItem = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_item,(itemView as ViewGroup),false)
             frame.addView(videoItem)
-            val videoView = newVideoView(videoItem)
             val frameVideo = videoItem.findViewById<FrameLayout>(R.id.video_container)
-            frameVideo.addView(videoView)
+            frameVideo.addView(videoContainer)
+            videoView = videoContainer.findViewById(R.id.video_view)
         }
         override fun bind(event: Event): Unit = with(event as Video){
-         }
+            updateVideoView(url ,videoView)
+        }
     }
 }
