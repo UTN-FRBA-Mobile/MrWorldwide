@@ -6,7 +6,8 @@
 
     <FrameLayout
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_margin="7dp">
 
         <ImageView
             android:id="@+id/image_item_photo"
@@ -20,10 +21,11 @@
     <TextView
         android:id="@+id/image_item_date"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
         android:layout_width="match_parent"
         android:text="@string/date_placeholder"
+        android:fontFamily="@font/raleway_regular"
         android:textColor="@color/secondaryColor"
         android:textSize="12sp"
         android:textStyle="italic" />
@@ -31,8 +33,9 @@
     <TextView
         android:id="@+id/image_item_text"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:fontFamily="@font/raleway_regular"
         android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:text="@string/text_placeholder"
