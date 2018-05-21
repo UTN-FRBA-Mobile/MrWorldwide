@@ -49,10 +49,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         imageView = view.findViewById(R.id.trip_image)
         buttonSelect = view.findViewById(R.id.load_photo_button)
 
-        buttonSelect!!.setOnClickListener(
-            View.OnClickListener {
-                selectImage()
-        })
+        buttonSelect!!.setOnClickListener({selectImage()})
 
 
         setDateOnClick(startDate!!)
@@ -87,23 +84,25 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
     private fun selectImage() {
         try {
-            val pm = activity!!.getPackageManager()
+            val pm = activity!!.packageManager
             val hasPerm = pm.checkPermission(android.Manifest.permission.CAMERA, activity!!.packageName)
             if (hasPerm == PackageManager.PERMISSION_GRANTED) {
                 val options = arrayOf<CharSequence>("Sacar Foto", "Seleccionar de la galería", "Cancelar")
                 val builder = android.support.v7.app.AlertDialog.Builder(activity!!)
                 builder.setTitle("Selecciona una opción")
                 builder.setItems(options) { dialog, item ->
-                    if (options[item] == "Sacar Foto") {
-                        dialog.dismiss()
-                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(intent, Companion.PICK_IMAGE_CAMERA)
-                    } else if (options[item] == "Seleccionar de la galería") {
-                        dialog.dismiss()
-                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, Companion.PICK_IMAGE_GALLERY)
-                    } else if (options[item] == "Cancelar") {
-                        dialog.dismiss()
+                    when {
+                        options[item] == "Sacar Foto" -> {
+                            dialog.dismiss()
+                            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                            startActivityForResult(intent, PICK_IMAGE_CAMERA)
+                        }
+                        options[item] == "Seleccionar de la galería" -> {
+                            dialog.dismiss()
+                            val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                            startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY)
+                        }
+                        options[item] == "Cancelar" -> dialog.dismiss()
                     }
                 }
                 builder.show()
@@ -117,62 +116,62 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     }
 
 
-    public override fun onActivityResult(requestCode :Int, resultCode :Int, data :Intent) {
-    super.onActivityResult(requestCode, resultCode, data);
-    inputStreamImg = null
-    if (requestCode == PICK_IMAGE_CAMERA) {
-        try {
-            var selectedImage = data.data;
-            bitmap = data.getExtras().get("data") as Bitmap?;
-            var bytes : ByteArrayOutputStream  = ByteArrayOutputStream();
-            bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-
-            Log.e("Activity", "Pick from Camera::>>> ");
-
-            var timeStamp :String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date());
-            var environment = Environment.getExternalStorageDirectory()
-            destination = File(environment.toString() + "/" + getString(R.string.app_name),"IMG$timeStamp.jpg" )
-            var fo :FileOutputStream
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        inputStreamImg = null
+        if (requestCode == PICK_IMAGE_CAMERA) {
             try {
-                destination!!.createNewFile();
-                fo = FileOutputStream(destination);
-                fo.write(bytes.toByteArray());
-                fo.close();
-            } catch (e : FileNotFoundException) {
-                e.printStackTrace();
-            } catch (e : IOException) {
-                e.printStackTrace();
+                var selectedImage = data.data
+                bitmap = data.extras.get("data") as Bitmap?
+                var bytes = ByteArrayOutputStream()
+                bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+
+                Log.e("Activity", "Pick from Camera::>>> ")
+
+                var timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                var environment = Environment.getExternalStorageDirectory()
+                destination = File(environment.toString() + "/" + getString(R.string.app_name), "IMG$timeStamp.jpg")
+                var fo: FileOutputStream
+                try {
+                    destination!!.createNewFile()
+                    fo = FileOutputStream(destination)
+                    fo.write(bytes.toByteArray())
+                    fo.close()
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+                imgPath = destination!!.absolutePath
+                imageView!!.setImageBitmap(bitmap)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        } else if (requestCode == PICK_IMAGE_GALLERY) {
+            var selectedImage = data.data
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, selectedImage)
+                var bytes = ByteArrayOutputStream()
+                bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+                Log.e("Activity", "Pick from Gallery::>>> ")
 
-            imgPath = destination!!.getAbsolutePath();
-            imageView!!.setImageBitmap(bitmap);
+                var filePathColumn: Array<String> = { MediaStore.Images.Media.DATA } as Array<String>
+                var cursor: Cursor = activity!!.contentResolver.query(selectedImage, filePathColumn, null, null, null)
+                cursor.moveToFirst()
+                var columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+                imgPath = cursor.getString(columnIndex)
+                cursor.close()
 
-        } catch (e:Exception) {
-            e.printStackTrace();
-        }
-    } else if (requestCode == PICK_IMAGE_GALLERY) {
-        var selectedImage = data.data;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, selectedImage)
-            var bytes : ByteArrayOutputStream = ByteArrayOutputStream();
-            bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-            Log.e("Activity", "Pick from Gallery::>>> ");
+                destination = File(imgPath.toString())
+                imageView!!.setImageBitmap(bitmap)
 
-            var filePathColumn : Array<String> = {MediaStore.Images.Media.DATA} as Array<String>
-            var cursor : Cursor = activity!!.contentResolver.query(selectedImage,filePathColumn, null, null, null)
-            cursor.moveToFirst()
-            var columnIndex : Int= cursor.getColumnIndex(filePathColumn[0])
-            imgPath = cursor.getString(columnIndex)
-            cursor.close()
-
-            destination = File(imgPath.toString());
-            imageView!!.setImageBitmap(bitmap);
-
-        } catch (e :Exception) {
-            e.printStackTrace();
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
-}
 
     private fun onAcceptButtonClick() {
         val acceptButton = view!!.findViewById<View>(R.id.accept_trip)

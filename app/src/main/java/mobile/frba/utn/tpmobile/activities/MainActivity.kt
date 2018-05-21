@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         JodaTimeAndroid.init(this)
         setContentView(R.layout.main_activity)
-        var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         Navigator.navigator.setNavigationView(bottomNavigationView)
     }
 }

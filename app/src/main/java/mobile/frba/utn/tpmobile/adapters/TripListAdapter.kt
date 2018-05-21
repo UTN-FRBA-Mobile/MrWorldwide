@@ -36,7 +36,7 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
             titleView.text = title
             dateView.text = "Del ${DateFormatter.format(startDate)} al ${DateFormatter.format(finishDate)}"
             ImageLoader.loadImageIn(photoView, tripPhoto.url)
-            var selectedFragment = BitacoraFragment()
+            val selectedFragment = BitacoraFragment()
             selectedFragment.trip = trip
             photoView.setOnClickListener({
                 Navigator.navigator.navigateTo(selectedFragment )

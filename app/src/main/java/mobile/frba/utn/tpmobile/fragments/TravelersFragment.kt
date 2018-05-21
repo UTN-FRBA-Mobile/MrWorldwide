@@ -19,8 +19,7 @@ class TravelersFragment : NavigatorFragment(R.id.action_travelers) {
 
 
 	override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
-		var view = inflater.inflate(R.layout.travelers_view, parent, false)
-		return view
+		return inflater.inflate(R.layout.travelers_view, parent, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

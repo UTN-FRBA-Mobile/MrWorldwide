@@ -33,7 +33,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
             events = trip!!.events
         }
         else{
-                var actualTrip : Trip? = RepoTrips.repo.getActualTripFor(2)
+                val actualTrip : Trip? = RepoTrips.repo.getActualTripFor(2)
                 if(actualTrip != null){
                     events = actualTrip.events
                 }
@@ -45,7 +45,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
 
     }
     fun showNextTripMessages(userId : Int){
-        var nextTrip : Trip? = RepoTrips.repo.getNextTripFor(2)
+        val nextTrip : Trip? = RepoTrips.repo.getNextTripFor(2)
         var message: String
         val builder1 = AlertDialog.Builder(context!!)
         builder1.setCancelable(true)
@@ -60,14 +60,14 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
                 "No",
                 { dialog, _ -> dialog.cancel() })
 
-        if(nextTrip != null){
-            message = "Actualmente no te encuentras en ningún viaje. " +
+        message = if(nextTrip != null){
+            "Actualmente no te encuentras en ningún viaje. " +
                     "Tu próximo viaje es el " +
                     nextTrip.startDate.toString("dd/MM/yyyy") +
                     ". ¿Querés registrar otro?"
         }
         else{
-            message = "Actualmente no te encuentras en ningún viaje ni tenemos viajes próximos registrados. ¿Querés registrar uno?"
+            "Actualmente no te encuentras en ningún viaje ni tenemos viajes próximos registrados. ¿Querés registrar uno?"
         }
         builder1.setMessage(message)
         val alert11 = builder1.create()

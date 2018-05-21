@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(application)
         val loginButton = findViewById<LoginButton>(R.id.login_button)
-        loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions("email")
         loginButton.registerCallback(callbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
