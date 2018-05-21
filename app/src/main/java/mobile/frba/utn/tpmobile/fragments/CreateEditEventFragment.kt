@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateEditEventFragment : Fragment() {
-    var date: TextView? = null
-    var calendar = Calendar.getInstance()
+    private var date: TextView? = null
+    private var calendar = Calendar.getInstance()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -24,10 +24,8 @@ class CreateEditEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        date = view!!.findViewById(R.id.event_date)
-
+        date = view.findViewById(R.id.event_date)
         date!!.text = "dd/mm/aaaa"
-
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
@@ -45,5 +43,18 @@ class CreateEditEventFragment : Fragment() {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
+
+        onAcceptButtonClick()
+        onCancelButtonClick()
+    }
+
+    private fun onAcceptButtonClick() {
+        val acceptButton = view!!.findViewById<View>(R.id.accept_event)
+        acceptButton.setOnClickListener { }
+    }
+
+    private fun onCancelButtonClick() {
+        val cancelButton = view!!.findViewById<View>(R.id.cancel_event)
+        cancelButton.setOnClickListener { activity!!.fragmentManager.popBackStack() }
     }
 }

@@ -13,6 +13,7 @@ import mobile.frba.utn.tpmobile.Singletons.RepoTrips
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
 
 
+
 class TripsFragment : NavigatorFragment(null) {
     lateinit var recyclerView: RecyclerView
 
@@ -30,13 +31,16 @@ class TripsFragment : NavigatorFragment(null) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = TripListAdapter(repoTrips.trips)
 
-        val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
+        onAddButtonClick()
+    }
+
+    private fun onAddButtonClick() {
+        val addButton: FloatingActionButton = view!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
             Navigator.navigator.navigateTo(createEditTripFragment)
         }
     }
-
 }
 

@@ -1,35 +1,29 @@
 package mobile.frba.utn.tpmobile.fragments
 
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import mobile.frba.utn.tpmobile.R
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import android.graphics.Bitmap
-import android.provider.MediaStore
-import android.content.Intent
-import android.content.DialogInterface
-import android.content.pm.PackageManager
-import android.Manifest.permission
-import android.database.Cursor
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.os.Environment
-import android.util.Log
-import android.widget.*
-import java.io.*
-import java.util.jar.Manifest
 
 
 class CreateEditTripFragment : NavigatorFragment(null) {
 
-    var startDate: TextView? = null
-    var finishDate: TextView? = null
-    var calendar = Calendar.getInstance()
+    private var startDate: TextView? = null
+    private var finishDate: TextView? = null
+    private var calendar = Calendar.getInstance()
     var imageView: ImageView? = null
     private var buttonSelect: ImageButton? = null
     private var bitmap: Bitmap? = null
@@ -45,8 +39,8 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startDate = view!!.findViewById(R.id.start_date)
-        finishDate = view!!.findViewById(R.id.finish_date)
+        startDate = view.findViewById(R.id.start_date)
+        finishDate = view.findViewById(R.id.finish_date)
 
         startDate!!.text = "dd/mm/aaaa"
         finishDate!!.text = "dd/mm/aaaa"
@@ -62,6 +56,9 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
         setDateOnClick(startDate!!)
         setDateOnClick(finishDate!!)
+
+        onAcceptButtonClick()
+        onCancelButtonClick()
     }
 
     private fun setDateOnClick(date: TextView) {
@@ -176,5 +173,13 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     }
 }
 
+    private fun onAcceptButtonClick() {
+        val acceptButton = view!!.findViewById<View>(R.id.accept_trip)
+        acceptButton.setOnClickListener { }
+    }
 
+    private fun onCancelButtonClick() {
+        val cancelButton = view!!.findViewById<View>(R.id.cancel_trip)
+        cancelButton.setOnClickListener { activity!!.onBackPressed() }
+    }
 }

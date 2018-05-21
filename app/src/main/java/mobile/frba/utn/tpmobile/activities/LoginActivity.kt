@@ -19,9 +19,9 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        FacebookSdk.sdkInitialize(getApplicationContext())
+        FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(application)
-        val loginButton = findViewById(R.id.login_button) as LoginButton ;
+        val loginButton = findViewById(R.id.login_button) as LoginButton
         loginButton.setReadPermissions("email");
         loginButton.registerCallback(callbackManager,
             object : FacebookCallback<LoginResult> {
