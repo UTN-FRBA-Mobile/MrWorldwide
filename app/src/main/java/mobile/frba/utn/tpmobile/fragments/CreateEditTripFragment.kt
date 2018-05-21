@@ -33,8 +33,6 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private var destination: File? = null
     private var inputStreamImg: InputStream? = null
     private var imgPath: String? = null
-    private val PICK_IMAGE_CAMERA = 1
-    private val PICK_IMAGE_GALLERY = 2
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_edit_trip, container, false)
@@ -99,11 +97,11 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                     if (options[item] == "Sacar Foto") {
                         dialog.dismiss()
                         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(intent, PICK_IMAGE_CAMERA)
+                        startActivityForResult(intent, Companion.PICK_IMAGE_CAMERA)
                     } else if (options[item] == "Seleccionar de la galería") {
                         dialog.dismiss()
                         val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY)
+                        startActivityForResult(pickPhoto, Companion.PICK_IMAGE_GALLERY)
                     } else if (options[item] == "Cancelar") {
                         dialog.dismiss()
                     }
@@ -184,5 +182,10 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private fun onCancelButtonClick() {
         val cancelButton = view!!.findViewById<View>(R.id.cancel_trip)
         cancelButton.setOnClickListener { activity!!.onBackPressed() }
+    }
+
+    companion object {
+        private const val PICK_IMAGE_CAMERA = 1
+        private const val PICK_IMAGE_GALLERY = 2
     }
 }
