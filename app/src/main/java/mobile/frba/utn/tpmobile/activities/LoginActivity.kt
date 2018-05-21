@@ -14,14 +14,14 @@ import com.facebook.login.widget.LoginButton
 import mobile.frba.utn.tpmobile.R
 
 class LoginActivity : AppCompatActivity() {
-    val callbackManager = CallbackManager.Factory.create()
+    val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(application)
-        val loginButton = findViewById(R.id.login_button) as LoginButton
+        val loginButton = findViewById<LoginButton>(R.id.login_button)
         loginButton.setReadPermissions("email");
         loginButton.registerCallback(callbackManager,
             object : FacebookCallback<LoginResult> {
