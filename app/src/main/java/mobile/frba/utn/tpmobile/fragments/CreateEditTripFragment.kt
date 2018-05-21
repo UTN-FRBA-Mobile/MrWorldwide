@@ -6,10 +6,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CreateEditTripFragment : Fragment() {
+class CreateEditTripFragment : NavigatorFragment(null) {
 
     private var startDate: TextView? = null
     private var finishDate: TextView? = null
