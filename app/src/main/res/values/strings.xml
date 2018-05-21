@@ -46,4 +46,9 @@
     <string name="dateInput">Fecha:</string>
     <string name="cancelButton">Cancelar</string>
     <string name="acceptButton">Aceptar</string>
+    <string name="name">Nombre</string>
+    <string name="email">Email</string>
+    <string name="save">Guardar</string>
+    <string name="starting_date">Fecha de inicio:</string>
+    <string name="end_date">Fecha de finalización:</string>
 </resources>

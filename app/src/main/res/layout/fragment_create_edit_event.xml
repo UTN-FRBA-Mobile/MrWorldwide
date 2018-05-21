@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:background="?android:windowBackground"
     tools:context="mobile.frba.utn.tpmobile.fragments.CreateEditEventFragment"
     android:orientation="vertical">
 
@@ -98,6 +97,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
+        style="?android:attr/buttonBarStyle"
         android:layout_gravity="center_horizontal">
 
         <Button
@@ -111,6 +111,7 @@
             android:paddingStart="30dp"
             android:text="@string/acceptButton"
             android:textColor="@color/colorPrimary"
+            style="?android:attr/buttonBarButtonStyle"
             android:textSize="15sp" />
 
         <Button
@@ -124,6 +125,7 @@
             android:paddingStart="28dp"
             android:text="@string/cancelButton"
             android:textColor="@color/colorPrimary"
+            style="?android:attr/buttonBarButtonStyle"
             android:textSize="15sp" />
 
     </LinearLayout>
