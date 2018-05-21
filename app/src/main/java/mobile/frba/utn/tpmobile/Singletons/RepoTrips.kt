@@ -33,5 +33,13 @@ open class RepoTrips{
         trips.find { trip -> trip.id == id  }
     }
 
+    fun getActualTripFor(userId : Int): Trip? {
+        return trips.firstOrNull { trip -> trip.startDate <= DateTime.now() && trip.finishDate >= DateTime.now() }
+    }
+
+    fun getNextTripFor(userId : Int): Trip? {
+        trips.sortBy { trip -> trip.startDate  }
+        return trips.firstOrNull {trip -> trip.startDate > DateTime.now()}
+    }
 
 }
