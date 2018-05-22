@@ -7,13 +7,9 @@ import android.support.v4.app.FragmentManager
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.*
 
-open class Navigator private constructor() {
+open class Navigator {
     private lateinit var bottomNavigationView: BottomNavigationView
     lateinit var supportFragmentManager : FragmentManager
-
-    companion object Factory {
-         var navigator = Navigator()
-    }
 
     fun setNavigationView(view : BottomNavigationView){
         bottomNavigationView = view
