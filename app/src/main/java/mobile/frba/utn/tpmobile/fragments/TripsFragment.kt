@@ -23,18 +23,17 @@ class TripsFragment : NavigatorFragment(null) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val repoTrips = RepoTrips.repo
 
 
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = TripListAdapter(repoTrips.trips)
+        recyclerView.adapter = TripListAdapter(RepoTrips.trips)
 
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
-            Navigator.navigator.navigateTo(createEditTripFragment)
+            Navigator.navigateTo(createEditTripFragment)
         }
     }
 
