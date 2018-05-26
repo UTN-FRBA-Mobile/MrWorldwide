@@ -36,7 +36,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
             events = trip!!.events
         }
         else{
-                val actualTrip : Trip? = RepoTrips.repo.getActualTripFor(2)
+                var actualTrip : Trip? = RepoTrips.getActualTripFor(2)
                 if(actualTrip != null){
                     events = actualTrip.events
                 }
@@ -48,7 +48,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
 
     }
     fun showNextTripMessages(userId : Int){
-        val nextTrip : Trip? = RepoTrips.repo.getNextTripFor(2)
+        var nextTrip : Trip? = RepoTrips.getNextTripFor(2)
         var message: String
         val builder1 = AlertDialog.Builder(context!!)
         builder1.setCancelable(true)
@@ -56,7 +56,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
                 "Yes",
                 { dialog, _ ->
                     val createEditTripFragment = CreateEditTripFragment()
-                    mainActivity.navigateTo(createEditTripFragment)
+                    Navigator.navigateTo(createEditTripFragment)
                     dialog.cancel() })
 
         builder1.setNegativeButton(

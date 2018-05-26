@@ -8,15 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.Singletons.Navigator
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
-import mobile.frba.utn.tpmobile.fragments.NavigatorFragment
 import mobile.frba.utn.tpmobile.models.Trip
 
 /**
  * Created by Gustavo on 5/6/18.
  */
-class TripListAdapter(var trips: List<Trip>, var navigate : (fragment: NavigatorFragment) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = trips.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -24,10 +24,10 @@ class TripListAdapter(var trips: List<Trip>, var navigate : (fragment: Navigator
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       return TripListAdapter.TripViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.trip_item, parent, false), navigate)
+       return TripListAdapter.TripViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.trip_item, parent, false))
     }
 
-    class TripViewHolder(tripView: View, var navigate : (fragment: NavigatorFragment) -> Unit): RecyclerView.ViewHolder(tripView) {
+    class TripViewHolder(tripView: View): RecyclerView.ViewHolder(tripView) {
         val titleView : TextView = tripView.findViewById(R.id.trip_title)
         val dateView : TextView = tripView.findViewById(R.id.trip_date)
         val photoView : ImageView = tripView.findViewById(R.id.trip_image)
@@ -36,13 +36,11 @@ class TripListAdapter(var trips: List<Trip>, var navigate : (fragment: Navigator
             titleView.text = title
             dateView.text = "Del ${DateFormatter.format(startDate)} al ${DateFormatter.format(finishDate)}"
             ImageLoader.loadImageIn(photoView, tripPhoto.url)
-            val selectedFragment = BitacoraFragment()
+            var selectedFragment = BitacoraFragment()
             selectedFragment.trip = trip
             photoView.setOnClickListener({
-                navigate(selectedFragment )
+                Navigator.navigateTo(selectedFragment )
              })
         }
     }
-
-
 }

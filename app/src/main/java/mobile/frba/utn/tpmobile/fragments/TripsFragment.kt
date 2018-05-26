@@ -8,16 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.activities.MainActivity
-import mobile.frba.utn.tpmobile.singletons.Navigator
-import mobile.frba.utn.tpmobile.singletons.RepoTrips
+import mobile.frba.utn.tpmobile.Singletons.Navigator
+import mobile.frba.utn.tpmobile.Singletons.RepoTrips
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
-
 
 
 class TripsFragment : NavigatorFragment(null) {
     lateinit var recyclerView: RecyclerView
-    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_trips, container, false)
@@ -25,23 +22,18 @@ class TripsFragment : NavigatorFragment(null) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity = activity as MainActivity
-        val repoTrips = RepoTrips.repo
+
 
 
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = TripListAdapter(repoTrips.trips, {fragment -> mainActivity.navigateTo(fragment)})
+        recyclerView.adapter = TripListAdapter(RepoTrips.trips)
 
-        onAddButtonClick()
-    }
-
-    private fun onAddButtonClick() {
-        val addButton: FloatingActionButton = view!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
+        val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
-            mainActivity.navigateTo(createEditTripFragment)
+            Navigator.navigateTo(createEditTripFragment)
         }
     }
 }

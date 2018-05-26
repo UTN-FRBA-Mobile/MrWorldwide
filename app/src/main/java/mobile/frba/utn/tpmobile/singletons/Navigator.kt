@@ -1,4 +1,4 @@
-package mobile.frba.utn.tpmobile.singletons
+package mobile.frba.utn.tpmobile.Singletons
 
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -7,16 +7,16 @@ import android.support.v4.app.FragmentManager
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.*
 
-open class Navigator {
-    private lateinit var bottomNavigationView: BottomNavigationView
-    lateinit var supportFragmentManager : FragmentManager
+ object Navigator {
+    private lateinit var bottomNavigationViewAccess: ()->BottomNavigationView
+    private lateinit var supportFragmentManager : FragmentManager
 
-    fun setNavigationView(view : BottomNavigationView){
-        bottomNavigationView = view
-        bottomNavigationView.menu.getItem(2).isChecked = true
-         supportFragmentManager = (bottomNavigationView.context as FragmentActivity).supportFragmentManager
+    fun setNavigationView (bottomNavigationView: BottomNavigationView){
+        bottomNavigationViewAccess = {bottomNavigationView}
+        bottomNavigationViewAccess.invoke().menu.getItem(2).isChecked = true
+         supportFragmentManager = (bottomNavigationViewAccess.invoke().context as FragmentActivity).supportFragmentManager
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        bottomNavigationViewAccess.invoke().setOnNavigationItemSelectedListener { item ->
             var selectedFragment: Fragment? = null
             when (item.itemId) {
                 R.id.action_bitacora -> selectedFragment = BitacoraFragment()
@@ -40,7 +40,7 @@ open class Navigator {
         var transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout,fragment as Fragment)
         transaction.commit()
-        fragment.navigatorId?.let { bottomNavigationView.menu.findItem(it).isChecked  = true }
+        fragment.navigatorId?.let { bottomNavigationViewAccess.invoke().menu.findItem(it).isChecked  = true }
 
     }
 }
