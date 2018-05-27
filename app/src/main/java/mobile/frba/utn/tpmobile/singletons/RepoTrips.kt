@@ -1,7 +1,10 @@
 package mobile.frba.utn.tpmobile.Singletons
 
 import mobile.frba.utn.tpmobile.models.*
+import okhttp3.*
 import org.joda.time.DateTime
+import org.json.JSONArray
+import java.io.IOException
 
 object RepoTrips{
      var trips: MutableList<Trip> = ArrayList()
@@ -19,8 +22,36 @@ object RepoTrips{
 
         this.addTrip(romaTrip)
         this.addTrip(nyTrip)
+
     }
 
+
+    fun getTrips() : ((MutableList<Trip>)-> Unit)->Unit{
+        val client = OkHttpClient()
+        return { callback ->
+            run {
+                client.newCall(Request.Builder().url("http://10.0.2.2:3000/trips").build())
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                throw Error("rompio todo!")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val jsonTrips = JSONArray(response.body()!!.string())
+
+                                var x = 0
+                                val trips: MutableList<Trip> = emptyArray<Trip>().toMutableList()
+                                while (x < jsonTrips.length()) {
+                                    val trip = jsonTrips.getJSONObject(x)
+                                    trips.add(Trip.getFromJson(trip))
+                                    x++
+                                }
+                                callback.invoke(trips)
+                            }
+                        })
+            }
+        }
+    }
     fun addTrip(trip : Trip){
         trips.add(trips.lastIndex + 1,trip)
     }
