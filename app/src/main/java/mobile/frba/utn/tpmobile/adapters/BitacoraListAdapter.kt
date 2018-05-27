@@ -14,10 +14,7 @@ import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.newVideoView
 import mobile.frba.utn.tpmobile.fragments.updateVideoView
-import mobile.frba.utn.tpmobile.models.Event
-import mobile.frba.utn.tpmobile.models.Photo
-import mobile.frba.utn.tpmobile.models.Text
-import mobile.frba.utn.tpmobile.models.Video
+import mobile.frba.utn.tpmobile.models.*
 
 class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -36,7 +33,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         (holder as BitacoraViewHolder).bind(items[position])
     }
 
-    override fun getItemViewType(position: Int): Int = items[position].viewType
+    override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
     abstract class BitacoraViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun bind(event: Event)

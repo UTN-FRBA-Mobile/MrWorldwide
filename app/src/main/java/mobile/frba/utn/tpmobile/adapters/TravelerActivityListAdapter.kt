@@ -42,7 +42,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
 
 
     }
-    override fun getItemViewType(position: Int): Int = items[position].viewType
+    override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
     abstract class TravelersViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         abstract fun bind(event: Event)
