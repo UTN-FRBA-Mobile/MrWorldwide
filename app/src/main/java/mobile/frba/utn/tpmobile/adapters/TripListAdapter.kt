@@ -39,7 +39,7 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
             var selectedFragment = BitacoraFragment()
             selectedFragment.trip = trip
             photoView.setOnClickListener({
-                Navigator.navigator.navigateTo(selectedFragment )
+                Navigator.navigateTo(selectedFragment )
              })
         }
     }

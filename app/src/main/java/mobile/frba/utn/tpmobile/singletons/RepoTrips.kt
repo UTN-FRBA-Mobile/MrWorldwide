@@ -3,10 +3,10 @@ package mobile.frba.utn.tpmobile.Singletons
 import mobile.frba.utn.tpmobile.models.*
 import org.joda.time.DateTime
 
-open class RepoTrips{
+object RepoTrips{
      var trips: MutableList<Trip> = ArrayList()
 
-    private constructor(){
+    init{
         val photo = Photo("asd", DateTime.now(), "LALALALA")
         val text = Text("Soy un titulo de relleno", DateTime.now(),"Soy un texto de relleno")
         val video = Video("Soy un titulo de relleno", "saraza")
@@ -19,10 +19,6 @@ open class RepoTrips{
 
         this.addTrip(romaTrip)
         this.addTrip(nyTrip)
-    }
-
-    companion object Factory {
-         var repo = RepoTrips()
     }
 
     fun addTrip(trip : Trip){

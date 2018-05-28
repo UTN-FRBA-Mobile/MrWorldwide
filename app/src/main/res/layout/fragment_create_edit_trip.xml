@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:background="?android:windowBackground"
     android:orientation="vertical" >
 
     <EditText
@@ -34,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:fontFamily="@font/raleway_regular"
-            android:text="Fecha de inicio:"
+            android:text="@string/starting_date"
             android:layout_marginRight="2dp"
             android:textSize="15sp"
             android:layout_marginStart="2dp"
@@ -44,6 +43,7 @@
             android:id="@+id/start_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:inputType="date"
             android:textSize="15sp"
             android:layout_marginStart="2dp"
             android:hint="@string/start_date_hint"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:fontFamily="@font/raleway_regular"
-            android:text="Fecha de finalización:"
+            android:text="@string/end_date"
             android:layout_marginRight="2dp"
             android:textSize="15sp"
             android:layout_marginStart="2dp"
@@ -71,6 +71,7 @@
             android:id="@+id/finish_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:inputType="date"
             android:textSize="15sp"
             android:layout_marginStart="2dp"
             android:fontFamily="@font/raleway_medium"/>
@@ -116,7 +117,8 @@
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        style="?android:attr/buttonBarStyle">
 
         <Button
             android:id="@+id/accept_trip"
@@ -129,7 +131,8 @@
             android:paddingStart="30dp"
             android:text="@string/acceptButton"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
             android:id="@+id/cancel_trip"
@@ -142,7 +145,8 @@
             android:paddingStart="28dp"
             android:text="@string/cancelButton"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 
