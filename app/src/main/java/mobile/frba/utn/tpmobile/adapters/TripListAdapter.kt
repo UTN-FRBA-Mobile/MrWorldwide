@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.Singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
 import mobile.frba.utn.tpmobile.models.Trip
