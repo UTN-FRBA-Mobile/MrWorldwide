@@ -17,9 +17,17 @@ object RepoTrips{
         romaTrip.events.addAll(romaTrip.events.lastIndex+1, mutableListOf(photo,text,video))
         val nyPhoto = TripPhoto("https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001", DateTime.now(), LatLng(40.0,0.0))
         val nyTrip = Trip(2,"New York", nyPhoto, DateTime().withDate(2019, 2, 10), DateTime().withDate(2019, 2, 22), mutableListOf())
+        val photoTk = Photo("asd", DateTime.now(), "LALALALA", LatLng(0.0,-60.0))
+        val textTk = Text("Soy un titulo de relleno", DateTime.now(),"Soy un texto de relleno",LatLng(10.0,-60.0))
+        val videoTk = Video("Soy un titulo de relleno", "saraza",LatLng(20.0,-60.0))
+        val tkPhoto = TripPhoto("https://www.hola.com/imagenes/viajes/20180115104660/tokio-barrio-a-barrio-japon/0-527-396/tokio-Shibuya-t.jpg", DateTime.now(), LatLng(40.0,0.0))
+        val tkTrip = Trip(3,"Tokio", tkPhoto, DateTime().withDate(2018, 2, 10), DateTime().withDate(2018, 2, 22), mutableListOf())
+        tkTrip.events.addAll(tkTrip.events.lastIndex+1, mutableListOf(videoTk,textTk,photoTk))
+
 
         this.addTrip(romaTrip)
         this.addTrip(nyTrip)
+        this.addTrip(tkTrip)
     }
 
     fun addTrip(trip : Trip){
