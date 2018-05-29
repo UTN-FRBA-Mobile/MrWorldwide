@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.*
+import mobile.frba.utn.tpmobile.models.Event
 
- object Navigator {
+object Navigator {
     private lateinit var bottomNavigationViewAccess: ()->BottomNavigationView
     private lateinit var supportFragmentManager : FragmentManager
 
@@ -41,6 +42,9 @@ import mobile.frba.utn.tpmobile.fragments.*
         transaction.replace(R.id.frame_layout,fragment as Fragment)
         transaction.commit()
         fragment.navigatorId?.let { bottomNavigationViewAccess.invoke().menu.findItem(it).isChecked  = true }
-
     }
+
+     fun navigateTo(event: Event){
+
+     }
 }
