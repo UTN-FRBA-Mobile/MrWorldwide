@@ -25,15 +25,17 @@ object Navigator {
                 R.id.action_trips -> selectedFragment = TripsFragment()
                 R.id.action_travelers -> selectedFragment = TravelersFragment()
             }
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.frame_layout, selectedFragment)
-            transaction.commit()
+            replaceFragment(selectedFragment)
             return@setOnNavigationItemSelectedListener true
         }
 
         //Manually displaying the first fragment - one time only
+        replaceFragment(RunMapFragment())
+    }
+
+    private fun replaceFragment(selectedFragment: Fragment?) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, RunMapFragment())
+        transaction.replace(R.id.frame_layout, selectedFragment)
         transaction.commit()
     }
 
@@ -45,6 +47,9 @@ object Navigator {
     }
 
      fun navigateTo(event: Event){
+         val fragment = BitacoraFragment()
+         fragment.showOnlyEvent=event
+         replaceFragment(fragment)
 
      }
 }
