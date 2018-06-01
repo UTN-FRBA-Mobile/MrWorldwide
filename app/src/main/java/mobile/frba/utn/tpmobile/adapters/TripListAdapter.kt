@@ -8,7 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.activities.DateFormatter
+import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
 import mobile.frba.utn.tpmobile.models.Trip
 
 /**
@@ -34,6 +36,11 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
             titleView.text = title
             dateView.text = "Del ${DateFormatter.format(startDate)} al ${DateFormatter.format(finishDate)}"
             ImageLoader.loadImageIn(photoView, tripPhoto.url)
+            var selectedFragment = BitacoraFragment()
+            selectedFragment.trip = trip
+            photoView.setOnClickListener({
+                Navigator.navigateTo(selectedFragment )
+             })
         }
     }
 }

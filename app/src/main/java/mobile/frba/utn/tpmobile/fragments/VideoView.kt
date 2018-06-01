@@ -13,12 +13,12 @@ import mobile.frba.utn.tpmobile.helpers.CustomController
 fun newVideoView(itemView : View): View {
 	var view = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_view, (itemView as ViewGroup), false)
 	var myVideoView = view.findViewById(R.id.video_view) as VideoView
-	var	mediaControls = CustomController(myVideoView!!.context, myVideoView!!)
+	var	mediaControls = CustomController(myVideoView.context, myVideoView)
 
 
 	try {
 		//set the media controller in the VideoView
-		myVideoView!!.setMediaController(mediaControls)
+		myVideoView.setMediaController(mediaControls)
 
 	} catch (e: Exception) {
 		Log.e("Error", e.message)
