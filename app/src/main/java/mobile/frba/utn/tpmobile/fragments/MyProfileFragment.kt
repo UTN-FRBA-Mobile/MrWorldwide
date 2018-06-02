@@ -61,7 +61,9 @@ class MyProfileFragment: Fragment() {
         doAsync {
             val imgDrawable = Drawable.createFromStream(imgUrl.openStream(), "src")
             val imgContainer = view!!.findViewById(R.id.userProfileImage) as ImageView
-            imgContainer.setImageDrawable(imgDrawable)
+            getActivity()!!.runOnUiThread({
+                imgContainer.setImageDrawable(imgDrawable)
+            })
         }
     }
 }

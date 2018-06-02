@@ -2,6 +2,7 @@ package mobile.frba.utn.tpmobile.singletons
 
 import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.models.*
+import net.danlew.android.joda.JodaTimeAndroid
 import org.joda.time.DateTime
 
 object RepoTrips{

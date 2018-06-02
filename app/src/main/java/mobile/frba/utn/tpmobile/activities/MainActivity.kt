@@ -2,29 +2,61 @@ package mobile.frba.utn.tpmobile.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
-import mobile.frba.utn.tpmobile.fragments.RunMapFragment
-import mobile.frba.utn.tpmobile.fragments.TripsFragment
 import mobile.frba.utn.tpmobile.services.FacebookService
-import mobile.frba.utn.tpmobile.fragments.TravelersFragment
-import mobile.frba.utn.tpmobile.singletons.Navigator
 import net.danlew.android.joda.JodaTimeAndroid
+import android.support.v4.view.ViewPager
+import android.support.v4.app.FragmentPagerAdapter
+import mobile.frba.utn.tpmobile.fragments.*
+
 
 class MainActivity : AppCompatActivity() {
-
+    var adapterViewPager: FragmentPagerAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        JodaTimeAndroid.init(this)
         if (!FacebookService.sessionAlive()){
             startActivity(Intent(this, LoginActivity::class.java))
             return
         }
-        JodaTimeAndroid.init(this);
         setContentView(R.layout.main_activity)
-        var bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        Navigator.setNavigationView(bottomNavigationView)
+        val vpPager = findViewById(R.id.viewPager) as ViewPager
+        adapterViewPager = MyPagerAdapter(getSupportFragmentManager())
+        vpPager.adapter = adapterViewPager
     }
+    class MyPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+
+        // Returns total number of pages
+        override fun getCount(): Int {
+            return NUM_ITEMS
+        }
+
+        // Returns the fragment to display for that page
+        override fun getItem(position: Int): Fragment? {
+            when (position) {
+                0 // Fragment # 0 - This will show FirstFragment
+                -> return MainActivityFragment()
+                1 // Fragment # 0 - This will show FirstFragment different title
+                -> return MyProfileFragment()
+                else -> return null
+            }
+        }
+
+        // Returns the page title for the top indicator
+        override fun getPageTitle(position: Int): CharSequence? {
+            return "Page $position"
+        }
+
+        companion object {
+            private val NUM_ITEMS = 2
+        }
+
+
+
+
+    }
+
 }
