@@ -4,10 +4,12 @@ import mobile.frba.utn.tpmobile.activities.DateFormatter
 import org.joda.time.DateTime
 import org.json.JSONObject
 
+import com.google.android.gms.maps.model.LatLng
+
 /**
  * Created by Gustavo on 5/6/18.
  */
-open abstract class Event(val eventType: EventType) {
+open abstract class Event(val eventType: EventType, val geoLocation: LatLng?) {
 
 }
 

@@ -1,4 +1,4 @@
-package mobile.frba.utn.tpmobile.Singletons
+package mobile.frba.utn.tpmobile.singletons
 
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
