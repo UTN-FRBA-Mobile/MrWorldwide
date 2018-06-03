@@ -13,6 +13,14 @@ import org.json.JSONObject
 
 open class Trip(var id : Int,var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, var events: MutableList<Event>){
      companion object {
+
+         fun getFromString (string:String): Trip? {
+            if(string.isEmpty()){
+                return null
+            }
+            return getFromJson(JSONObject(string))
+         }
+
          fun getFromJson (jsonObject:JSONObject): Trip {
              val tripPhoto = jsonObject.getJSONObject("tripPhoto")
              val eventsJson = jsonObject.getJSONArray("events")

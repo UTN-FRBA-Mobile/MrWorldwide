@@ -8,6 +8,9 @@ import java.io.IOException
 
 object RepoTrips{
      var trips: MutableList<Trip> = ArrayList()
+     var backUrl = "http://10.0.2.2:3000"
+     var userId = 2
+     val client = OkHttpClient()
 
     init{
         val photo = Photo("asd", DateTime.now(), "LALALALA")
@@ -27,10 +30,9 @@ object RepoTrips{
 
 
     fun getTrips() : ((MutableList<Trip>)-> Unit)->Unit{
-        val client = OkHttpClient()
         return { callback ->
             run {
-                client.newCall(Request.Builder().url("http://10.0.2.2:3000/trips").build())
+                client.newCall(Request.Builder().url("$backUrl/trips/$userId").build())
                         .enqueue(object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
                                 throw Error("rompio todo!")
@@ -56,17 +58,61 @@ object RepoTrips{
         trips.add(trips.lastIndex + 1,trip)
     }
 
-    fun getTrip(id: Int){
-        trips.find { trip -> trip.id == id  }
+    fun getTrip(id: Int): ((Trip?)-> Unit)->Unit{
+        return { callback ->
+            run {
+                client.newCall(Request.Builder().url("$backUrl/trip/$id").build())
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                throw Error("rompio todo!")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+
+                                val trip = Trip.getFromString(response.body()!!.string())
+
+                                callback.invoke(trip)
+                            }
+                        })
+            }
+        }
     }
 
-    fun getActualTripFor(userId : Int): Trip? {
-        return trips.firstOrNull { trip -> trip.startDate <= DateTime.now() && trip.finishDate >= DateTime.now() }
+    fun getActualTripFor(): ((Trip?)-> Unit)->Unit {
+        return { callback ->
+            run {
+                client.newCall(Request.Builder().url("$backUrl/actualTrip/$userId").build())
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                throw Error("rompio todo!")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+
+                                val trip = Trip.getFromString(response.body()!!.string())
+
+                                callback.invoke(trip)
+                            }
+                        })
+            }
+        }
     }
 
-    fun getNextTripFor(userId : Int): Trip? {
-        trips.sortBy { trip -> trip.startDate  }
-        return trips.firstOrNull {trip -> trip.startDate > DateTime.now()}
-    }
+    fun getNextTripFor(): ((Trip?)-> Unit)->Unit {
+        return { callback ->
+            run {
+                client.newCall(Request.Builder().url("$backUrl/nextTrip/$userId").build())
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                throw Error("rompio todo!")
+                            }
 
+                            override fun onResponse(call: Call, response: Response) {
+                                val trip = Trip.getFromString(response.body()!!.string())
+                                callback.invoke(trip)
+                            }
+                        })
+            }
+        }
+    }
 }
