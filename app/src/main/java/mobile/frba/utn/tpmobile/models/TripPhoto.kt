@@ -6,5 +6,5 @@ import org.joda.time.DateTime
 /**
  * Created by Gustavo on 5/6/18.
  */
-open class TripPhoto(var url: String, var date: DateTime, , override var geoLocation: LatLng?) : Event(EventType.PHOTO) {
+open class TripPhoto(var url: String, var date: DateTime)  {
 }

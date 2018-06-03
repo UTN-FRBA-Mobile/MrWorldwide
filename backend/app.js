@@ -12,24 +12,36 @@ var trips = [
             date: "22-02-2018"
         },
         startDate: "01-03-2017",
-        finishDate: "31-08-2017",
+        finishDate: "31-08-2018",
         events: [
             {
                 url : "asd",
                 date : "23-02-2018",
                 description : "LALALA",
-                eventType : "PHOTO"
+                eventType : "PHOTO",
+                geoLocation : {
+                    x : 1,
+                    y : 2
+                }
             },
             {
                 text : "Soy un titulo de relleno",
                 date : "24-02-2018",
                 title : "Soy un texto de relleno",
-                eventType : "TEXT"
+                eventType : "TEXT",
+                geoLocation : {
+                    x : 14,
+                    y : 4
+                }
             },
             {
                 description : "Soy un titulo de relleno",
                 url : "saraza",
-		eventType : "VIDEO"
+		        eventType : "VIDEO",
+                geoLocation : {
+                    x : 1,
+                    y : 2
+                }
             }
         ]
     },

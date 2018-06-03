@@ -11,12 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.Singletons.Navigator
-import mobile.frba.utn.tpmobile.Singletons.RepoTrips
 import mobile.frba.utn.tpmobile.activities.MainActivity
 import mobile.frba.utn.tpmobile.adapters.BitacoraListAdapter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
 
 
 class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
