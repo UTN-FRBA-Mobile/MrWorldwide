@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.activities.MainActivity
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import mobile.frba.utn.tpmobile.adapters.BitacoraListAdapter
@@ -19,6 +18,7 @@ import mobile.frba.utn.tpmobile.models.Trip
 class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
     lateinit var recyclerView: RecyclerView
     var trip : Trip? = null
+
     lateinit var mainActivity : MainActivity
     var showOnlyEvent: Event? = null
     lateinit var addEventView : View
@@ -29,7 +29,6 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity = activity as MainActivity
 
         addEventView = getView()!!.findViewById(R.id.bitacora_add)
 
