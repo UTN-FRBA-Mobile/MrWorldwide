@@ -5,6 +5,4 @@ import com.google.android.gms.maps.model.LatLng
 /**
  * Created by Gustavo on 5/6/18.
  */
-open class Video(var description: String, var url: String, override var geoLocation: LatLng?) : Event {
-    override val viewType = 2
-}
+open class Video(var description: String, var url: String, override var geoLocation: LatLng?) : Event(EventType.VIDEO, geoLocation)

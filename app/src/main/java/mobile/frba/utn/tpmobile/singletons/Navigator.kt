@@ -10,7 +10,7 @@ import mobile.frba.utn.tpmobile.models.Event
 
 object Navigator {
     private lateinit var bottomNavigationViewAccess: ()->BottomNavigationView
-    private lateinit var supportFragmentManager : FragmentManager
+    public lateinit var supportFragmentManager : FragmentManager
 
     fun setNavigationView (bottomNavigationView: BottomNavigationView){
         bottomNavigationViewAccess = {bottomNavigationView}
@@ -40,6 +40,7 @@ object Navigator {
     }
 
     fun navigateTo(fragment : NavigatorFragment){
+
         var transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout,fragment as Fragment)
         transaction.commit()

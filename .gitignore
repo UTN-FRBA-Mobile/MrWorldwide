@@ -65,3 +65,7 @@ freeline_project_description.json
 /captures
 .externalNativeBuild
 
+#NodeModules
+
+/backend/node_modules
+
