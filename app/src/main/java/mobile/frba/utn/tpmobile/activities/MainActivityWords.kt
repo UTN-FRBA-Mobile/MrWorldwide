@@ -17,6 +17,7 @@ package mobile.frba.utn.tpmobile.activities;
  */
 
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import mobile.frba.utn.tpmobile.R;
 import mobile.frba.utn.tpmobile.adapters.WordListAdapter;
 import mobile.frba.utn.tpmobile.models.Word;
 import mobile.frba.utn.tpmobile.models.WordViewModel;
+import mobile.frba.utn.tpmobile.services.RestClient
 
 
 class MainActivityWords : AppCompatActivity() {
@@ -93,7 +95,16 @@ class MainActivityWords : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        if (RestClient.isOnline(this))
+            Toast.makeText(
+                    applicationContext,
+                    "Online!",
+                    Toast.LENGTH_LONG).show()
+        else
+            Toast.makeText(
+                    applicationContext,
+                    "Offline D: ",
+                    Toast.LENGTH_LONG).show()
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val word = Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY))
             mWordViewModel!!.insert(word)
@@ -103,6 +114,7 @@ class MainActivityWords : AppCompatActivity() {
                     R.string.empty_not_saved,
                     Toast.LENGTH_LONG).show()
         }
+
     }
 
     companion object {
