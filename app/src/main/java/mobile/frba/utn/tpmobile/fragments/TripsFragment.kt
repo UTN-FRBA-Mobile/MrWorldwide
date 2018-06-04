@@ -23,8 +23,6 @@ class TripsFragment : NavigatorFragment(null) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val activity = this.activity
