@@ -39,7 +39,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.MainActivityWords"
             android:label="@string/app_name"
             >
             <intent-filter>
@@ -70,6 +70,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity"  android:exported="true"></activity>
+        <activity android:name=".activities.NewWordActivity"></activity>
     </application>
 
 </manifest>
