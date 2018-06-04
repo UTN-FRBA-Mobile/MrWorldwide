@@ -12,6 +12,7 @@ import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
 
 /**
  * Created by Gustavo on 5/6/18.
@@ -37,10 +38,14 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
             dateView.text = "Del ${DateFormatter.format(startDate)} al ${DateFormatter.format(finishDate)}"
             ImageLoader.loadImageIn(photoView, tripPhoto.url)
             var selectedFragment = BitacoraFragment()
-            selectedFragment.trip = trip
-            photoView.setOnClickListener({
-                Navigator.navigateTo(selectedFragment )
-             })
+            RepoTrips.getTrip(trip.id).invoke { trip ->
+                selectedFragment.trip = trip
+                Navigator.supportFragmentManager.fragments.first().activity?.runOnUiThread {
+                    photoView.setOnClickListener({
+                        Navigator.navigateTo(selectedFragment )
+                    })
+                }
+            }
         }
     }
 }

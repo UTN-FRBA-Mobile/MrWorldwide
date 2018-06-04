@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(R.layout.main_activity)
         val vpPager = findViewById(R.id.viewPager) as ViewPager
-        adapterViewPager = MyPagerAdapter(getSupportFragmentManager())
+        adapterViewPager = MyPagerAdapter(supportFragmentManager)
         vpPager.adapter = adapterViewPager
     }
     class MyPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
@@ -36,12 +36,12 @@ class MainActivity : AppCompatActivity() {
 
         // Returns the fragment to display for that page
         override fun getItem(position: Int): Fragment? {
-            when (position) {
+            return when (position) {
                 0 // Fragment # 0 - This will show FirstFragment
-                -> return MainActivityFragment()
+                -> MainActivityFragment()
                 1 // Fragment # 0 - This will show FirstFragment different title
-                -> return MyProfileFragment()
-                else -> return null
+                -> MyProfileFragment()
+                else -> null
             }
         }
 

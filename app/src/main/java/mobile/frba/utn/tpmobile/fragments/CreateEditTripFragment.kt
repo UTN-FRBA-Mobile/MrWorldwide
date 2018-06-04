@@ -17,6 +17,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.activities.MainActivity
+import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.singletons.Navigator
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -175,12 +178,13 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
     private fun onAcceptButtonClick() {
         val acceptButton = view!!.findViewById<View>(R.id.accept_trip)
-        acceptButton.setOnClickListener { }
+        //Acá hay que hacer el post para crear el viaje
+        acceptButton.setOnClickListener { Navigator.navigateTo(TripsFragment())  }
     }
 
     private fun onCancelButtonClick() {
         val cancelButton = view!!.findViewById<View>(R.id.cancel_trip)
-        cancelButton.setOnClickListener { activity!!.onBackPressed() }
+        cancelButton.setOnClickListener { Navigator.navigateTo(TripsFragment()) }
     }
 
     companion object {
