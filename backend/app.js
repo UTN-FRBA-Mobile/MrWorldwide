@@ -108,6 +108,31 @@ app.get('/actualTrip/:userId',function(req,res){
     res.send(_.sortBy(actualTrips,function(trip){return stringToDate(trip.startDate)})[0]);
 });
 
+app.post('/trips', function(req, res){
+	var newTrip = req.body;
+	newTrip.id = _.maxBy(trips, 'id') + 1;
+	trips = trips.push(newTrip);
+	res.send(trips);
+});
+
+app.delete('trips/:id', function(req,res){
+	trips = _.delete(trips, function(trip){ return trip.id == req.params.id });
+	res.send(trips);
+});
+
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
+});
+
+//////////////////ENDPOINTS PENDIENTES//////////////////////////////
+app.get('/events/:userId', function(req, res) {
+    //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
+});
+
+app.get('/event/:id',function(req,res){
+    //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
+});
+
+app.delete('events/:id', function(req,res){
+	//_.delete(events, function(event){ return event.id == req.params.id });
 });
