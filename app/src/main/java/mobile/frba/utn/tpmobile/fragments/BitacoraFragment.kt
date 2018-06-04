@@ -23,7 +23,10 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
 
     lateinit var recyclerView: RecyclerView
     var trip : Trip? = null
+
     lateinit var mainActivity : MainActivity
+    var showOnlyEvent: Event? = null
+    lateinit var addEventView : View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.bitacora_fragment,container,false)
@@ -31,11 +34,17 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity = activity as MainActivity
+
+        addEventView = getView()!!.findViewById(R.id.bitacora_add)
 
         var events: List<Event>
         recyclerView = getView()!!.findViewById(R.id.bitacora_list)
         recyclerView.layoutManager=LinearLayoutManager(activity)
+        if(showOnlyEvent != null){
+            recyclerView.adapter = BitacoraListAdapter(listOf(showOnlyEvent!!))
+            addEventView.visibility = View.GONE
+            return
+        }
         if (trip != null) {
             events = trip!!.events
             activity?.runOnUiThread  {recyclerView.adapter = BitacoraListAdapter(events)}
