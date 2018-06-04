@@ -17,9 +17,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.activities.MainActivity
+import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.models.TripPhoto
 import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
+import org.joda.time.DateTime
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +39,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private var destination: File? = null
     private var inputStreamImg: InputStream? = null
     private var imgPath: String? = null
+    private var tripTitle: TextView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_edit_trip, container, false)
@@ -45,6 +49,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         super.onViewCreated(view, savedInstanceState)
         startDate = view.findViewById(R.id.start_date)
         finishDate = view.findViewById(R.id.finish_date)
+        tripTitle = view.findViewById(R.id.trip_title)
 
         startDate!!.text = "dd/mm/aaaa"
         finishDate!!.text = "dd/mm/aaaa"
@@ -178,8 +183,13 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
     private fun onAcceptButtonClick() {
         val acceptButton = view!!.findViewById<View>(R.id.accept_trip)
-        //Acá hay que hacer el post para crear el viaje
-        acceptButton.setOnClickListener { Navigator.navigateTo(TripsFragment())  }
+        //TODO: Uplodear foto y cambiar por url real de foto
+        acceptButton.setOnClickListener {
+            val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("asd", DateTime.now()),
+                    DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
+                    DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
+            RepoTrips.addTrip(trip,{Navigator.navigateTo(TripsFragment())} )
+              }
     }
 
     private fun onCancelButtonClick() {

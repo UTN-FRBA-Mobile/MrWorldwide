@@ -1,9 +1,10 @@
 package mobile.frba.utn.tpmobile.singletons
 
+import com.github.kittinunf.fuel.httpPost
 import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import mobile.frba.utn.tpmobile.models.*
 import okhttp3.*
-import net.danlew.android.joda.JodaTimeAndroid
 import org.joda.time.DateTime
 import org.json.JSONArray
 import java.io.IOException
@@ -32,9 +33,9 @@ object RepoTrips{
         tkTrip.events.addAll(tkTrip.events.lastIndex+1, mutableListOf(videoTk,textTk,photoTk))
 
 
-        this.addTrip(romaTrip)
-        this.addTrip(nyTrip)
-        this.addTrip(tkTrip)
+        //this.addTrip(romaTrip)
+        //this.addTrip(nyTrip)
+        //this.addTrip(tkTrip)
 
     }
 
@@ -64,8 +65,11 @@ object RepoTrips{
             }
         }
     }
-    fun addTrip(trip : Trip){
+    fun addTrip(trip: Trip, callback: () -> Unit){
         trips.add(trips.lastIndex + 1,trip)
+        "http://localhost:3000/trips".httpPost().body(Gson().toJson(trip)).response({ _, _, result ->
+            println(result)
+            callback.invoke()})
     }
 
     fun getTrip(id: Int): ((Trip?)-> Unit)->Unit{

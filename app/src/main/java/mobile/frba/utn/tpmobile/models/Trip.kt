@@ -11,7 +11,7 @@ import org.json.JSONObject
  * Created by Gustavo on 5/6/18.
  */
 
-open class Trip(var id : Int,var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, var events: MutableList<Event>){
+open class Trip(var id : Int?,var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, var events: MutableList<Event>){
      companion object {
 
          fun getFromString (string:String): Trip? {
