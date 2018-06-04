@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.*
+import mobile.frba.utn.tpmobile.models.Event
 
- object Navigator {
+object Navigator {
     private lateinit var bottomNavigationViewAccess: ()->BottomNavigationView
     private lateinit var supportFragmentManager : FragmentManager
 
@@ -24,15 +25,17 @@ import mobile.frba.utn.tpmobile.fragments.*
                 R.id.action_trips -> selectedFragment = TripsFragment()
                 R.id.action_travelers -> selectedFragment = TravelersFragment()
             }
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.frame_layout, selectedFragment)
-            transaction.commit()
+            replaceFragment(selectedFragment)
             return@setOnNavigationItemSelectedListener true
         }
 
         //Manually displaying the first fragment - one time only
+        replaceFragment(RunMapFragment())
+    }
+
+    private fun replaceFragment(selectedFragment: Fragment?) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, RunMapFragment())
+        transaction.replace(R.id.frame_layout, selectedFragment)
         transaction.commit()
     }
 
@@ -41,6 +44,12 @@ import mobile.frba.utn.tpmobile.fragments.*
         transaction.replace(R.id.frame_layout,fragment as Fragment)
         transaction.commit()
         fragment.navigatorId?.let { bottomNavigationViewAccess.invoke().menu.findItem(it).isChecked  = true }
-
     }
+
+     fun navigateTo(event: Event){
+         val fragment = BitacoraFragment()
+         fragment.showOnlyEvent=event
+         replaceFragment(fragment)
+
+     }
 }
