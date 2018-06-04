@@ -63,7 +63,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
         }
 
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.bitacora_add) as FloatingActionButton
-       addButton.setOnClickListener {
+        addButton.setOnClickListener {
             addButton.hide()
             val createEditEventFragment = CreateEditEventFragment()
            Navigator.navigateTo(createEditEventFragment)
