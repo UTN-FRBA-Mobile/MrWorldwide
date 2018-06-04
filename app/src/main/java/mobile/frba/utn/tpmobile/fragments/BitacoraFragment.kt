@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -49,18 +50,25 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
             events = trip!!.events
             activity?.runOnUiThread  {recyclerView.adapter = BitacoraListAdapter(events)}
         }
-        else{
-                RepoTrips.getActualTripFor().invoke { actualTrip ->
-                    if(actualTrip != null){
-                        events = actualTrip.events
-                        activity?.runOnUiThread{ recyclerView.adapter = BitacoraListAdapter(events)}
-                    }
-                    else{
-                        showNextTripMessages()
-                    }
+        else {
+            RepoTrips.getActualTripFor().invoke { actualTrip ->
+                if(actualTrip != null){
+                    events = actualTrip.events
+                    activity?.runOnUiThread{ recyclerView.adapter = BitacoraListAdapter(events)}
+                }
+                else{
+                    showNextTripMessages()
                 }
             }
         }
+
+        val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.bitacora_add) as FloatingActionButton
+       addButton.setOnClickListener {
+            addButton.hide()
+            val createEditEventFragment = CreateEditEventFragment()
+           Navigator.navigateTo(createEditEventFragment)
+        }
+    }
 
     fun showNextTripMessages(){
         var message: String
