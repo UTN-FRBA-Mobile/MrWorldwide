@@ -26,8 +26,8 @@ class TripsFragment : NavigatorFragment(null) {
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val activity = this.activity
-        RepoTrips.getTrips().invoke { trips ->
-            activity?.runOnUiThread { recyclerView.adapter = TripListAdapter(trips) }
+        RepoTrips.getTrips(this).invoke { trips ->
+            activity?.runOnUiThread { recyclerView.adapter = TripListAdapter(this, trips) }
         }
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {

@@ -1,5 +1,6 @@
 package mobile.frba.utn.tpmobile.adapters
 
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,7 @@ import mobile.frba.utn.tpmobile.singletons.RepoTrips
 /**
  * Created by Gustavo on 5/6/18.
  */
-class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TripListAdapter(val fr: Fragment, var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = trips.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -25,20 +26,19 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       return TripListAdapter.TripViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.trip_item, parent, false))
+       return TripListAdapter.TripViewHolder(fr, LayoutInflater.from(parent.context).inflate(R.layout.trip_item, parent, false))
     }
 
-    class TripViewHolder(tripView: View): RecyclerView.ViewHolder(tripView) {
+    class TripViewHolder(val fr: Fragment,tripView: View): RecyclerView.ViewHolder(tripView) {
         val titleView : TextView = tripView.findViewById(R.id.trip_title)
         val dateView : TextView = tripView.findViewById(R.id.trip_date)
         val photoView : ImageView = tripView.findViewById(R.id.trip_image)
-
         fun bind(trip: Trip) = with(trip) {
             titleView.text = title
             dateView.text = "Del ${DateFormatter.format(startDate)} al ${DateFormatter.format(finishDate)}"
             ImageLoader.loadImageIn(photoView, tripPhoto.url)
             var selectedFragment = BitacoraFragment()
-            RepoTrips.getTrip(trip.id).invoke { trip ->
+            RepoTrips.getTrip(fr, trip.id).invoke { trip ->
                 selectedFragment.trip = trip
                 Navigator.supportFragmentManager.fragments.first().activity?.runOnUiThread {
                     photoView.setOnClickListener({
