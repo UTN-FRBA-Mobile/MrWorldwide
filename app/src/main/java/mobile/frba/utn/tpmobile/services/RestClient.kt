@@ -2,6 +2,7 @@ package mobile.frba.utn.tpmobile.services
 
 import android.content.Context
 import android.net.ConnectivityManager
+import mobile.frba.utn.tpmobile.singletons.AppHolder
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.InputStream
@@ -24,6 +25,12 @@ open class RestClient {
 
         fun isOnline(mContext: Context ): Boolean {
             val cm = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val netInfo = cm.activeNetworkInfo
+            return netInfo != null && netInfo.isConnectedOrConnecting
+        }
+
+        fun isOnline(): Boolean {
+            val cm = AppHolder.getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val netInfo = cm.activeNetworkInfo
             return netInfo != null && netInfo.isConnectedOrConnecting
         }
