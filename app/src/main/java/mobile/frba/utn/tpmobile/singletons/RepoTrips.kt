@@ -1,18 +1,28 @@
 package mobile.frba.utn.tpmobile.singletons
 
+import android.arch.lifecycle.Observer
+import android.support.v4.app.Fragment
 import com.google.android.gms.maps.model.LatLng
+import mobile.frba.utn.tpmobile.daos.TripsRepository
 import mobile.frba.utn.tpmobile.models.*
+import mobile.frba.utn.tpmobile.services.RestClient
 import okhttp3.*
-import net.danlew.android.joda.JodaTimeAndroid
 import org.joda.time.DateTime
 import org.json.JSONArray
 import java.io.IOException
 
-object RepoTrips{
+object RepoTrips {
      var trips: MutableList<Trip> = ArrayList()
-     var backUrl = "http://10.0.2.2:3000"
+     var backUrl = "http://192.168.0.26:3000"
      var userId = 2
      val client = OkHttpClient()
+
+    private val tripsLocalRepository: TripsRepository
+
+    init {
+        tripsLocalRepository = TripsRepository(AppHolder.getApp())
+    }
+
 
     init{
         val photo = Photo("asd", DateTime.now(), "LALALALA", LatLng(40.7,-74.9))
@@ -37,30 +47,47 @@ object RepoTrips{
         this.addTrip(tkTrip)
 
     }
+    fun getLocalTrips(lca: Fragment, callback: (MutableList<Trip>)-> Unit): Unit{
+        tripsLocalRepository.getAllTrips().observe(lca, Observer { trips ->
+            if (trips != null) {
+                trips.forEach {
+                    tr ->
+                    tr.events = Trip.ListStringToEventList(tr.eventsString!!).toMutableList()
+                }
+                callback.invoke(RepoTrips.trips)
+            }
+        })
+    }
 
 
-    fun getTrips() : ((MutableList<Trip>)-> Unit)->Unit{
+    fun getTrips(lca: Fragment) : ((MutableList<Trip>)-> Unit)->Unit{
         return { callback ->
-            run {
-                client.newCall(Request.Builder().url("$backUrl/trips/$userId").build())
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                throw Error("rompio todo!")
-                            }
-
-                            override fun onResponse(call: Call, response: Response) {
-                                val jsonTrips = JSONArray(response.body()!!.string())
-
-                                var x = 0
-                                val trips: MutableList<Trip> = emptyArray<Trip>().toMutableList()
-                                while (x < jsonTrips.length()) {
-                                    val trip = jsonTrips.getJSONObject(x)
-                                    trips.add(Trip.getFromJson(trip))
-                                    x++
+            if (!RestClient.isOnline()){
+                getLocalTrips(lca,callback)
+            } else {
+                run {
+                    client.newCall(Request.Builder().url("$backUrl/trips/$userId").build())
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    throw Error("rompio todo!")
                                 }
-                                callback.invoke(trips)
-                            }
-                        })
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    val jsonTrips = JSONArray(response.body()!!.string())
+
+                                    var x = 0
+                                    val trips: MutableList<Trip> = emptyArray<Trip>().toMutableList()
+                                    while (x < jsonTrips.length()) {
+                                        val trip = jsonTrips.getJSONObject(x)
+                                        val fTrip = Trip.getFromJson(trip)
+                                        tripsLocalRepository.insert(fTrip)
+                                        trips.add(fTrip)
+                                        x++
+                                    }
+                                    callback.invoke(trips)
+                                }
+                            })
+                }
             }
         }
     }
@@ -68,22 +95,35 @@ object RepoTrips{
         trips.add(trips.lastIndex + 1,trip)
     }
 
-    fun getTrip(id: Int): ((Trip?)-> Unit)->Unit{
+    fun getLocalTrip(id: Int, lca: Fragment, callback: (Trip)-> Unit): Unit{
+        tripsLocalRepository.getTrip(id).observe(lca, Observer { trip ->
+            if (trip != null) {
+                trip.events = Trip.ListStringToEventList(trip.eventsString!!).toMutableList()
+                callback.invoke(trip)
+            }
+        })
+    }
+
+    fun getTrip(lca: Fragment, id: Int): ((Trip?)-> Unit)->Unit{
         return { callback ->
-            run {
-                client.newCall(Request.Builder().url("$backUrl/trip/$id").build())
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                throw Error("rompio todo!")
-                            }
+            if (!RestClient.isOnline()){
+                getLocalTrip(id, lca,callback)
+            } else {
+                run {
+                    client.newCall(Request.Builder().url("$backUrl/trip/$id").build())
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    throw Error("rompio todo!")
+                                }
 
-                            override fun onResponse(call: Call, response: Response) {
+                                override fun onResponse(call: Call, response: Response) {
 
-                                val trip = Trip.getFromString(response.body()!!.string())
+                                    val trip = Trip.getFromString(response.body()!!.string())
 
-                                callback.invoke(trip)
-                            }
-                        })
+                                    callback.invoke(trip)
+                                }
+                            })
+                }
             }
         }
     }
