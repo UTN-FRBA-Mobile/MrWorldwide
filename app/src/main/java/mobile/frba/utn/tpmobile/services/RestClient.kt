@@ -23,11 +23,6 @@ open class RestClient {
             return body!!.byteStream()
         }
 
-        fun isOnline(mContext: Context ): Boolean {
-            val cm = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val netInfo = cm.activeNetworkInfo
-            return netInfo != null && netInfo.isConnectedOrConnecting
-        }
 
         fun isOnline(): Boolean {
             val cm = AppHolder.getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
