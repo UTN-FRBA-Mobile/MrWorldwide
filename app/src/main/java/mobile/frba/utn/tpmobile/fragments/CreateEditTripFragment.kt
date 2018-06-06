@@ -160,7 +160,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                 bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
                 Log.e("Activity", "Pick from Gallery::>>> ")
 
-                var filePathColumn: Array<String> = { MediaStore.Images.Media.DATA } as Array<String>
+                var filePathColumn: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
                 var cursor: Cursor = activity!!.contentResolver.query(selectedImage, filePathColumn, null, null, null)
                 cursor.moveToFirst()
                 var columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
