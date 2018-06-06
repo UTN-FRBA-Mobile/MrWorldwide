@@ -13,7 +13,7 @@ import java.io.IOException
 
 object RepoTrips {
      var trips: MutableList<Trip> = ArrayList()
-     var backUrl = "http://192.168.0.26:3000"
+     var backUrl = "http://10.30.10.36:3000"
      var userId = 2
      val client = OkHttpClient()
 
