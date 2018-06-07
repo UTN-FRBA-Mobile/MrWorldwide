@@ -33,15 +33,6 @@ var trips = [
                     x : 14,
                     y : 4
                 }
-            },
-            {
-                description : "Soy un titulo de relleno",
-                url : "saraza",
-		        eventType : "VIDEO",
-                geoLocation : {
-                    x : 1,
-                    y : 2
-                }
             }
         ]
     },
@@ -90,20 +81,20 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-app.get('/trips/:userId', function(req, res) {
+app.get('/users/:userId/trips', function(req, res) {
     res.send(_.map(_.filter(trips,function (trip){return trip.userId === Number(req.params.userId)}),tripsWithoutEvents));
 });
 
-app.get('/trip/:id',function(req,res){
+app.get('/trips/:id',function(req,res){
     res.send(_.find(trips,function (trip){return  trip.id === Number(req.params.id)}));
 });
 
-app.get('/nextTrip/:userId',function(req,res){
+app.get('/users/:userId/nextTrip',function(req,res){
     var nextUserTrips = _.filter(userTrips(Number(req.params.userId)),function(trip){return stringToDate(trip.startDate) > Date.now()});
     res.send(_.sortBy(nextUserTrips,function(trip){return stringToDate(trip.startDate)})[0]);
 });
 
-app.get('/actualTrip/:userId',function(req,res){
+app.get('/users/:userId/actualTrip',function(req,res){
     var actualTrips = _.filter(userTrips(Number(req.params.userId)),function(trip){return stringToDate(trip.startDate) <= Date.now() && stringToDate(trip.finishDate) >= Date.now()});
     res.send(_.sortBy(actualTrips,function(trip){return stringToDate(trip.startDate)})[0]);
 });
@@ -125,11 +116,11 @@ app.listen(3000, function () {
 });
 
 //////////////////ENDPOINTS PENDIENTES//////////////////////////////
-app.get('/events/:userId', function(req, res) {
+app.get('/users/:userId/events', function(req, res) {
     //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
 });
 
-app.get('/event/:id',function(req,res){
+app.get('/events/:id',function(req,res){
     //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
 });
 
