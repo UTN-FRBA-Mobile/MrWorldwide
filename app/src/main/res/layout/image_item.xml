@@ -1,4 +1,4 @@
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
@@ -18,17 +18,38 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/image_item_date"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:text="@string/date_placeholder"
-        android:fontFamily="@font/raleway_regular"
-        android:textColor="@color/secondaryColor"
-        android:textSize="12sp"
-        android:textStyle="italic" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+
+        <TextView
+            android:id="@+id/image_item_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/raleway_regular"
+            android:paddingLeft="12dp"
+            android:text="@string/date_placeholder"
+            android:textColor="@color/secondaryColor"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/user_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/raleway_regular"
+            android:textAlignment="textEnd"
+            android:textColor="@color/secondaryColor"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/image_item_text"
