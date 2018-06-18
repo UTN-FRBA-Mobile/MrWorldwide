@@ -2,10 +2,18 @@ package mobile.frba.utn.tpmobile.singletons
 
 import com.github.kittinunf.fuel.httpPost
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializer
 import mobile.frba.utn.tpmobile.models.Trip
 import okhttp3.*
+import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 import org.json.JSONArray
 import java.io.IOException
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonElement
+import mobile.frba.utn.tpmobile.activities.DateFormatter
+import java.lang.reflect.Type
 
 
 object RepoTrips {
@@ -13,7 +21,9 @@ object RepoTrips {
     var backUrl = "http://10.0.2.2:3000"
     var userId = "Agustin Vertebrado"
     val client = OkHttpClient()
-    val gson = GsonBuilder().setDateFormat("dd-MM-yyyy").create()
+    val gson = GsonBuilder()
+            .registerTypeAdapter(DateTime::class.java, JsonSerializer<DateTime> { date, _, _ -> JsonPrimitive(DateFormatter.format(date)) })
+            .create()
 
     fun getTrips(): ((MutableList<Trip>) -> Unit) -> Unit {
         return { callback ->
