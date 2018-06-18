@@ -185,7 +185,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         val acceptButton = view!!.findViewById<View>(R.id.accept_trip)
         //TODO: Uplodear foto y cambiar por url real de foto
         acceptButton.setOnClickListener {
-            val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("asd", DateTime.now()),
+            val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("https://i.imgur.com/j6OzT7X.jpg", DateTime.now()),
                     DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
                     DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
             RepoTrips.addTrip(trip,{Navigator.navigateTo(TripsFragment())} )

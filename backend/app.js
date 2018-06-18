@@ -2,10 +2,17 @@ var express = require('express');
 var app = express();
 var _ = require('lodash');
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+
 var trips = [
     {
         id: 1,
-        userId:2,
+        userId:"Agustin Vertebrado",
         title: "Roma",
         tripPhoto: {
             url: "https://www.losmundosdeceli.com/wp-content/uploads/2017/05/coliseo_roma_atardecer-1080x640.jpg",
@@ -15,7 +22,10 @@ var trips = [
         finishDate: "31-08-2018",
         events: [
             {
-                url : "asd",
+		id : 1,
+		userId : "Agustin Vertebrado",
+		tripId : 1,
+                url : "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
                 date : "23-02-2018",
                 description : "LALALA",
                 eventType : "PHOTO",
@@ -25,7 +35,10 @@ var trips = [
                 }
             },
             {
-                text : "Soy un titulo de relleno",
+		id : 2,
+                userId : "Agustin Vertebrado",
+		tripId : 1,
+		text : "Soy un titulo de relleno",
                 date : "24-02-2018",
                 title : "Soy un texto de relleno",
                 eventType : "TEXT",
@@ -35,8 +48,12 @@ var trips = [
                 }
             },
             {
+		id : 3,
+                userId : "Agustin Vertebrado",
+		tripId : 1,
+                date: "22-02-2018",
                 description : "Soy un titulo de relleno",
-                url : "saraza",
+                url : "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
 		        eventType : "VIDEO",
                 geoLocation : {
                     x : 1,
@@ -47,7 +64,7 @@ var trips = [
     },
     {
         id : 2,
-        userId:2,
+        userId: "Agustin Vertebrado",
         title : "New York",
         tripPhoto : {
             url : "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
@@ -59,7 +76,7 @@ var trips = [
     },
     {
         id : 3,
-        userId:3,
+        userId: "Aldo Lorido",
         title : "Bs.As",
         tripPhoto : {
             url : "https://media-cdn.tripadvisor.com/media/photo-s/0e/8f/63/29/obelisco-buenos-aires.jpg",
@@ -90,28 +107,44 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-app.get('/trips/:userId', function(req, res) {
-    res.send(_.map(_.filter(trips,function (trip){return trip.userId === Number(req.params.userId)}),tripsWithoutEvents));
+app.get('/users/:userId/trips', function(req, res) {
+    res.send(_.map(_.filter(trips,function (trip){return trip.userId === req.params.userId}),tripsWithoutEvents));
 });
 
-app.get('/trip/:id',function(req,res){
+app.get('/trips/:id',function(req,res){
     res.send(_.find(trips,function (trip){return  trip.id === Number(req.params.id)}));
 });
 
-app.get('/nextTrip/:userId',function(req,res){
-    var nextUserTrips = _.filter(userTrips(Number(req.params.userId)),function(trip){return stringToDate(trip.startDate) > Date.now()});
+app.get('/users/:userId/nextTrip',function(req,res){
+    var nextUserTrips = _.filter(userTrips(req.params.userId),function(trip){return stringToDate(trip.startDate) > Date.now()});
     res.send(_.sortBy(nextUserTrips,function(trip){return stringToDate(trip.startDate)})[0]);
 });
 
-app.get('/actualTrip/:userId',function(req,res){
-    var actualTrips = _.filter(userTrips(Number(req.params.userId)),function(trip){return stringToDate(trip.startDate) <= Date.now() && stringToDate(trip.finishDate) >= Date.now()});
+app.get('/users/:userId/actualTrip',function(req,res){
+    var actualTrips = _.filter(userTrips(req.params.userId),function(trip){return stringToDate(trip.startDate) <= Date.now() && stringToDate(trip.finishDate) >= Date.now()});
     res.send(_.sortBy(actualTrips,function(trip){return stringToDate(trip.startDate)})[0]);
 });
 
-app.post('/trips', function(req, res){
+app.get('/event/:userId/:tripId/:eventId',function(req,res){
+    var userId = req.params.userId;
+    var tripId = Number(req.params.tripId);
+    var eventId = Number(req.params.eventId);
+    var trip = _.find(trips,function(aTrip){
+    	return aTrip.id === tripId && aTrip.userId === userId;
+    });
+    var event = _.find(trip.events,function(event){
+    	return event.id === eventId;
+    })
+    res.send(event);
+});
+
+app.post('/trips/:userId', function(req, res){
+  console.log(req.body);
 	var newTrip = req.body;
-	newTrip.id = _.maxBy(trips, 'id') + 1;
-	trips = trips.push(newTrip);
+	newTrip.id = _.maxBy(trips, 'id').id + 1;
+  newTrip.userId = req.params.userId;
+	trips.push(newTrip);
+  console.log(trips)
 	res.send(trips);
 });
 
@@ -125,11 +158,11 @@ app.listen(3000, function () {
 });
 
 //////////////////ENDPOINTS PENDIENTES//////////////////////////////
-app.get('/events/:userId', function(req, res) {
+app.get('/users/:userId/events', function(req, res) {
     //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
 });
 
-app.get('/event/:id',function(req,res){
+app.get('/events/:id',function(req,res){
     //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
 });
 

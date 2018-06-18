@@ -44,13 +44,16 @@ object Navigator {
         var transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout,fragment as Fragment)
         transaction.commit()
-        fragment.navigatorId?.let { bottomNavigationViewAccess.invoke().menu.findItem(it).isChecked  = true }
+        bottomNavigationUpdate(fragment)
     }
 
-     fun navigateTo(event: Event){
-         val fragment = BitacoraFragment()
-         fragment.showOnlyEvent=event
-         replaceFragment(fragment)
-
-     }
+    fun bottomNavigationUpdate(fragment : NavigatorFragment){
+        fragment.navigatorId?.let { bottomNavigationViewAccess.invoke().menu.findItem(it).isChecked  = true }
+    }
+    fun navigateTo(event: Event){
+        val fragment = BitacoraFragment()
+        fragment.showOnlyEvent=event
+        replaceFragment(fragment)
+        bottomNavigationUpdate(fragment)
+    }
 }
