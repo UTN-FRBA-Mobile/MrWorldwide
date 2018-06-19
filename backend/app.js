@@ -56,31 +56,140 @@ var trips = [
         ]
     },
     {
-        id : 2,
+        id : 1,
+        userId: "Mercedes Hidratada",
+        title : "New York",
+        tripPhoto : {
+            url : "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
+            date : "18-02-2018"
+        },
+        startDate: "01-02-2018",
+        finishDate: "17-02-2018",
+        events: [
+			  {
+		id : 1,
+		userId : "Mercedes Hidratada",
+		tripId : 1,
+                url : "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
+                date : "22-12-2018",
+                description : "mira mama, mira!",
+                eventType : "PHOTO",
+                geoLocation : {
+                    x : 1,
+                    y : 2
+                }
+            }		
+		]
+    },
+ {
+        id : 1,
         userId: "Agustin Vertebrado",
         title : "New York",
         tripPhoto : {
             url : "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
             date : "18-02-2018"
         },
-        startDate: "01-07-2017",
-        finishDate: "17-012-2017",
+        startDate: "01-02-2018",
+        finishDate: "17-02-2018",
         events: []
     },
-    {
-        id : 3,
-        userId: "Aldo Lorido",
-        title : "Bs.As",
+{
+        id : 1,
+        userId: "Esteban Piro",
+        title : "New York",
         tripPhoto : {
-            url : "https://media-cdn.tripadvisor.com/media/photo-s/0e/8f/63/29/obelisco-buenos-aires.jpg",
+            url : "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
             date : "18-02-2018"
         },
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
-        events: []
+        events: [
+			 {
+		id : 2,
+                userId : "Esteban Piro",
+		tripId : 1,
+		text : "Soy un titulo de relleno",
+                date : "24-02-2018",
+                title : "Soy un texto de relleno",
+                eventType : "TEXT",
+                geoLocation : {
+                    x : 14,
+                    y : 4
+                }
+            }
+		]
+    },
+{
+        id : 3,
+        userId: "Pepe Lotas",
+        title : "New York",
+        tripPhoto : {
+            url : "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
+            date : "18-02-2018"
+        },
+        startDate: "01-02-2018",
+        finishDate: "17-02-2018",
+        events: [
+			{
+		id : 3,
+                userId : "Pepe Lotas",
+		tripId : 1,
+                date: "22-02-2018",
+                description : "Soy un titulo de relleno",
+                url : "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+		        eventType : "VIDEO",
+                geoLocation : {
+                    x : 1,
+                    y : 2
+                }
+		}
+		]
     }
+
 ];
 
+var someEvents = [
+       {
+		id : 1,
+		userId : "Mercedes Hidratada",
+		tripId : 1,
+                url : "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
+                date : "22-12-2018",
+                description : "mira mama, mira!",
+                eventType : "PHOTO",
+                geoLocation : {
+                    x : 1,
+                    y : 2
+                }
+            },
+            {
+		id : 2,
+                userId : "Esteban Piro",
+		tripId : 1,
+		text : "Soy un titulo de relleno",
+                date : "24-02-2018",
+                title : "Soy un texto de relleno",
+                eventType : "TEXT",
+                geoLocation : {
+                    x : 14,
+                    y : 4
+                }
+            },
+            {
+		id : 3,
+                userId : "Pepe Lotas",
+		tripId : 1,
+                date: "22-02-2018",
+                description : "Soy un titulo de relleno",
+                url : "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+		        eventType : "VIDEO",
+                geoLocation : {
+                    x : 1,
+                    y : 2
+                }
+            }
+     
+];
 var userTrips = function(userID){
     return _.filter(trips,function(trip){return trip.userId === userID});
 };
@@ -118,6 +227,10 @@ app.get('/users/:userId/actualTrip',function(req,res){
     res.send(_.sortBy(actualTrips,function(trip){return stringToDate(trip.startDate)})[0]);
 });
 
+app.get('/users/:userId/friendEvents',function(req,res){
+    res.send(someEvents);
+});
+
 app.get('/event/:userId/:tripId/:eventId',function(req,res){
     var userId = req.params.userId;
     var tripId = Number(req.params.tripId);
@@ -130,6 +243,7 @@ app.get('/event/:userId/:tripId/:eventId',function(req,res){
     })
     res.send(event);
 });
+
 
 app.post('/trips', function(req, res){
 	var newTrip = req.body;

@@ -44,7 +44,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
     }
     override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
-    abstract class TravelersViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    abstract class TravelersViewHolder(itemView: View): AdapterWithSharedButtonHolder,RecyclerView.ViewHolder(itemView){
         abstract fun bind(event: Event)
     }
 
@@ -52,6 +52,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
         var titleView: TextView
         var dateView: TextView
         var textView: TextView
+        var userView: TextView
 
         init{
             val frame: FrameLayout = itemView.findViewById(R.id.traveler_activity_content)
@@ -60,6 +61,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             titleView = itemView.findViewById(R.id.text_item_title)
             dateView = itemView.findViewById(R.id.text_item_date)
             textView = itemView.findViewById(R.id.text_item_text)
+            userView = itemView.findViewById(R.id.user_id)
         }
 
 
@@ -67,6 +69,8 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             titleView.text = title
             dateView.text = DateFormatter.format(date)
             textView.text = text
+            userView.text = userId
+            activatedSharedButton(event,itemView)
         }
     }
 
@@ -74,7 +78,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
         var photoView: ImageView
         var dateView: TextView
         var descriptionView: TextView
-
+        var userView: TextView
         init {
             val frame: FrameLayout = itemView.findViewById(R.id.traveler_activity_content)
             val imageContent = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.image_item, (itemView as ViewGroup), false)
@@ -82,12 +86,15 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             photoView = itemView.findViewById(R.id.image_item_photo)
             dateView = itemView.findViewById(R.id.image_item_date)
             descriptionView = itemView.findViewById(R.id.image_item_text)
+            userView = itemView.findViewById(R.id.user_id)
         }
 
         override fun bind(event: Event) = with(event as Photo) {
             ImageLoader.loadImageIn(photoView, url)
             dateView.text = DateFormatter.format(date)
             descriptionView.text = description
+            userView.text = userId
+            activatedSharedButton(event,itemView)
         }
 
     }
@@ -96,6 +103,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
         var videoContainer : View = newVideoView(itemView)
         var videoView : VideoView
         var videoItem : View
+        var userView : TextView
 
         init{
             val frame :FrameLayout = itemView.findViewById(R.id.traveler_activity_content)
@@ -104,9 +112,12 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             val frameVideo = videoItem.findViewById<FrameLayout>(R.id.video_container)
             frameVideo.addView(videoContainer)
             videoView = videoContainer.findViewById(R.id.video_view)
+            userView = videoItem.findViewById(R.id.user_id)
         }
         override fun bind(event: Event): Unit = with(event as Video){
             updateVideoView(url ,videoView)
+            userView.text = userId
+            activatedSharedButton(event,itemView)
         }
     }
 }
