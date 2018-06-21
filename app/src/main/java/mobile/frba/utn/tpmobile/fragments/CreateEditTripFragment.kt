@@ -185,7 +185,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
             val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("https://i.imgur.com/j6OzT7X.jpg", DateTime.now()),
                     DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
                     DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
-            RepoTrips.addTrip(trip,{Navigator.navigateTo(TripsFragment())} )
+            RepoTrips.savePhotoAndThenAddTrip(trip,{Navigator.navigateTo(TripsFragment())} )
               }
     }
 
