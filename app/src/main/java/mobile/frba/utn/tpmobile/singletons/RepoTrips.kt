@@ -12,7 +12,9 @@ import org.json.JSONArray
 import java.io.IOException
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonElement
+import mobile.frba.utn.tpmobile.Constants
 import mobile.frba.utn.tpmobile.activities.DateFormatter
+import java.io.File
 import java.lang.reflect.Type
 
 
@@ -52,11 +54,25 @@ object RepoTrips {
     }
 
     fun addTrip(trip: Trip, callback: () -> Unit) {
-        trips.add(trips.lastIndex + 1, trip)
-        "$backUrl/trips/$userId".httpPost().body(gson.toJson(trip)).response({ _, _, result ->
-            println(result)
-            callback.invoke()
-        })
+        "https://api.imgur.com/3/image"
+                .httpPost()
+                .header(Pair("Authorization", Constants.clientAuth))
+                .body(File(trip.tripPhoto.url).readBytes())
+                .response({_,_, result ->
+                    println(result)
+                    trip.tripPhoto.url = result.toString()
+                    saveTrip(trip, callback)
+                })
+    }
+
+    fun saveTrip(trip: Trip, callback: () -> Unit) {
+        "$backUrl/trips/$userId"
+                .httpPost()
+                .body(gson.toJson(trip))
+                .response({ _, _, result ->
+                    println(result)
+                    callback.invoke()
+                })
     }
 
     fun getTrip(id: Int): ((Trip?) -> Unit) -> Unit {
