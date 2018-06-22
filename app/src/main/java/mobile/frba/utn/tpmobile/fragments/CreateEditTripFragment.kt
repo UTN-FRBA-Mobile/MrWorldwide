@@ -49,7 +49,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         super.onViewCreated(view, savedInstanceState)
         startDate = view.findViewById(R.id.start_date)
         finishDate = view.findViewById(R.id.finish_date)
-        tripTitle = view.findViewById(R.id.trip_title)
+        tripTitle = view.findViewById(R.id.edit_trip_title)
 
         startDate!!.text = "dd/mm/aaaa"
         finishDate!!.text = "dd/mm/aaaa"
