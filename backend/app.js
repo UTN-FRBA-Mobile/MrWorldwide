@@ -2,6 +2,13 @@ var express = require('express');
 var app = express();
 var _ = require('lodash');
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+
 var trips = [
     {
         id: 1,
@@ -244,11 +251,11 @@ app.get('/event/:userId/:tripId/:eventId',function(req,res){
     res.send(event);
 });
 
-
-app.post('/trips', function(req, res){
+app.post('/trips/:userId', function(req, res){
 	var newTrip = req.body;
-	newTrip.id = _.maxBy(trips, 'id') + 1;
-	trips = trips.push(newTrip);
+	newTrip.id = _.maxBy(trips, 'id').id + 1;
+  newTrip.userId = req.params.userId;
+	trips.push(newTrip);
 	res.send(trips);
 });
 

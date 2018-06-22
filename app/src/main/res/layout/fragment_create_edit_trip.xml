@@ -17,7 +17,8 @@
         android:fontFamily="@font/raleway_medium"
         android:hint="@string/trip_title_hint"
         android:inputType="text"
-        android:background="#00000000"/>
+        android:background="#00000000"
+        android:id="@+id/edit_trip_title"/>
 
     <View
         android:layout_height="2dp"
