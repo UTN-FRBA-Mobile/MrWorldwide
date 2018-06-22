@@ -46,9 +46,6 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         startDate = view.findViewById(R.id.start_date)
         finishDate = view.findViewById(R.id.finish_date)
 
-        startDate!!.text = "dd/mm/aaaa"
-        finishDate!!.text = "dd/mm/aaaa"
-
         imageView = view.findViewById(R.id.trip_image)
         buttonSelect = view.findViewById(R.id.load_photo_button)
 
