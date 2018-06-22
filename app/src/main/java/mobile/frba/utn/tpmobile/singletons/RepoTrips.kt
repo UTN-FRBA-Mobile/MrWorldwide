@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
 import mobile.frba.utn.tpmobile.activities.DateFormatter
+import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.models.User
+import mobile.frba.utn.tpmobile.models.getEventFromJson
 import okhttp3.*
 import org.joda.time.DateTime
 import org.json.JSONArray
@@ -107,6 +110,31 @@ object RepoTrips {
                             override fun onResponse(call: Call, response: Response) {
                                 val trip = Trip.getFromString(response.body()!!.string())
                                 callback.invoke(trip)
+                            }
+                        })
+            }
+        }
+    }
+
+    fun getFriendEvents(): ((MutableList<Event>)-> Unit)->Unit {
+        return { callback ->
+            run {
+                client.newCall(Request.Builder().url("$backUrl/users/${RepoTrips.userId}/friendEvents").build())
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                throw Error("rompio todo!")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val jsonEvents = JSONArray(response.body()!!.string())
+                                var x = 0
+                                val events: MutableList<Event> = emptyArray<Event>().toMutableList()
+                                while (x < jsonEvents.length()) {
+                                    val event = jsonEvents.getJSONObject(x)
+                                    events.add(getEventFromJson(event))
+                                    x++
+                                }
+                                callback.invoke(events)
                             }
                         })
             }
