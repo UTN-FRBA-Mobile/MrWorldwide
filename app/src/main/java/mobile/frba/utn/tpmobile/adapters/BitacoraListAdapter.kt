@@ -40,24 +40,9 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
 
     override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
-    abstract class BitacoraViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract class BitacoraViewHolder(itemView: View) : AdapterWithSharedButtonHolder , RecyclerView.ViewHolder(itemView) {
         abstract fun bind(event: Event)
-        fun activatedSharedButton(event : Event, itemView : View){
-            val sharedButton : LinearLayout = itemView.findViewById(R.id.bitacora_share_button)
-            sharedButton.setOnClickListener {
-                val alertDialog = AlertDialog.Builder(itemView.context)
-                val url = "http://mr.world.wide?userId=${event.urlUserId()}&tripId=${event.tripId}&eventId=${event.id}"
-                alertDialog.setTitle("Link para compartir")
-                alertDialog.setMessage(url)
-                alertDialog.setPositiveButton("copiar",{dialog, _ ->
-                    ((itemView.context as Activity)
-                            .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager)
-                            .primaryClip = ClipData.newPlainText("url",url)
-                    dialog.cancel()
-                })
-                alertDialog.show()
-            }
-        }
+
     }
 
 
