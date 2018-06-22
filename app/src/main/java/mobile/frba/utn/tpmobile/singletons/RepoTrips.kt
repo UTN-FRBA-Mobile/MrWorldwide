@@ -4,16 +4,12 @@ import com.github.kittinunf.fuel.httpPost
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
+import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Trip
 import okhttp3.*
 import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
 import org.json.JSONArray
 import java.io.IOException
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonElement
-import mobile.frba.utn.tpmobile.activities.DateFormatter
-import java.lang.reflect.Type
 
 
 object RepoTrips {
@@ -53,7 +49,7 @@ object RepoTrips {
 
     fun addTrip(trip: Trip, callback: () -> Unit) {
         trips.add(trips.lastIndex + 1, trip)
-        "$backUrl/trips/$userId".httpPost().body(gson.toJson(trip)).response({ _, _, result ->
+        "$backUrl/trips/$userId".httpPost().body(gson.toJson(trip)).header(Pair("Content-Type", "application/json")).response({ _, _, result ->
             println(result)
             callback.invoke()
         })
