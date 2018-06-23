@@ -8,6 +8,8 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -91,6 +93,9 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         try {
             val pm = activity!!.packageManager
             val hasPerm = pm.checkPermission(android.Manifest.permission.CAMERA, activity!!.packageName)
+            if(hasPerm == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions((activity as FragmentActivity), arrayOf(android.Manifest.permission.CAMERA),1);
+            }
             if (hasPerm == PackageManager.PERMISSION_GRANTED) {
                 val options = arrayOf<CharSequence>("Sacar Foto", "Seleccionar de la galería", "Cancelar")
                 val builder = android.support.v7.app.AlertDialog.Builder(activity!!)
