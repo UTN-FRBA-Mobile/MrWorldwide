@@ -1,6 +1,7 @@
 package mobile.frba.utn.tpmobile.fragments
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,12 +16,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.activities.DateFormatter
+import mobile.frba.utn.tpmobile.models.Event
+import mobile.frba.utn.tpmobile.models.Photo
+import mobile.frba.utn.tpmobile.models.Text
 import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoEvents
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,14 +32,15 @@ import java.util.*
 class CreateEditEventFragment : NavigatorFragment(null) {
     private var date: TextView? = null
     private var calendar = Calendar.getInstance()
-    var imageView: ImageView? = null
+    private var imageView: ImageView? = null
     private var buttonSelect: ImageButton? = null
     private var bitmap: Bitmap? = null
     private var destination: File? = null
     private var photo: ByteArray? = null
     private var inputStreamImg: InputStream? = null
     private var imgPath: String? = null
-    private var tripTitle: TextView? = null
+    private var eventTitle: TextView? = null
+    private var description: TextView? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,8 +60,10 @@ class CreateEditEventFragment : NavigatorFragment(null) {
             date!!.text = sdf.format(calendar.time)
         }
 
-        imageView = view.findViewById(R.id.trip_image)
+        imageView = view.findViewById(R.id.event_image)
         buttonSelect = view.findViewById(R.id.load_photo_button)
+        eventTitle = view.findViewById(R.id.event_title)
+        description = view.findViewById(R.id.event_description)
 
         buttonSelect!!.setOnClickListener({selectImage()})
 
@@ -106,7 +113,6 @@ class CreateEditEventFragment : NavigatorFragment(null) {
         }
 
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -169,8 +175,51 @@ class CreateEditEventFragment : NavigatorFragment(null) {
 
     private fun onAcceptButtonClick() {
         val acceptButton = view!!.findViewById<View>(R.id.accept_event)
-        //Acá hay que hacer el POST para crear el evento
-        acceptButton.setOnClickListener { Navigator.navigateTo(BitacoraFragment()) }
+        val spinner = ProgressBar(this.context)
+        spinner.layoutParams = ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        spinner.visibility = View.GONE
+
+        val alertDialog = AlertDialog.Builder(this.context)
+        alertDialog.setView(spinner)
+        alertDialog.setCancelable(false)
+
+        val incorrectEvent = AlertDialog.Builder(this.context)
+
+        val spinnerDialog = alertDialog.create()
+        spinnerDialog.setOnShowListener { _ -> spinner.visibility = View.VISIBLE  }
+        spinnerDialog.setOnCancelListener({ _ -> spinner.visibility = View.INVISIBLE})
+        acceptButton.setOnClickListener {
+            if(date?.text.isNullOrBlank()){
+                incorrectEvent.setMessage("Fecha invalida")
+                incorrectEvent.show()
+            }
+            else{
+                if(eventTitle?.text.isNullOrBlank()){
+                    incorrectEvent.setMessage("Nombre invalido")
+                    incorrectEvent.show()
+                }
+                else {
+                    var event : Event
+                    var formatedDate = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+                    if(photo == null){
+                        event = Text(description?.text.toString(), formatedDate, eventTitle?.text.toString(), LatLng(8.0,7.0), null, null, null)
+                        spinnerDialog.show()
+                        RepoEvents.addEvent(event, {
+                            spinnerDialog.cancel()
+                            Navigator.navigateTo(BitacoraFragment())
+                        })
+                    }
+                    else {
+                        event = Photo("", formatedDate, description?.text.toString(), LatLng(8.0,7.0), null, null, null)
+                        spinnerDialog.show()
+                        RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
+                            spinnerDialog.cancel()
+                            Navigator.navigateTo(BitacoraFragment())
+                        })
+                    }
+                }
+            }
+        }
     }
 
     private fun onCancelButtonClick() {
