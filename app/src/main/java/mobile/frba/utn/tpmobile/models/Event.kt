@@ -9,9 +9,9 @@ import java.time.LocalDate
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,open var id : Int,open var userId : String, open var tripId : Int, open var date : DateTime) {
+abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,open var id : Int?,open var userId : String?, open var tripId : Int?, open var date : DateTime) {
     fun urlUserId(): String {
-       return userId.replace(" ","%20")
+       return userId!!.replace(" ","%20")
     }
 }
 

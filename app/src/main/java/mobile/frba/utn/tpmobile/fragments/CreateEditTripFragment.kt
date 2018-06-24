@@ -57,7 +57,6 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
         buttonSelect!!.setOnClickListener({selectImage()})
 
-
         setDateOnClick(startDate!!)
         setDateOnClick(finishDate!!)
 
