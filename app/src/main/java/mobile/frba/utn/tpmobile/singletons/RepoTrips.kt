@@ -63,7 +63,6 @@ object RepoTrips {
                     trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
                     addTrip(trip, callback)
                 })
-
     }
 
     fun addTrip(trip: Trip, callback: () -> Unit) {

@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
@@ -53,6 +54,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/event_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
@@ -70,7 +72,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/trip_image"
+            android:id="@+id/event_image"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

@@ -9,16 +9,16 @@ import java.time.LocalDate
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,open var id : Int,open var userId : String, open var tripId : Int, open var date : DateTime) {
+abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,open var id : Int?,open var userId : String?, open var tripId : Int?, open var date : DateTime) {
     fun urlUserId(): String {
-       return userId.replace(" ","%20")
+       return userId!!.replace(" ","%20")
     }
 }
 
 fun getEventFromJson (jsonObject: JSONObject) : Event {
     val eventType : EventType = EventType.valueOf(jsonObject.getString("eventType"))
     val jsonGeoLocation = jsonObject.getJSONObject("geoLocation")
-    val geoLocation = LatLng(jsonGeoLocation.getDouble("x"),jsonGeoLocation.getDouble("y"))
+    val geoLocation = LatLng(jsonGeoLocation.getDouble("latitude"),jsonGeoLocation.getDouble("longitude"))
     val id = jsonObject.getInt("id")
     val userId = jsonObject.getString("userId")
     val tripId = jsonObject.getInt("tripId")

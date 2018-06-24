@@ -9,7 +9,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-var trips = [{
+var trips = [
+    {
         id: 1,
         userId: "Agustin Vertebrado",
         title: "Roma",
@@ -19,45 +20,50 @@ var trips = [{
         },
         startDate: "01-03-2017",
         finishDate: "31-08-2018",
-        events: [{
-            id: 1,
-            userId: "Agustin Vertebrado",
-            tripId: 1,
-            url: "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
-            date: "23-02-2018",
-            description: "LALALA",
-            eventType: "PHOTO",
-            geoLocation: {
-                x: 1,
-                y: 2
+        events: [
+            {
+                id: 1,
+                userId: "Agustin Vertebrado",
+                tripId: 1,
+                url: "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
+                date: "23-02-2018",
+                description: "LALALA",
+                eventType: "PHOTO",
+                geoLocation: {
+                    latitude: 1,
+                    longitude: 2
+                }
+            }, 
+            {
+                id: 2,
+                userId: "Agustin Vertebrado",
+                tripId: 1,
+                text: "Soy un titulo de relleno",
+                date: "24-02-2018",
+                title: "Soy un texto de relleno",
+                eventType: "TEXT",
+                geoLocation: {
+                    latitude: 14,
+                    longitude: 4
+                }
+            }, 
+            {
+                id: 3,
+                userId: "Agustin Vertebrado",
+                tripId: 1,
+                date: "22-02-2018",
+                description: "Soy un titulo de relleno",
+                url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+                eventType: "VIDEO",
+                geoLocation: {
+                    latitude: 1,
+                    longitude: 2
+                }
             }
-        }, {
-            id: 2,
-            userId: "Agustin Vertebrado",
-            tripId: 1,
-            text: "Soy un titulo de relleno",
-            date: "24-02-2018",
-            title: "Soy un texto de relleno",
-            eventType: "TEXT",
-            geoLocation: {
-                x: 14,
-                y: 4
-            }
-        }, {
-            id: 3,
-            userId: "Agustin Vertebrado",
-            tripId: 1,
-            date: "22-02-2018",
-            description: "Soy un titulo de relleno",
-            url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
-            eventType: "VIDEO",
-            geoLocation: {
-                x: 1,
-                y: 2
-            }
-        }]
-    }, {
-        id: 1,
+        ]
+    }, 
+    {
+        id: 2,
         userId: "Mercedes Hidratada",
         title: "New York",
         tripPhoto: {
@@ -67,20 +73,21 @@ var trips = [{
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
         events: [{
-            id: 1,
+            id: 4,
             userId: "Mercedes Hidratada",
-            tripId: 1,
+            tripId: 2,
             url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
             date: "22-12-2018",
             description: "mira mama, mira!",
             eventType: "PHOTO",
             geoLocation: {
-                x: 1,
-                y: 2
+                latitude: 1,
+                longitude: 2
             }
         }]
-    }, {
-        id: 1,
+    }, 
+    {
+        id: 3,
         userId: "Agustin Vertebrado",
         title: "New York",
         tripPhoto: {
@@ -90,8 +97,9 @@ var trips = [{
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
         events: []
-    }, {
-        id: 1,
+    }, 
+    {
+        id: 4,
         userId: "Esteban Piro",
         title: "New York",
         tripPhoto: {
@@ -101,20 +109,21 @@ var trips = [{
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
         events: [{
-            id: 2,
+            id: 5,
             userId: "Esteban Piro",
-            tripId: 1,
+            tripId: 4,
             text: "Soy un titulo de relleno",
             date: "24-02-2018",
             title: "Soy un texto de relleno",
             eventType: "TEXT",
             geoLocation: {
-                x: 14,
-                y: 4
+                latitude: 14,
+                longitude: 4
             }
         }]
-    }, {
-        id: 3,
+    }, 
+    {
+        id: 5,
         userId: "Pepe Lotas",
         title: "New York",
         tripPhoto: {
@@ -124,16 +133,16 @@ var trips = [{
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
         events: [{
-            id: 3,
+            id: 6,
             userId: "Pepe Lotas",
-            tripId: 1,
+            tripId: 5,
             date: "22-02-2018",
             description: "Soy un titulo de relleno",
             url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
             eventType: "VIDEO",
             geoLocation: {
-                x: 1,
-                y: 2
+                latitude: 1,
+                longitude: 2
             }
         }]
     }
@@ -141,44 +150,121 @@ var trips = [{
 ];
 
 var events = [
-
-]
-
-var friendEvents = [{
+    {
         id: 1,
-        userId: "Mercedes Hidratada",
+        userId: "Agustin Vertebrado",
         tripId: 1,
-        url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
-        date: "22-12-2018",
-        description: "mira mama, mira!",
+        url: "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
+        date: "23-02-2018",
+        description: "LALALA",
         eventType: "PHOTO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
-    }, {
+    }, 
+    {
         id: 2,
-        userId: "Esteban Piro",
+        userId: "Agustin Vertebrado",
         tripId: 1,
-        text: "Soy un titulo de relleno",
+        text: "Soy un texto de relleno",
         date: "24-02-2018",
-        title: "Soy un texto de relleno",
+        title: "Soy un titulo de relleno",
         eventType: "TEXT",
         geoLocation: {
-            x: 14,
-            y: 4
+            latitude: 14,
+            longitude: 4
         }
-    }, {
+    }, 
+    {
         id: 3,
-        userId: "Pepe Lotas",
+        userId: "Agustin Vertebrado",
         tripId: 1,
         date: "22-02-2018",
         description: "Soy un titulo de relleno",
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
+        }
+    },
+    {
+        id: 4,
+        userId: "Mercedes Hidratada",
+        tripId: 2,
+        url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
+        date: "22-12-2018",
+        description: "mira mama, mira!",
+        eventType: "PHOTO",
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
+        }
+    },
+    {
+        id: 5,
+        userId: "Esteban Piro",
+        tripId: 4,
+        text: "Soy un titulo de relleno",
+        date: "24-02-2018",
+        title: "Soy un texto de relleno",
+        eventType: "TEXT",
+        geoLocation: {
+            latitude: 14,
+            longitude: 4
+        }
+    },
+    {
+        id: 6,
+        userId: "Pepe Lotas",
+        tripId: 5,
+        date: "22-02-2018",
+        description: "Soy un titulo de relleno",
+        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+        eventType: "VIDEO",
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
+        }
+    }
+]
+
+var friendEvents = [{
+        id: 4,
+        userId: "Mercedes Hidratada",
+        tripId: 2,
+        url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
+        date: "22-12-2018",
+        description: "mira mama, mira!",
+        eventType: "PHOTO",
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
+        }
+    }, {
+        id: 5,
+        userId: "Esteban Piro",
+        tripId: 4,
+        text: "Soy un titulo de relleno",
+        date: "24-02-2018",
+        title: "Soy un texto de relleno",
+        eventType: "TEXT",
+        geoLocation: {
+            latitude: 14,
+            longitude: 4
+        }
+    }, {
+        id: 6,
+        userId: "Pepe Lotas",
+        tripId: 5,
+        date: "22-02-2018",
+        description: "Soy un titulo de relleno",
+        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+        eventType: "VIDEO",
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
         }
     }
 
@@ -199,6 +285,16 @@ var tripsWithoutEvents = function(trip) {
     tripCopy.events = [];
     return tripCopy;
 };
+
+var getActualTrip = function(userId) {
+    var actualTrips = _.filter(userTrips(userId), function(trip) {
+        return stringToDate(trip.startDate) <= Date.now() && stringToDate(trip.finishDate) >= Date.now()
+    });
+    var orderedActualTrips = _.sortBy(actualTrips, function(trip) {
+        return stringToDate(trip.startDate)
+    })
+    return orderedActualTrips[0];
+}
 
 app.get('/', function(req, res) {
     res.send('Hello World!');
@@ -226,12 +322,7 @@ app.get('/users/:userId/nextTrip', function(req, res) {
 });
 
 app.get('/users/:userId/actualTrip', function(req, res) {
-    var actualTrips = _.filter(userTrips(req.params.userId), function(trip) {
-        return stringToDate(trip.startDate) <= Date.now() && stringToDate(trip.finishDate) >= Date.now()
-    });
-    res.send(_.sortBy(actualTrips, function(trip) {
-        return stringToDate(trip.startDate)
-    })[0]);
+    res.send(getActualTrip(req.params.userId));
 });
 
 app.get('/users/:userId/friendEvents', function(req, res) {
@@ -271,6 +362,19 @@ app.listen(3000, function() {
 });
 
 //////////////////ENDPOINTS PENDIENTES//////////////////////////////
+app.post('/events/:userId', function(req, res) {
+    var newEvent = req.body;
+    var actualTrip = getActualTrip(req.params.userId);
+    newEvent.id = _.maxBy(events, 'id').id + 1;
+    newEvent.userId = req.params.userId;
+    newEvent.tripId = actualTrip.id;
+    events.push(newEvent);
+    actualTrip.events.push(newEvent);
+    console.log(actualTrip.events);
+    res.send(events);
+});
+
+
 app.get('/users/:userId/events', function(req, res) {
     //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
 });

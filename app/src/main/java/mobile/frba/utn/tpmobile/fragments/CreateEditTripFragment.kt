@@ -33,7 +33,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private var startDate: TextView? = null
     private var finishDate: TextView? = null
     private var calendar = Calendar.getInstance()
-    var imageView: ImageView? = null
+    private var imageView: ImageView? = null
     private var buttonSelect: ImageButton? = null
     private var bitmap: Bitmap? = null
     private var destination: File? = null
@@ -56,7 +56,6 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         buttonSelect = view.findViewById(R.id.load_photo_button)
 
         buttonSelect!!.setOnClickListener({selectImage()})
-
 
         setDateOnClick(startDate!!)
         setDateOnClick(finishDate!!)
