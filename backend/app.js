@@ -187,6 +187,7 @@ var friendEvents = [{
         id: 4,
         userId: "Mercedes Hidratada",
         tripId: 2,
+        title: "El título",
         url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
         date: "22-12-2018",
         description: "mira mama, mira!",
@@ -207,20 +208,7 @@ var friendEvents = [{
             latitude: 14,
             longitude: 4
         }
-    }, {
-        id: 6,
-        userId: "Pepe Lotas",
-        tripId: 5,
-        date: "22-02-2018",
-        description: "Soy un titulo de relleno",
-        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
-        eventType: "VIDEO",
-        geoLocation: {
-            latitude: 1,
-            longitude: 2
-        }
     }
-
 ];
 var userTrips = function(userID) {
     return _.filter(trips, function(trip) {
