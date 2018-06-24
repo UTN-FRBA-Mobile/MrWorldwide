@@ -362,6 +362,18 @@ app.listen(3000, function() {
 });
 
 //////////////////ENDPOINTS PENDIENTES//////////////////////////////
+app.post('/events/:userId', function(req, res) {
+    var newEvent = req.body;
+    var actualTrip = getActualTrip(req.params.userId);
+    newEvent.id = _.maxBy(events, 'id').id + 1;
+    newEvent.userId = req.params.userId;
+    newEvent.tripId = actualTrip
+    events.push(newEvent);
+    actualTrips.events.push(newEvent);
+    res.send(events);
+});
+
+
 app.get('/users/:userId/events', function(req, res) {
     //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
 });
