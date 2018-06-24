@@ -245,7 +245,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     }
 
     companion object {
-        private const val PICK_IMAGE_CAMERA = 1
-        private const val PICK_IMAGE_GALLERY = 2
+        const val PICK_IMAGE_CAMERA = 1
+        const val PICK_IMAGE_GALLERY = 2
     }
 }
