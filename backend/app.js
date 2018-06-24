@@ -30,8 +30,8 @@ var trips = [
                 description: "LALALA",
                 eventType: "PHOTO",
                 geoLocation: {
-                    x: 1,
-                    y: 2
+                    latitude: 1,
+                    longitude: 2
                 }
             }, 
             {
@@ -43,8 +43,8 @@ var trips = [
                 title: "Soy un texto de relleno",
                 eventType: "TEXT",
                 geoLocation: {
-                    x: 14,
-                    y: 4
+                    latitude: 14,
+                    longitude: 4
                 }
             }, 
             {
@@ -56,8 +56,8 @@ var trips = [
                 url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
                 eventType: "VIDEO",
                 geoLocation: {
-                    x: 1,
-                    y: 2
+                    latitude: 1,
+                    longitude: 2
                 }
             }
         ]
@@ -81,8 +81,8 @@ var trips = [
             description: "mira mama, mira!",
             eventType: "PHOTO",
             geoLocation: {
-                x: 1,
-                y: 2
+                latitude: 1,
+                longitude: 2
             }
         }]
     }, 
@@ -117,8 +117,8 @@ var trips = [
             title: "Soy un texto de relleno",
             eventType: "TEXT",
             geoLocation: {
-                x: 14,
-                y: 4
+                latitude: 14,
+                longitude: 4
             }
         }]
     }, 
@@ -141,8 +141,8 @@ var trips = [
             url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
             eventType: "VIDEO",
             geoLocation: {
-                x: 1,
-                y: 2
+                latitude: 1,
+                longitude: 2
             }
         }]
     }
@@ -159,8 +159,8 @@ var events = [
         description: "LALALA",
         eventType: "PHOTO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
     }, 
     {
@@ -172,8 +172,8 @@ var events = [
         title: "Soy un titulo de relleno",
         eventType: "TEXT",
         geoLocation: {
-            x: 14,
-            y: 4
+            latitude: 14,
+            longitude: 4
         }
     }, 
     {
@@ -185,8 +185,8 @@ var events = [
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
     },
     {
@@ -198,8 +198,8 @@ var events = [
         description: "mira mama, mira!",
         eventType: "PHOTO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
     },
     {
@@ -211,8 +211,8 @@ var events = [
         title: "Soy un texto de relleno",
         eventType: "TEXT",
         geoLocation: {
-            x: 14,
-            y: 4
+            latitude: 14,
+            longitude: 4
         }
     },
     {
@@ -224,8 +224,8 @@ var events = [
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
     }
 ]
@@ -239,8 +239,8 @@ var friendEvents = [{
         description: "mira mama, mira!",
         eventType: "PHOTO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
     }, {
         id: 5,
@@ -251,8 +251,8 @@ var friendEvents = [{
         title: "Soy un texto de relleno",
         eventType: "TEXT",
         geoLocation: {
-            x: 14,
-            y: 4
+            latitude: 14,
+            longitude: 4
         }
     }, {
         id: 6,
@@ -263,8 +263,8 @@ var friendEvents = [{
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
         geoLocation: {
-            x: 1,
-            y: 2
+            latitude: 1,
+            longitude: 2
         }
     }
 
@@ -367,9 +367,10 @@ app.post('/events/:userId', function(req, res) {
     var actualTrip = getActualTrip(req.params.userId);
     newEvent.id = _.maxBy(events, 'id').id + 1;
     newEvent.userId = req.params.userId;
-    newEvent.tripId = actualTrip
+    newEvent.tripId = actualTrip.id;
     events.push(newEvent);
-    actualTrips.events.push(newEvent);
+    actualTrip.events.push(newEvent);
+    console.log(actualTrip.events);
     res.send(events);
 });
 
