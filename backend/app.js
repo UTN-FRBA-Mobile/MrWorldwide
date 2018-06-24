@@ -25,6 +25,7 @@ var trips = [
                 id: 1,
                 userId: "Agustin Vertebrado",
                 tripId: 1,
+                title: "El título",
                 url: "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
                 date: "23-02-2018",
                 description: "LALALA",
@@ -46,19 +47,6 @@ var trips = [
                     latitude: 14,
                     longitude: 4
                 }
-            }, 
-            {
-                id: 3,
-                userId: "Agustin Vertebrado",
-                tripId: 1,
-                date: "22-02-2018",
-                description: "Soy un titulo de relleno",
-                url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
-                eventType: "VIDEO",
-                geoLocation: {
-                    latitude: 1,
-                    longitude: 2
-                }
             }
         ]
     }, 
@@ -76,6 +64,7 @@ var trips = [
             id: 4,
             userId: "Mercedes Hidratada",
             tripId: 2,
+            title: "El título",
             url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
             date: "22-12-2018",
             description: "mira mama, mira!",
@@ -132,19 +121,7 @@ var trips = [
         },
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
-        events: [{
-            id: 6,
-            userId: "Pepe Lotas",
-            tripId: 5,
-            date: "22-02-2018",
-            description: "Soy un titulo de relleno",
-            url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
-            eventType: "VIDEO",
-            geoLocation: {
-                latitude: 1,
-                longitude: 2
-            }
-        }]
+        events: []
     }
 
 ];
@@ -178,19 +155,6 @@ var events = [
         }
     }, 
     {
-        id: 3,
-        userId: "Agustin Vertebrado",
-        tripId: 1,
-        date: "22-02-2018",
-        description: "Soy un titulo de relleno",
-        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
-        eventType: "VIDEO",
-        geoLocation: {
-            latitude: 1,
-            longitude: 2
-        }
-    },
-    {
         id: 4,
         userId: "Mercedes Hidratada",
         tripId: 2,
@@ -215,19 +179,6 @@ var events = [
         geoLocation: {
             latitude: 14,
             longitude: 4
-        }
-    },
-    {
-        id: 6,
-        userId: "Pepe Lotas",
-        tripId: 5,
-        date: "22-02-2018",
-        description: "Soy un titulo de relleno",
-        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
-        eventType: "VIDEO",
-        geoLocation: {
-            latitude: 1,
-            longitude: 2
         }
     }
 ]
