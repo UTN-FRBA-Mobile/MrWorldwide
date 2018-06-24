@@ -25,7 +25,7 @@ fun getEventFromJson (jsonObject: JSONObject) : Event {
     return  when (eventType){
         EventType.PHOTO -> Photo(jsonObject.getString("url"),jsonObject.getString("title"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("description"),geoLocation,id,userId,tripId)
         EventType.TEXT -> Text(jsonObject.getString("text"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("title"),geoLocation,id,userId,tripId)
-        EventType.VIDEO -> Video(jsonObject.getString("description"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
+        EventType.VIDEO -> Video(jsonObject.getString("description"),jsonObject.getString("title"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
     }
 }
 enum class EventType(val viewType: Int) {
