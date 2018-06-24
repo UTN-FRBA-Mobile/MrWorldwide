@@ -115,8 +115,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                     }
                 }
                 builder.show()
-            } else
-                Toast.makeText(this.context, "Camera Permission error", Toast.LENGTH_SHORT).show()
+            }
         } catch (e: Exception) {
             Toast.makeText(this.context, "Camera Permission error", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
