@@ -18,7 +18,7 @@ abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,ope
 fun getEventFromJson (jsonObject: JSONObject) : Event {
     val eventType : EventType = EventType.valueOf(jsonObject.getString("eventType"))
     val jsonGeoLocation = jsonObject.getJSONObject("geoLocation")
-    val geoLocation = LatLng(jsonGeoLocation.getDouble("x"),jsonGeoLocation.getDouble("y"))
+    val geoLocation = LatLng(jsonGeoLocation.getDouble("latitude"),jsonGeoLocation.getDouble("longitude"))
     val id = jsonObject.getInt("id")
     val userId = jsonObject.getString("userId")
     val tripId = jsonObject.getInt("tripId")
