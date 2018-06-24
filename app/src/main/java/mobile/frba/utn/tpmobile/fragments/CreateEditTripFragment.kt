@@ -1,5 +1,6 @@
 package mobile.frba.utn.tpmobile.fragments
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,14 +9,13 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Trip
@@ -37,6 +37,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private var buttonSelect: ImageButton? = null
     private var bitmap: Bitmap? = null
     private var destination: File? = null
+    private var photo: ByteArray? = null
     private var inputStreamImg: InputStream? = null
     private var imgPath: String? = null
     private var tripTitle: TextView? = null
@@ -91,6 +92,9 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         try {
             val pm = activity!!.packageManager
             val hasPerm = pm.checkPermission(android.Manifest.permission.CAMERA, activity!!.packageName)
+            if(hasPerm == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions((activity as FragmentActivity), arrayOf(android.Manifest.permission.CAMERA),1);
+            }
             if (hasPerm == PackageManager.PERMISSION_GRANTED) {
                 val options = arrayOf<CharSequence>("Sacar Foto", "Seleccionar de la galería", "Cancelar")
                 val builder = android.support.v7.app.AlertDialog.Builder(activity!!)
@@ -130,7 +134,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                 bitmap = data.extras.get("data") as Bitmap?
                 var bytes = ByteArrayOutputStream()
                 bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
-
+                photo = bytes.toByteArray()
                 Log.e("Activity", "Pick from Camera::>>> ")
 
                 var timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
@@ -160,6 +164,8 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                 bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, selectedImage)
                 var bytes = ByteArrayOutputStream()
                 bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+                photo = bytes.toByteArray()
+
                 Log.e("Activity", "Pick from Gallery::>>> ")
 
                 var filePathColumn: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
@@ -177,16 +183,61 @@ class CreateEditTripFragment : NavigatorFragment(null) {
             }
         }
     }
+    private fun valiateDates() : Boolean{
+        if(startDate?.text.isNullOrBlank() || finishDate?.text.isNullOrBlank()){
+            return false
+        }
+        val startDate = DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString())
+        val finishDate =DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString())
+        if(startDate > finishDate){
+            return false
+        }
+       return true
+    }
 
     private fun onAcceptButtonClick() {
         val acceptButton = view!!.findViewById<View>(R.id.accept_trip)
-        //TODO: Uplodear foto y cambiar por url real de foto
+        val spinner = ProgressBar(this.context)
+        spinner.layoutParams = ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+        spinner.visibility = View.GONE
+
+        val alertDialog = AlertDialog.Builder(this.context)
+        alertDialog.setView(spinner)
+        alertDialog.setCancelable(false)
+
+        val incorrectTrip = AlertDialog.Builder(this.context)
+
+        val spinnerDialog = alertDialog.create()
+        spinnerDialog.setOnShowListener { _ -> spinner.visibility = View.VISIBLE  }
+        spinnerDialog.setOnCancelListener({ _ -> spinner.visibility = View.INVISIBLE})
         acceptButton.setOnClickListener {
-            val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("https://i.imgur.com/j6OzT7X.jpg", DateTime.now()),
-                    DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
-                    DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
-            RepoTrips.addTrip(trip,{Navigator.navigateTo(TripsFragment())} )
-              }
+            if(!valiateDates()){
+                incorrectTrip.setMessage("Fechas invalidas")
+                incorrectTrip.show()
+            }
+            else{
+                if(tripTitle?.text.isNullOrBlank()){
+                    incorrectTrip.setMessage("Nombre invalido")
+                    incorrectTrip.show()
+                }
+                else {
+                    if(photo == null){
+                        incorrectTrip.setMessage("Imagen invalida")
+                        incorrectTrip.show()
+                    }
+                    else {
+                        spinnerDialog.show()
+                        val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("", DateTime.now()),
+                                DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
+                                DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
+                        RepoTrips.savePhotoAndThenAddTrip(photo!!, trip, {
+                            spinnerDialog.cancel()
+                            Navigator.navigateTo(TripsFragment())
+                        })
+                    }
+                }
+            }
+        }
     }
 
     private fun onCancelButtonClick() {

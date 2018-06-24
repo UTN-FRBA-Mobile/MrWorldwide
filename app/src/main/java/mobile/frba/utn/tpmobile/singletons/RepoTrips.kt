@@ -1,17 +1,22 @@
 package mobile.frba.utn.tpmobile.singletons
 
+
+import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
+import mobile.frba.utn.tpmobile.Constants
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Trip
-import mobile.frba.utn.tpmobile.models.User
 import mobile.frba.utn.tpmobile.models.getEventFromJson
 import okhttp3.*
 import org.joda.time.DateTime
 import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 
 
@@ -48,6 +53,18 @@ object RepoTrips {
                         })
             }
         }
+    }
+
+    fun savePhotoAndThenAddTrip(photo: ByteArray,trip: Trip, callback: () -> Unit) {
+        "https://api.imgur.com/3/image"
+                .httpPost()
+                .header(Pair("Authorization", Constants.clientAuth))
+                .body(photo)
+                .responseJson({_,response, result ->
+                    trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
+                    addTrip(trip, callback)
+                })
+
     }
 
     fun addTrip(trip: Trip, callback: () -> Unit) {
