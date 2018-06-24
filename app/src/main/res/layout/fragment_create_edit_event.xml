@@ -44,11 +44,12 @@
             android:id="@+id/event_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:inputType="date"
+            android:textSize="15sp"
             android:layout_marginStart="2dp"
-            android:fontFamily="@font/raleway_medium" />
-
+            android:fontFamily="@font/raleway_medium"
+            android:hint="@string/start_date_hint"
+            android:focusable="false"/>
     </LinearLayout>
 
     <EditText

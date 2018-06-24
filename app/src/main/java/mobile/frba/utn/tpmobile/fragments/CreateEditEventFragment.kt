@@ -24,7 +24,6 @@ class CreateEditEventFragment : NavigatorFragment(null) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         date = view.findViewById(R.id.event_date)
-        date!!.text = "dd/mm/aaaa"
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
