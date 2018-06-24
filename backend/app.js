@@ -363,7 +363,6 @@ app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
 });
 
-//////////////////ENDPOINTS PENDIENTES//////////////////////////////
 app.post('/events/:userId', function(req, res) {
     var newEvent = req.body;
     var actualTrip = getActualTrip(req.params.userId);
@@ -376,7 +375,18 @@ app.post('/events/:userId', function(req, res) {
     res.send(events);
 });
 
+app.delete('events/:id', function(req, res) {
+    events = _.delete(events, function(event) {
+        return event.id == req.params.id
+    });
+    var actualTrip = getActualTrip(req.params.userId);
+    actualTrip.events = _.delete(events, function(event) {
+        return event.id == req.params.id
+    });
+    res.send(trips);
+});
 
+//////////////////ENDPOINTS PENDIENTES//////////////////////////////
 app.get('/users/:userId/events', function(req, res) {
     //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
 });
@@ -385,6 +395,3 @@ app.get('/events/:id', function(req, res) {
     //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
 });
 
-app.delete('events/:id', function(req, res) {
-    //_.delete(events, function(event){ return event.id == req.params.id });
-});
