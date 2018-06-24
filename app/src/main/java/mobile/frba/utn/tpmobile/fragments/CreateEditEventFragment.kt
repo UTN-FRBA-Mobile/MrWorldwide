@@ -210,7 +210,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                         })
                     }
                     else {
-                        event = Photo("", formatedDate, description?.text.toString(), LatLng(8.0,7.0), null, null, null)
+                        event = Photo("", eventTitle?.text.toString(),formatedDate, description?.text.toString(), LatLng(8.0,7.0), null, null, null)
                         spinnerDialog.show()
                         RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
                             spinnerDialog.cancel()
