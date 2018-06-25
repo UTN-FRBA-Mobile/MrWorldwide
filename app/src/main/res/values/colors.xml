@@ -9,4 +9,5 @@
     <color name="primaryTextLight">#757575</color>
     <color name="secondaryColorLight">#f8bbd0</color>
     <color name="secondaryColor">#f06292</color>
+    <color name="userNameColor">#862747</color>
 </resources>

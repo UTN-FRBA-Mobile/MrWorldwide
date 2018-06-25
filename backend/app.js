@@ -39,9 +39,9 @@ var trips = [
                 id: 2,
                 userId: "Agustin Vertebrado",
                 tripId: 1,
-                text: "Soy un titulo de relleno",
+                text: "Soy un texto de relleno",
                 date: "24-02-2018",
-                title: "Soy un texto de relleno",
+                title: "Soy un título de relleno",
                 eventType: "TEXT",
                 geoLocation: {
                     latitude: 14,
