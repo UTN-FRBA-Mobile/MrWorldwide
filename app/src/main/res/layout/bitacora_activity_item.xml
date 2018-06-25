@@ -21,87 +21,97 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/mg_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/raleway_regular"
-                    android:textColor="@color/secondaryColor"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="5dp"
-                    android:textSize="16sp" />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/like_icon"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
-                    android:id="@+id/bitacora_edit_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_gravity="left">
 
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/icon_edit"
-                        android:backgroundTint="@color/secondaryColor" />
 
                     <TextView
+                        android:id="@+id/mg_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/bitacora_edit"
                         android:fontFamily="@font/raleway_regular"
+                        android:textColor="@color/secondaryColor"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="5dp"
                         android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/like_icon"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/shared_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginRight="10dp">
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/icon_share"
-                        android:backgroundTint="@color/secondaryColor" />
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/bitacora_edit_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/bitacora_share"
-                        android:fontFamily="@font/raleway_regular"
-                        android:textSize="16sp" />
+                        android:layout_marginRight="20dp">
+
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/icon_edit"
+                            android:backgroundTint="@color/secondaryColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/bitacora_edit"
+                            android:fontFamily="@font/raleway_regular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shared_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginRight="10dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/icon_share"
+                            android:backgroundTint="@color/secondaryColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/bitacora_share"
+                            android:fontFamily="@font/raleway_regular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </FrameLayout>
+
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
