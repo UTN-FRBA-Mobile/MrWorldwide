@@ -19,12 +19,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.*
 import mobile.frba.utn.tpmobile.singletons.LocationProvider
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoEvents
+import org.joda.time.DateTime
 import java.io.*
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -234,20 +236,52 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                     var formatedDate = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
                     LocationProvider.requestSingleUpdate(context!!, { location ->
                         activity?.runOnUiThread {
-                            if (photo == null) {
-                                event = Text(description?.text.toString(), 0, eventTitle?.text.toString(),formatedDate, location, null, null, null)
-                                spinnerDialog.show()
-                                RepoEvents.addEvent(event, {
-                                    spinnerDialog.cancel()
-                                    Navigator.navigateTo(BitacoraFragment())
-                                })
-                            } else {
-                                event = Photo("",0, eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
-                                spinnerDialog.show()
-                                RepoEvents.savePhotoAndThenAddEvent(photo!!, event as Photo, {
-                                    spinnerDialog.cancel()
-                                    Navigator.navigateTo(BitacoraFragment())
-                                })
+                            if(eventAlreadyExits()) {
+                                val event = this.arguments!!.getSerializable("event") as Event
+
+                                when (event.eventType) {
+                                    EventType.TEXT -> {
+                                        val textEvent = this.arguments!!.getSerializable("event") as Text
+
+                                        textEvent.title = eventTitle!!.text.toString()
+                                        textEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+                                        textEvent.text = description!!.text.toString()
+                                        RepoEvents.updateEvent(textEvent, {
+                                            cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                                        })
+                                    }
+                                    EventType.PHOTO -> {
+                                        val photoEvent = this.arguments!!.getSerializable("event") as Photo
+
+                                        photoEvent.title = eventTitle!!.text.toString()
+                                        photoEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+                                        photoEvent.description = description!!.text.toString()
+
+
+                                        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                                        StrictMode.setThreadPolicy(policy)
+                                        val eventPhotoBitmap = BitmapFactory.decodeStream(URL(photoEvent.url).openStream())
+                                        val imageViewBitmap = imageView!!.drawingCache
+
+                                        if(eventPhotoBitmap != imageViewBitmap) {
+                                            RepoEvents.savePhotoThenUpdateEvent(photo!!, photoEvent,{
+                                                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                                            })
+                                        }
+                                        else {
+                                            RepoEvents.updateEvent(photoEvent, {
+                                                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                                            })
+                                        }
+                                    }
+                                    EventType.VIDEO -> {
+                                        val videoEvent = event as Video
+                                        description!!.text = videoEvent.description
+                                    }
+                                }
+                            }
+                            else {
+                                CreateEvent(formatedDate, location, spinnerDialog)
                             }
                         }
                     })
@@ -255,6 +289,30 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                 }
             }
         }
+    }
+
+    private fun CreateEvent(formatedDate: DateTime, location: LatLng, spinnerDialog: AlertDialog) {
+        var event : Event
+        if (photo == null) {
+            event = Text(description?.text.toString(), 0, eventTitle?.text.toString(), formatedDate, location, null, null, null)
+            spinnerDialog.show()
+            RepoEvents.addEvent(event, {
+                spinnerDialog.cancel()
+                Navigator.navigateTo(BitacoraFragment())
+            })
+        } else {
+            event = Photo("", 0, eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
+            spinnerDialog.show()
+            RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
+                spinnerDialog.cancel()
+                Navigator.navigateTo(BitacoraFragment())
+            })
+        }
+    }
+
+    private fun cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog: AlertDialog) {
+        spinnerDialog.cancel()
+        Navigator.navigateTo(BitacoraFragment())
     }
 
     private fun onCancelButtonClick() {

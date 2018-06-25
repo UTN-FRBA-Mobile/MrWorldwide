@@ -228,11 +228,11 @@ var getActualTrip = function(userId) {
 }
 
 var completeTripEvents = function(trip){
-     tripCopy = _.assign({}, trip);
-        tripCopy.events = _.filter(events,function(event){
-            return event.tripId === tripCopy.id && event.userId === tripCopy.userId;
-        })
-        return tripCopy;
+    tripCopy = _.assign({}, trip);
+    tripCopy.events = _.filter(events,function(event){
+        return event.tripId === tripCopy.id && event.userId === tripCopy.userId;
+    })
+    return tripCopy;
 }
 
 var friendEvents = function(){
@@ -324,6 +324,26 @@ app.put('/trips/:tripId', function(req, res) {
     updatedTrip.events = trip.events
     trips[index] = updatedTrip;
     res.send(trips);
+});
+
+app.put('/events/:eventId', function(req, res) {
+    var updatedEvent = req.body;
+    var index = _.findIndex(events, function(event) {
+        return event.id == req.params.eventId
+    }) 
+    var event = events[index];
+    updatedEvent.id = event.id;
+    updatedEvent.userId = event.userId
+    updatedEvent.tripId = event.tripId
+    updatedEvent.events = event.events
+    updatedEvent.eventType = event.eventType
+    updatedEvent.mg = event.mg
+    updatedEvent.geoLocation = event.geoLocation
+    updatedEvent.geoLocation = event.geoLocation
+
+
+    events[index] = updatedEvent;
+    res.send(events);
 });
 
 app.delete('trips/:id', function(req, res) {
