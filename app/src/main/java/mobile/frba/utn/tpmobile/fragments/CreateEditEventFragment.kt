@@ -202,14 +202,14 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                     LocationProvider.requestSingleUpdate(context!!, { location ->
                         activity?.runOnUiThread {
                             if (photo == null) {
-                                event = Text(description?.text.toString(), formatedDate, eventTitle?.text.toString(), location, null, null, null)
+                                event = Text(description?.text.toString(), 0, eventTitle?.text.toString(),formatedDate, location, null, null, null)
                                 spinnerDialog.show()
                                 RepoEvents.addEvent(event, {
                                     spinnerDialog.cancel()
                                     Navigator.navigateTo(BitacoraFragment())
                                 })
                             } else {
-                                event = Photo("", eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
+                                event = Photo("",0, eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
                                 spinnerDialog.show()
                                 RepoEvents.savePhotoAndThenAddEvent(photo!!, event as Photo, {
                                     spinnerDialog.cancel()

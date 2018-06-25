@@ -14,6 +14,7 @@ import mobile.frba.utn.tpmobile.fragments.MyProfileFragment
 import mobile.frba.utn.tpmobile.models.getEventFromJson
 import mobile.frba.utn.tpmobile.services.FacebookService
 import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import net.danlew.android.joda.JodaTimeAndroid
 import okhttp3.*
 import org.json.JSONObject
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         var tripId =intent?.data?.getQueryParameter("tripId")
         var eventId =intent?.data?.getQueryParameter("eventId")
         if(!eventId.isNullOrEmpty()) {
-            OkHttpClient().newCall(Request.Builder().url(applicationContext.getString(R.string.back_url) + "/event/$userId/$tripId/$eventId").build())
+            OkHttpClient().newCall(Request.Builder().url(RepoTrips.backUrl + "/event/$userId/$tripId/$eventId").build())
             .enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     throw Error("rompio todo!")
