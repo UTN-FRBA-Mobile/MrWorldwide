@@ -50,6 +50,32 @@ object RepoTrips {
         }
     }
 
+    fun getTripsWithEvents(): ((MutableList<Trip>) -> Unit) -> Unit {
+        return { callback ->
+            run {
+                client.newCall(Request.Builder().url("$backUrl/users/$userId/tripsWithEvents").build())
+                        .enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                throw Error("rompio todo!")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val jsonTrips = JSONArray(response.body()!!.string())
+
+                                var x = 0
+                                val trips: MutableList<Trip> = emptyArray<Trip>().toMutableList()
+                                while (x < jsonTrips.length()) {
+                                    val trip = jsonTrips.getJSONObject(x)
+                                    trips.add(Trip.getFromJson(trip))
+                                    x++
+                                }
+                                callback.invoke(trips)
+                            }
+                        })
+            }
+        }
+    }
+
     fun addTrip(trip: Trip, callback: () -> Unit) {
         trips.add(trips.lastIndex + 1, trip)
         "$backUrl/trips/$userId".httpPost().body(gson.toJson(trip)).header(Pair("Content-Type", "application/json")).response({ _, _, result ->

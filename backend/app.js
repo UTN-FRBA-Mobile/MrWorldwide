@@ -85,7 +85,7 @@ var trips = [
                     x : 1,
                     y : 2
                 }
-            }		
+            }
 		]
     },
  {
@@ -195,7 +195,7 @@ var someEvents = [
                     y : 2
                 }
             }
-     
+
 ];
 var userTrips = function(userID){
     return _.filter(trips,function(trip){return trip.userId === userID});
@@ -218,6 +218,10 @@ app.get('/', function (req, res) {
 
 app.get('/users/:userId/trips', function(req, res) {
     res.send(_.map(_.filter(trips,function (trip){return trip.userId === req.params.userId}),tripsWithoutEvents));
+});
+
+app.get('/users/:userId/tripsWithEvents', function(req, res) {
+    res.send(_.map(_.filter(trips,function (trip){return trip.userId === req.params.userId})));
 });
 
 app.get('/trips/:id',function(req,res){
