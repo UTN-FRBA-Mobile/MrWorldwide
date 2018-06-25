@@ -14,6 +14,9 @@ import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
 import mobile.frba.utn.tpmobile.fragments.CreateEditTripFragment
 import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
+import android.os.Bundle
+
+
 
 /**
  * Created by Gustavo on 5/6/18.
@@ -50,7 +53,10 @@ class TripListAdapter(private var trips: List<Trip>): RecyclerView.Adapter<Recyc
             }
 
             editButton.setOnClickListener {
+                var bundle = Bundle()
+                bundle.putSerializable("trip", trip)
                 val createEditTripFragment = CreateEditTripFragment()
+                createEditTripFragment.arguments = bundle
                 Navigator.navigateTo(createEditTripFragment)
             }
         }

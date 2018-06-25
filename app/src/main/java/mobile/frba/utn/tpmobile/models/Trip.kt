@@ -1,17 +1,15 @@
 package mobile.frba.utn.tpmobile.models
 
-import android.os.Build
-import android.support.annotation.RequiresApi
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormatter
 import org.json.JSONObject
+import java.io.Serializable
 
 /**
  * Created by Gustavo on 5/6/18.
  */
 
-open class Trip(var id : Int?,var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, var events: MutableList<Event>){
+open class Trip(var id : Int?,var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, var events: MutableList<Event>) : Serializable {
      companion object {
 
          fun getFromString (string:String): Trip? {
