@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.MainActivityFragment
 import mobile.frba.utn.tpmobile.fragments.MyProfileFragment
@@ -20,7 +21,7 @@ import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
-    var adapterViewPager: FragmentPagerAdapter? = null
+    private var adapterViewPager: FragmentPagerAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         JodaTimeAndroid.init(this)
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.main_activity)
-        val vpPager = findViewById(R.id.viewPager) as ViewPager
+        val vpPager = findViewById<ViewPager>(R.id.viewPager)
         adapterViewPager = MyPagerAdapter(supportFragmentManager)
         vpPager.adapter = adapterViewPager
 
@@ -80,10 +81,6 @@ class MainActivity : AppCompatActivity() {
         companion object {
             private val NUM_ITEMS = 2
         }
-
-
-
-
     }
 
 }
