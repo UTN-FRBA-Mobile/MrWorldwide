@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.activities.MainActivity
 import mobile.frba.utn.tpmobile.singletons.Navigator
 
 class MainActivityFragment : Fragment() {
@@ -19,5 +20,7 @@ class MainActivityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var bottomNavigationView: BottomNavigationView = view!!.findViewById(R.id.bottom_navigation)
         Navigator.setNavigationView(bottomNavigationView)
+        var activity = this.activity as MainActivity
+        activity.impactIntent()
     }
 }

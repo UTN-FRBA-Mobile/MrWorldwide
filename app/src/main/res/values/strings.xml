@@ -4,6 +4,7 @@
     <string name="facebook_app_id">234262307308413</string>
     <string name="fb_login_protocol_scheme">fb234262307308413</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="back_url">http://10.0.2.2:3000</string>
 
     <!-- Strings related to add trip  -->
     <string name="trip_title_label">Nombre del viaje:</string>

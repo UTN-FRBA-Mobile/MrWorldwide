@@ -1,5 +1,6 @@
 package mobile.frba.utn.tpmobile.fragments
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,18 +9,20 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.activities.MainActivity
+import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.models.TripPhoto
 import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
+import org.joda.time.DateTime
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,8 +37,10 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private var buttonSelect: ImageButton? = null
     private var bitmap: Bitmap? = null
     private var destination: File? = null
+    private var photo: ByteArray? = null
     private var inputStreamImg: InputStream? = null
     private var imgPath: String? = null
+    private var tripTitle: TextView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_edit_trip, container, false)
@@ -45,9 +50,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         super.onViewCreated(view, savedInstanceState)
         startDate = view.findViewById(R.id.start_date)
         finishDate = view.findViewById(R.id.finish_date)
-
-        startDate!!.text = "dd/mm/aaaa"
-        finishDate!!.text = "dd/mm/aaaa"
+        tripTitle = view.findViewById(R.id.edit_trip_title)
 
         imageView = view.findViewById(R.id.trip_image)
         buttonSelect = view.findViewById(R.id.load_photo_button)
@@ -89,6 +92,9 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         try {
             val pm = activity!!.packageManager
             val hasPerm = pm.checkPermission(android.Manifest.permission.CAMERA, activity!!.packageName)
+            if(hasPerm == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions((activity as FragmentActivity), arrayOf(android.Manifest.permission.CAMERA),1);
+            }
             if (hasPerm == PackageManager.PERMISSION_GRANTED) {
                 val options = arrayOf<CharSequence>("Sacar Foto", "Seleccionar de la galería", "Cancelar")
                 val builder = android.support.v7.app.AlertDialog.Builder(activity!!)
@@ -109,8 +115,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                     }
                 }
                 builder.show()
-            } else
-                Toast.makeText(this.context, "Camera Permission error", Toast.LENGTH_SHORT).show()
+            }
         } catch (e: Exception) {
             Toast.makeText(this.context, "Camera Permission error", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
@@ -128,7 +133,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                 bitmap = data.extras.get("data") as Bitmap?
                 var bytes = ByteArrayOutputStream()
                 bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
-
+                photo = bytes.toByteArray()
                 Log.e("Activity", "Pick from Camera::>>> ")
 
                 var timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
@@ -158,6 +163,8 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                 bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, selectedImage)
                 var bytes = ByteArrayOutputStream()
                 bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+                photo = bytes.toByteArray()
+
                 Log.e("Activity", "Pick from Gallery::>>> ")
 
                 var filePathColumn: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
@@ -175,11 +182,61 @@ class CreateEditTripFragment : NavigatorFragment(null) {
             }
         }
     }
+    private fun valiateDates() : Boolean{
+        if(startDate?.text.isNullOrBlank() || finishDate?.text.isNullOrBlank()){
+            return false
+        }
+        val startDate = DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString())
+        val finishDate =DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString())
+        if(startDate > finishDate){
+            return false
+        }
+       return true
+    }
 
     private fun onAcceptButtonClick() {
         val acceptButton = view!!.findViewById<View>(R.id.accept_trip)
-        //Acá hay que hacer el post para crear el viaje
-        acceptButton.setOnClickListener { Navigator.navigateTo(TripsFragment())  }
+        val spinner = ProgressBar(this.context)
+        spinner.layoutParams = ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+        spinner.visibility = View.GONE
+
+        val alertDialog = AlertDialog.Builder(this.context)
+        alertDialog.setView(spinner)
+        alertDialog.setCancelable(false)
+
+        val incorrectTrip = AlertDialog.Builder(this.context)
+
+        val spinnerDialog = alertDialog.create()
+        spinnerDialog.setOnShowListener { _ -> spinner.visibility = View.VISIBLE  }
+        spinnerDialog.setOnCancelListener({ _ -> spinner.visibility = View.INVISIBLE})
+        acceptButton.setOnClickListener {
+            if(!valiateDates()){
+                incorrectTrip.setMessage("Fechas invalidas")
+                incorrectTrip.show()
+            }
+            else{
+                if(tripTitle?.text.isNullOrBlank()){
+                    incorrectTrip.setMessage("Nombre invalido")
+                    incorrectTrip.show()
+                }
+                else {
+                    if(photo == null){
+                        incorrectTrip.setMessage("Imagen invalida")
+                        incorrectTrip.show()
+                    }
+                    else {
+                        spinnerDialog.show()
+                        val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("", DateTime.now()),
+                                DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
+                                DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
+                        RepoTrips.savePhotoAndThenAddTrip(photo!!, trip, {
+                            spinnerDialog.cancel()
+                            Navigator.navigateTo(TripsFragment())
+                        })
+                    }
+                }
+            }
+        }
     }
 
     private fun onCancelButtonClick() {
@@ -188,7 +245,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     }
 
     companion object {
-        private const val PICK_IMAGE_CAMERA = 1
-        private const val PICK_IMAGE_GALLERY = 2
+        const val PICK_IMAGE_CAMERA = 1
+        const val PICK_IMAGE_GALLERY = 2
     }
 }

@@ -17,12 +17,12 @@ import java.lang.reflect.Type
 
 
 @Entity(tableName = "trip_table")
-data class Trip(@field:PrimaryKey var id : Int, var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, @Ignore var events: MutableList<Event>, var eventsString: String?){
+data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhoto: TripPhoto, var startDate: DateTime, var finishDate: DateTime, @Ignore var events: MutableList<Event>, var eventsString: String?){
     constructor() : this(-1, "",
             TripPhoto("", DateTime() ), DateTime(), DateTime(),
             ArrayList(), ""
     )
-    @JvmOverloads constructor(id : Int, title: String, tripPhoto: TripPhoto, startDate: DateTime, finishDate: DateTime, events: MutableList<Event>)
+    @JvmOverloads constructor(id : Int?, title: String, tripPhoto: TripPhoto, startDate: DateTime, finishDate: DateTime, events: MutableList<Event>)
             : this(id, title, tripPhoto, startDate, finishDate, events, Trip.EventListToString(events))
 
     companion object {
@@ -38,6 +38,7 @@ data class Trip(@field:PrimaryKey var id : Int, var title: String, var tripPhoto
             var events : List<Event>  = Gson().fromJson(stringEvents, founderListType)
             return events
         }
+
 
          fun getFromString (string:String): Trip? {
             if(string.isEmpty()){

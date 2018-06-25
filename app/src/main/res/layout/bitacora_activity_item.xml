@@ -61,9 +61,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/bitacora_share_button"
+                    android:id="@+id/shared_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_marginRight="10dp">
 
                     <ImageView

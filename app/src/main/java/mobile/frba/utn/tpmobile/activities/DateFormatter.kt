@@ -11,5 +11,7 @@ class DateFormatter{
         fun format(date: DateTime): String = SIMPLE_DATE_FORMAT.format(date.toDate())
 
         fun getDateTimeFromString(date : String) : DateTime = DateTime(SIMPLE_DATE_FORMAT.parse(date))
+
+        fun getDateTimeFromStringWithSlash(date : String) :DateTime = DateTime(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(date))
     }
 }
