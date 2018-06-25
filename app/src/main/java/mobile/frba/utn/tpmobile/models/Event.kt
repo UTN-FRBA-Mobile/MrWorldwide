@@ -5,12 +5,12 @@ import mobile.frba.utn.tpmobile.activities.DateFormatter
 import org.joda.time.DateTime
 import org.json.JSONObject
 import java.io.Serializable
-import java.time.LocalDate
+
 
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType, val mg: Int, @Transient open var geoLocation: LatLng?, open var id : Int?, open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) : Serializable {
+abstract class Event(val eventType: EventType, val mg: Int, open var geoLocation: Coordinate?, open var id : Int?, open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) : Serializable {
     fun urlUserId(): String {
        return userId!!.replace(" ","%20")
     }
@@ -19,7 +19,7 @@ abstract class Event(val eventType: EventType, val mg: Int, @Transient open var 
 fun getEventFromJson (jsonObject: JSONObject) : Event {
     val eventType : EventType = EventType.valueOf(jsonObject.getString("eventType"))
     val jsonGeoLocation = jsonObject.getJSONObject("geoLocation")
-    val geoLocation = LatLng(jsonGeoLocation.getDouble("latitude"),jsonGeoLocation.getDouble("longitude"))
+    val geoLocation = Coordinate(jsonGeoLocation.getDouble("latitude"),jsonGeoLocation.getDouble("longitude"))
     val id = jsonObject.getInt("id")
     val userId = jsonObject.getString("userId")
     val tripId = jsonObject.getInt("tripId")
@@ -34,4 +34,16 @@ enum class EventType(val viewType: Int) : Serializable {
     PHOTO(1),
     TEXT(0),
     VIDEO(2);
+}
+
+class Coordinate (var latitude: Double, var longitude: Double) : Serializable {
+    fun toLatLng(): LatLng {
+        return LatLng(latitude, longitude)
+    }
+
+    companion object {
+        fun fromLatLng(location: LatLng): Coordinate {
+            return Coordinate(location.latitude, location.longitude)
+        }
+    }
 }
