@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.StrictMode
@@ -25,9 +24,7 @@ import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.models.TripPhoto
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
-import org.jetbrains.anko.image
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormatter
 import java.io.*
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -63,21 +60,22 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
         buttonSelect!!.setOnClickListener({selectImage()})
 
-        if(this.arguments != null && this.arguments!!.containsKey("trip")) {
+        if(tripAlreadyExists()) {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
 
             val trip = this.arguments!!.getSerializable("trip") as Trip
             tripTitle!!.text = trip.title
 
-            val bitmap : Bitmap = BitmapFactory.decodeStream(URL(trip.tripPhoto.url).openStream())
+            val bitmap = BitmapFactory.decodeStream(URL(trip.tripPhoto.url).openStream())
             imageView!!.setImageBitmap(bitmap)
+
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            photo = stream.toByteArray()
 
             startDate!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", trip.startDate.toDate())
             finishDate!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", trip.finishDate.toDate())
-
-            android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss a", java.util.Date())
-
         }
 
         setDateOnClick(startDate!!)
@@ -86,6 +84,8 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         onAcceptButtonClick()
         onCancelButtonClick()
     }
+
+            private fun tripAlreadyExists() = this.arguments != null && this.arguments!!.containsKey("trip")
 
     private fun setDateOnClick(date: TextView) {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -247,20 +247,48 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                     }
                     else {
                         spinnerDialog.show()
+                        var trip : Trip
+                        if(tripAlreadyExists()) {
+                            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                            StrictMode.setThreadPolicy(policy)
 
-                        val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("", DateTime.now()),
-                                DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
-                                DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
+                            val trip = this.arguments!!.getSerializable("trip") as Trip
+                            trip.title = tripTitle!!.text.toString()
+                            trip.startDate = DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString())
+                            trip.finishDate = DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString())
 
-                        RepoTrips.savePhotoAndThenAddTrip(photo!!, trip, {
-                            spinnerDialog.cancel()
-                            Navigator.navigateTo(TripsFragment())
-                        })
+                            val tripImageBitmap = BitmapFactory.decodeStream(URL(trip.tripPhoto.url).openStream())
+                            val imageViewBitmap = imageView!!.drawingCache
 
+                            if(false) {
+                                RepoTrips.savePhotoThenUpdateTrip(photo!!, trip,{
+                                    cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                                })
+                            }
+                            else {
+                                RepoTrips.updateTrip(trip, {
+                                    cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                                })
+                            }
+                        }
+                        else {
+                            trip = Trip(null, tripTitle?.text.toString(), TripPhoto("", DateTime.now()),
+                                    DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
+                                    DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
+
+                            RepoTrips.savePhotoAndThenAddTrip(photo!!, trip, {
+                                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                            })
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog: AlertDialog) {
+        spinnerDialog.cancel()
+        Navigator.navigateTo(TripsFragment())
     }
 
     private fun onCancelButtonClick() {

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.MainActivityFragment
 import mobile.frba.utn.tpmobile.fragments.MyProfileFragment
