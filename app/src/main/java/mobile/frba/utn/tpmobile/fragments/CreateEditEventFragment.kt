@@ -17,12 +17,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
+import mobile.frba.utn.tpmobile.singletons.LocationProvider
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoEvents
 import java.io.*
@@ -41,7 +41,6 @@ class CreateEditEventFragment : NavigatorFragment(null) {
     private var imgPath: String? = null
     private var eventTitle: TextView? = null
     private var description: TextView? = null
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_edit_event, container, false)
@@ -65,7 +64,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
         eventTitle = view.findViewById(R.id.event_title)
         description = view.findViewById(R.id.event_description)
 
-        buttonSelect!!.setOnClickListener({selectImage()})
+        buttonSelect!!.setOnClickListener({ selectImage() })
 
         date!!.setOnClickListener {
             DatePickerDialog(activity,
@@ -83,8 +82,8 @@ class CreateEditEventFragment : NavigatorFragment(null) {
         try {
             val pm = activity!!.packageManager
             val hasPerm = pm.checkPermission(android.Manifest.permission.CAMERA, activity!!.packageName)
-            if(hasPerm == PackageManager.PERMISSION_DENIED){
-                ActivityCompat.requestPermissions((activity as FragmentActivity), arrayOf(android.Manifest.permission.CAMERA),1);
+            if (hasPerm == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions((activity as FragmentActivity), arrayOf(android.Manifest.permission.CAMERA), 1)
             }
             if (hasPerm == PackageManager.PERMISSION_GRANTED) {
                 val options = arrayOf<CharSequence>("Sacar Foto", "Seleccionar de la galería", "Cancelar")
@@ -186,37 +185,39 @@ class CreateEditEventFragment : NavigatorFragment(null) {
         val incorrectEvent = AlertDialog.Builder(this.context)
 
         val spinnerDialog = alertDialog.create()
-        spinnerDialog.setOnShowListener { _ -> spinner.visibility = View.VISIBLE  }
-        spinnerDialog.setOnCancelListener({ _ -> spinner.visibility = View.INVISIBLE})
+        spinnerDialog.setOnShowListener { _ -> spinner.visibility = View.VISIBLE }
+        spinnerDialog.setOnCancelListener({ _ -> spinner.visibility = View.INVISIBLE })
         acceptButton.setOnClickListener {
-            if(date?.text.isNullOrBlank()){
+            if (date?.text.isNullOrBlank()) {
                 incorrectEvent.setMessage("Fecha invalida")
                 incorrectEvent.show()
-            }
-            else{
-                if(eventTitle?.text.isNullOrBlank()){
+            } else {
+                if (eventTitle?.text.isNullOrBlank()) {
                     incorrectEvent.setMessage("Nombre invalido")
                     incorrectEvent.show()
-                }
-                else {
-                    var event : Event
+                } else {
+                    var event: Event
                     var formatedDate = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
-                    if(photo == null){
-                        event = Text(description?.text.toString(), formatedDate, eventTitle?.text.toString(), LatLng(8.0,7.0), null, null, null)
-                        spinnerDialog.show()
-                        RepoEvents.addEvent(event, {
-                            spinnerDialog.cancel()
-                            Navigator.navigateTo(BitacoraFragment())
-                        })
-                    }
-                    else {
-                        event = Photo("", eventTitle?.text.toString(),formatedDate, description?.text.toString(), LatLng(8.0,7.0), null, null, null)
-                        spinnerDialog.show()
-                        RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
-                            spinnerDialog.cancel()
-                            Navigator.navigateTo(BitacoraFragment())
-                        })
-                    }
+                    LocationProvider.requestSingleUpdate(context!!, { location ->
+                        activity?.runOnUiThread {
+                            if (photo == null) {
+                                event = Text(description?.text.toString(), formatedDate, eventTitle?.text.toString(), location, null, null, null)
+                                spinnerDialog.show()
+                                RepoEvents.addEvent(event, {
+                                    spinnerDialog.cancel()
+                                    Navigator.navigateTo(BitacoraFragment())
+                                })
+                            } else {
+                                event = Photo("", eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
+                                spinnerDialog.show()
+                                RepoEvents.savePhotoAndThenAddEvent(photo!!, event as Photo, {
+                                    spinnerDialog.cancel()
+                                    Navigator.navigateTo(BitacoraFragment())
+                                })
+                            }
+                        }
+                    })
+
                 }
             }
         }
