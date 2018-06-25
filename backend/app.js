@@ -18,39 +18,11 @@ var trips = [
             url: "https://www.losmundosdeceli.com/wp-content/uploads/2017/05/coliseo_roma_atardecer-1080x640.jpg",
             date: "22-02-2018"
         },
+        events: [],
         startDate: "01-03-2017",
-        finishDate: "31-08-2018",
-        events: [
-            {
-                id: 1,
-                userId: "Agustin Vertebrado",
-                tripId: 1,
-                title: "El título",
-                url: "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
-                date: "23-02-2018",
-                description: "LALALA",
-                eventType: "PHOTO",
-                geoLocation: {
-                    latitude: 1,
-                    longitude: 2
-                }
-            },
-            {
-                id: 2,
-                userId: "Agustin Vertebrado",
-                tripId: 1,
-                text: "Soy un texto de relleno",
-                date: "24-02-2018",
-                title: "Soy un título de relleno",
-                eventType: "TEXT",
-                geoLocation: {
-                    latitude: 14,
-                    longitude: 4
-                }
-            }
-        ]
-    },
-    {
+        finishDate: "31-08-2018"
+    }, 
+  {
         id: 2,
         userId: "Mercedes Hidratada",
         title: "New York",
@@ -58,23 +30,10 @@ var trips = [
             url: "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
             date: "18-02-2018"
         },
+        events: [],
         startDate: "01-02-2018",
-        finishDate: "17-02-2018",
-        events: [{
-            id: 4,
-            userId: "Mercedes Hidratada",
-            tripId: 2,
-            title: "El título",
-            url: "http://www.zastavki.com/pictures/originals/2014/Nature___Desert_The_lonely_traveler_in_the_desert_089486_.jpg",
-            date: "22-12-2018",
-            description: "mira mama, mira!",
-            eventType: "PHOTO",
-            geoLocation: {
-                latitude: 1,
-                longitude: 2
-            }
-        }]
-    },
+        finishDate: "17-02-2018"
+    }, 
     {
         id: 3,
         userId: "Agustin Vertebrado",
@@ -83,10 +42,10 @@ var trips = [
             url: "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
             date: "18-02-2018"
         },
+        events: [],
         startDate: "01-02-2018",
-        finishDate: "17-02-2018",
-        events: []
-    },
+        finishDate: "17-02-2018"
+    }, 
     {
         id: 4,
         userId: "Esteban Piro",
@@ -95,22 +54,10 @@ var trips = [
             url: "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
             date: "18-02-2018"
         },
+        events: [],
         startDate: "01-02-2018",
-        finishDate: "17-02-2018",
-        events: [{
-            id: 5,
-            userId: "Esteban Piro",
-            tripId: 4,
-            text: "Soy un titulo de relleno",
-            date: "24-02-2018",
-            title: "Soy un texto de relleno",
-            eventType: "TEXT",
-            geoLocation: {
-                latitude: 14,
-                longitude: 4
-            }
-        }]
-    },
+        finishDate: "17-02-2018"
+    }, 
     {
         id: 5,
         userId: "Pepe Lotas",
@@ -119,9 +66,9 @@ var trips = [
             url: "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
             date: "18-02-2018"
         },
+        events: [],
         startDate: "01-02-2018",
-        finishDate: "17-02-2018",
-        events: []
+        finishDate: "17-02-2018"
     }
 
 ];
@@ -136,11 +83,12 @@ var events = [
         date: "23-02-2018",
         description: "LALALA",
         eventType: "PHOTO",
+        mg: 0,
         geoLocation: {
             latitude: 1,
             longitude: 2
         }
-    },
+    }, 
     {
         id: 2,
         userId: "Agustin Vertebrado",
@@ -149,9 +97,25 @@ var events = [
         date: "24-02-2018",
         title: "Soy un titulo de relleno",
         eventType: "TEXT",
+        mg: 0,
         geoLocation: {
             latitude: 14,
             longitude: 4
+        }
+    }, 
+    {
+        id: 3,
+        userId: "Agustin Vertebrado",
+        tripId: 1,
+        date: "22-02-2018",
+        description: "Soy un titulo de relleno",
+        title: "Soy un titulo de relleno",
+        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+        eventType: "VIDEO",
+        mg: 0,
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
         }
     },
     {
@@ -163,6 +127,7 @@ var events = [
         date: "22-12-2018",
         description: "mira mama, mira!",
         eventType: "PHOTO",
+        mg:0,
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -176,6 +141,7 @@ var events = [
         date: "24-02-2018",
         title: "Soy un texto de relleno",
         eventType: "TEXT",
+        mg:0,
         geoLocation: {
             latitude: 14,
             longitude: 4
@@ -192,11 +158,13 @@ var friendEvents = [{
         date: "22-12-2018",
         description: "mira mama, mira!",
         eventType: "PHOTO",
+        mg: 0,
         geoLocation: {
             latitude: 1,
             longitude: 2
         }
-    }, {
+    },
+    {
         id: 5,
         userId: "Esteban Piro",
         tripId: 4,
@@ -204,11 +172,33 @@ var friendEvents = [{
         date: "24-02-2018",
         title: "Soy un texto de relleno",
         eventType: "TEXT",
+        mg: 0,
         geoLocation: {
             latitude: 14,
             longitude: 4
         }
+    },
+    {
+        id: 6,
+        userId: "Pepe Lotas",
+        tripId: 5,
+        date: "22-02-2018",
+        title: "SARACATUNGA",
+        description: "Soy una descripcion de relleno",
+        url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
+        eventType: "VIDEO",
+        mg: 0,
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
+        }
     }
+]
+
+var friends = [
+    "Mercedes Hidratada",
+    "Esteban Piro",
+    "Pepe Lotas"
 ];
 var userTrips = function(userID) {
     return _.filter(trips, function(trip) {
@@ -237,6 +227,21 @@ var getActualTrip = function(userId) {
     return orderedActualTrips[0];
 }
 
+var completeTripEvents = function(trip){
+     tripCopy = _.assign({}, trip);
+        tripCopy.events = _.filter(events,function(event){
+            return event.tripId === tripCopy.id && event.userId === tripCopy.userId;
+        })
+        return tripCopy;
+}
+
+var friendEvents = function(){
+    return _.filter(events,function(event){
+        return _.some(friends,function(friend){
+            return friend === event.userId;
+        })
+    })
+}
 app.get('/', function(req, res) {
     res.send('Hello World!');
 });
@@ -248,64 +253,55 @@ app.get('/users/:userId/trips', function(req, res) {
 });
 
 app.get('/users/:userId/tripsWithEvents', function(req, res) {
-    res.send(_.map(_.filter(trips,function (trip){return trip.userId === req.params.userId})));
+    trips = _.filter(trips,function (trip){return trip.userId === req.params.userId});
+    res.send(_.map(trips,function(trip){
+        return completeTripEvents(trip);
+    }));
 });
 
 app.get('/trips/:id', function(req, res) {
-    res.send(_.find(trips, function(trip) {
-        return trip.id === Number(req.params.id)
-    }));
-});
-app.get('/users/:userId/nextTrip', function(req, res) {
-    var nextUserTrips = _.filter(userTrips(req.params.userId), function(trip) {
-        return stringToDate(trip.startDate) > Date.now()
-    });
-    res.send(_.sortBy(nextUserTrips, function(trip) {
-        return stringToDate(trip.startDate)
-    })[0]);
-});
-
-app.get('/users/:userId/actualTrip', function(req, res) {
-    res.send(getActualTrip(req.params.userId));
-});
-
-app.get('/users/:userId/friendEvents', function(req, res) {
-    res.send(friendEvents);
-});
-
-app.get('/trips/:id', function(req, res) {
-    res.send(_.find(trips, function(trip) {
-        return trip.id === Number(req.params.id)
-    }));
+    trip = _.find(trips, function(trip) {
+                   return trip.id === Number(req.params.id)
+               });
+    res.send(completeTripEvents(trip));
 });
 
 app.get('/users/:userId/nextTrip', function(req, res) {
     var nextUserTrips = _.filter(userTrips(req.params.userId), function(trip) {
         return stringToDate(trip.startDate) > Date.now()
     });
-    res.send(_.sortBy(nextUserTrips, function(trip) {
+    res.send(completeTripEvents(_.sortBy(nextUserTrips, function(trip) {
         return stringToDate(trip.startDate)
-    })[0]);
+    })[0]));
 });
 
 app.get('/users/:userId/actualTrip', function(req, res) {
-    res.send(getActualTrip(req.params.userId));
+    res.send(completeTripEvents(getActualTrip(req.params.userId)));
 });
 
 app.get('/users/:userId/friendEvents', function(req, res) {
-    res.send(friendEvents);
+    res.send(friendEvents());
 });
 
 app.get('/event/:userId/:tripId/:eventId', function(req, res) {
     var userId = req.params.userId;
     var tripId = Number(req.params.tripId);
     var eventId = Number(req.params.eventId);
-    var trip = _.find(trips, function(aTrip) {
-        return aTrip.id === tripId && aTrip.userId === userId;
-    });
-    var event = _.find(trip.events, function(event) {
-        return event.id === eventId;
+    var event = _.find(events, function(event) {
+        return event.id === eventId && userId === event.userId && tripId === event.tripId;
     })
+    res.send(event);
+});
+
+app.post('/event/:userId/:tripId/:eventId/mg', function(req, res) {
+    var userId = req.params.userId;
+    var tripId = Number(req.params.tripId);
+    var eventId = Number(req.params.eventId);
+
+    var event = _.find(events, function(event) {
+        return event.id === eventId && event.userId === userId && event.tripId === tripId;
+    })
+    event.mg ++;
     res.send(event);
 });
 
@@ -335,17 +331,12 @@ app.post('/events/:userId', function(req, res) {
     newEvent.userId = req.params.userId;
     newEvent.tripId = actualTrip.id;
     events.push(newEvent);
-    actualTrip.events.push(newEvent);
     console.log(actualTrip.events);
     res.send(events);
 });
 
 app.delete('events/:id', function(req, res) {
     events = _.delete(events, function(event) {
-        return event.id == req.params.id
-    });
-    var actualTrip = getActualTrip(req.params.userId);
-    actualTrip.events = _.delete(events, function(event) {
         return event.id == req.params.id
     });
     res.send(trips);
@@ -359,3 +350,4 @@ app.get('/users/:userId/events', function(req, res) {
 app.get('/events/:id', function(req, res) {
     //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
 });
+

@@ -7,12 +7,14 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.MainActivityFragment
 import mobile.frba.utn.tpmobile.fragments.MyProfileFragment
 import mobile.frba.utn.tpmobile.models.getEventFromJson
 import mobile.frba.utn.tpmobile.services.FacebookService
 import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import net.danlew.android.joda.JodaTimeAndroid
 import okhttp3.*
 import org.json.JSONObject
@@ -20,7 +22,7 @@ import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
-    var adapterViewPager: FragmentPagerAdapter? = null
+    private var adapterViewPager: FragmentPagerAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         JodaTimeAndroid.init(this)
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.main_activity)
-        val vpPager = findViewById(R.id.viewPager) as ViewPager
+        val vpPager = findViewById<ViewPager>(R.id.viewPager)
         adapterViewPager = MyPagerAdapter(supportFragmentManager)
         vpPager.adapter = adapterViewPager
 
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         var tripId =intent?.data?.getQueryParameter("tripId")
         var eventId =intent?.data?.getQueryParameter("eventId")
         if(!eventId.isNullOrEmpty()) {
-            OkHttpClient().newCall(Request.Builder().url(applicationContext.getString(R.string.back_url) + "/event/$userId/$tripId/$eventId").build())
+            OkHttpClient().newCall(Request.Builder().url(RepoTrips.backUrl + "/event/$userId/$tripId/$eventId").build())
             .enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     throw Error("rompio todo!")
@@ -80,10 +82,6 @@ class MainActivity : AppCompatActivity() {
         companion object {
             private val NUM_ITEMS = 2
         }
-
-
-
-
     }
 
 }
