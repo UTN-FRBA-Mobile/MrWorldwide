@@ -315,9 +315,6 @@ app.post('/trips/:userId', function(req, res) {
 
 app.put('/trips/:tripId', function(req, res) {
     var updatedTrip = req.body;
-
-    console.log(updatedTrip)
-
     var index = _.findIndex(trips, function(trip) {
         return trip.id == req.params.tripId
     }) 

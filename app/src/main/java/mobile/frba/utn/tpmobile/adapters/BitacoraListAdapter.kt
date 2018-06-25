@@ -39,7 +39,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
 
     override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
-    abstract class BitacoraViewHolder(itemView: View) : AdapterWithSharedButtonHolder , RecyclerView.ViewHolder(itemView) {
+    abstract class BitacoraViewHolder(itemView: View) : WithEditEventHolder, AdapterWithSharedButtonHolder , RecyclerView.ViewHolder(itemView) {
         abstract fun bind(event: Event)
 
     }
@@ -69,7 +69,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             userView.text = userId
             mgText.text = mg.toString()
             activatedSharedButton(event,itemView)
-
+            activatedEditButton(event, itemView)
         }
     }
 
@@ -90,19 +90,18 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             descriptionView = itemView.findViewById(R.id.image_item_text)
             userView = itemView.findViewById(R.id.user_id)
             mgText = itemView.findViewById(R.id.mg_text)
-
-
             titleView = itemView.findViewById(R.id.title)
         }
 
         override fun bind(event: Event) = with(event as Photo) {
             ImageLoader.loadImageIn(photoView, url)
+            titleView.text = title
             dateView.text = DateFormatter.format(date)
             descriptionView.text = description
             userView.text = event.userId
             mgText.text = mg.toString()
             activatedSharedButton(event,itemView)
-            titleView.text = title
+            activatedEditButton(event, itemView)
         }
 
     }
@@ -134,6 +133,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             dateView.text = DateFormatter.format(date)
             mgText.text = mg.toString()
             activatedSharedButton(event,itemView)
+            activatedEditButton(event, itemView)
         }
     }
 }

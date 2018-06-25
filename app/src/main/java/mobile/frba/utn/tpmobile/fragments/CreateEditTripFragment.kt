@@ -85,7 +85,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         onCancelButtonClick()
     }
 
-            private fun tripAlreadyExists() = this.arguments != null && this.arguments!!.containsKey("trip")
+    private fun tripAlreadyExists() = this.arguments != null && this.arguments!!.containsKey("trip")
 
     private fun setDateOnClick(date: TextView) {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -260,7 +260,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                             val tripImageBitmap = BitmapFactory.decodeStream(URL(trip.tripPhoto.url).openStream())
                             val imageViewBitmap = imageView!!.drawingCache
 
-                            if(false) {
+                            if(tripImageBitmap != imageViewBitmap) {
                                 RepoTrips.savePhotoThenUpdateTrip(photo!!, trip,{
                                     cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
                                 })

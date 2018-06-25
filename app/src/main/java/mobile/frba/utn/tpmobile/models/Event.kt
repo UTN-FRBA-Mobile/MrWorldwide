@@ -4,12 +4,13 @@ import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import org.joda.time.DateTime
 import org.json.JSONObject
+import java.io.Serializable
 import java.time.LocalDate
 
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType,val mg: Int, open var geoLocation: LatLng?,open var id : Int?,open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) {
+abstract class Event(val eventType: EventType,val mg: Int, open var geoLocation: LatLng?,open var id : Int?,open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) : Serializable {
     fun urlUserId(): String {
        return userId!!.replace(" ","%20")
     }
