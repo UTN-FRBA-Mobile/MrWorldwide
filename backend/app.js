@@ -313,6 +313,22 @@ app.post('/trips/:userId', function(req, res) {
     res.send(trips);
 });
 
+app.put('/trips/:tripId', function(req, res) {
+    var updatedTrip = req.body;
+
+    console.log(updatedTrip)
+
+    var index = _.findIndex(trips, function(trip) {
+        return trip.id == req.params.tripId
+    }) 
+    var trip = trips[index];
+    updatedTrip.id = trip.id;
+    updatedTrip.userId = trip.userId
+    updatedTrip.events = trip.events
+    trips[index] = updatedTrip;
+    res.send(trips);
+});
+
 app.delete('trips/:id', function(req, res) {
     trips = _.delete(trips, function(trip) {
         return trip.id == req.params.id
@@ -331,7 +347,6 @@ app.post('/events/:userId', function(req, res) {
     newEvent.userId = req.params.userId;
     newEvent.tripId = actualTrip.id;
     events.push(newEvent);
-    console.log(actualTrip.events);
     res.send(events);
 });
 
