@@ -1,16 +1,14 @@
 package mobile.frba.utn.tpmobile.adapters
 
-import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context.CLIPBOARD_SERVICE
 import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.VideoView
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
@@ -20,6 +18,7 @@ import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
 import mobile.frba.utn.tpmobile.models.Video
+import org.jetbrains.anko.find
 
 class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,7 +50,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         var dateView: TextView
         var textView: TextView
         var userView : TextView
-
+        var mgText : TextView
         init {
             val frame: FrameLayout = itemView.findViewById(R.id.bitacora_activity_content)
             val textContent = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.text_item, (itemView as ViewGroup), false)
@@ -60,7 +59,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             dateView = itemView.findViewById(R.id.text_item_date)
             textView = itemView.findViewById(R.id.text_item_text)
             userView = itemView.findViewById(R.id.user_id)
-
+            mgText = itemView.find(R.id.mg_text)
        }
 
         override fun bind(event: Event) = with(event as Text) {
@@ -68,6 +67,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             dateView.text = DateFormatter.format(date)
             textView.text = text
             userView.text = userId
+            mgText.text = mg.toString()
             activatedSharedButton(event,itemView)
 
         }
@@ -78,6 +78,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         var dateView: TextView
         var descriptionView: TextView
         var userView : TextView
+        var mgText : TextView
         var titleView: TextView
 
         init {
@@ -88,6 +89,9 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             dateView = itemView.findViewById(R.id.image_item_date)
             descriptionView = itemView.findViewById(R.id.image_item_text)
             userView = itemView.findViewById(R.id.user_id)
+            mgText = itemView.findViewById(R.id.mg_text)
+
+
             titleView = itemView.findViewById(R.id.title)
         }
 
@@ -96,6 +100,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             dateView.text = DateFormatter.format(date)
             descriptionView.text = description
             userView.text = event.userId
+            mgText.text = mg.toString()
             activatedSharedButton(event,itemView)
             titleView.text = title
         }
@@ -109,6 +114,8 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         var videoItem : View
         var userView : TextView
         var dateView : TextView
+        var mgText : TextView
+
         init{
             val frame :FrameLayout = itemView.findViewById(R.id.bitacora_activity_content)
             videoItem = (itemView.context as FragmentActivity).layoutInflater.inflate(R.layout.video_item,(itemView as ViewGroup),false)
@@ -118,12 +125,14 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             videoView = videoContainer.findViewById(R.id.video_view)
             userView = videoItem.findViewById(R.id.user_id)
             dateView = itemView.findViewById(R.id.video_item_date)
+            mgText = itemView.findViewById(R.id.mg_text)
 
         }
         override fun bind(event: Event): Unit = with(event as Video){
             updateVideoView(url ,videoView)
             userView.text = event.userId
             dateView.text = DateFormatter.format(date)
+            mgText.text = mg.toString()
             activatedSharedButton(event,itemView)
         }
     }
