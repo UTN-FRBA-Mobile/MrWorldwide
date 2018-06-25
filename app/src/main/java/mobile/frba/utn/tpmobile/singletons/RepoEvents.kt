@@ -1,5 +1,7 @@
 package mobile.frba.utn.tpmobile.singletons
 
+import android.os.Build
+import android.support.annotation.RequiresApi
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.httpPut
@@ -13,6 +15,12 @@ import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
 import org.joda.time.DateTime
 import org.json.JSONObject
+import java.util.Collections.replaceAll
+import java.util.Collections.replaceAll
+
+
+
+
 
 /**
  * Created by Gustavo on 6/24/18.
@@ -49,7 +57,7 @@ object RepoEvents {
             })
     }
 
-    fun savePhotoThenUpdateEvent(photo: ByteArray,event: Photo, callback: () -> Unit) {
+    fun savePhotoThenUpdateEvent(photo: ByteArray, event: Photo, callback: () -> Unit) {
         "https://api.imgur.com/3/image"
                 .httpPost()
                 .header(Pair("Authorization", Constants.clientAuth))
@@ -61,7 +69,6 @@ object RepoEvents {
     }
 
     fun updateEvent(event: Event, callback: () -> Unit) {
-        events.add(events.lastIndex + 1, event)
         "$backUrl/events/${event.id}"
                 .httpPut()
                 .body(gson.toJson(event))

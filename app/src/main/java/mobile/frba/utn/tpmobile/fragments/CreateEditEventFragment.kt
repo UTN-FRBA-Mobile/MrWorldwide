@@ -232,7 +232,6 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                     incorrectEvent.setMessage("Nombre invalido")
                     incorrectEvent.show()
                 } else {
-                    var event: Event
                     var formatedDate = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
                     LocationProvider.requestSingleUpdate(context!!, { location ->
                         activity?.runOnUiThread {
@@ -242,38 +241,25 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                                 when (event.eventType) {
                                     EventType.TEXT -> {
                                         val textEvent = this.arguments!!.getSerializable("event") as Text
-
-                                        textEvent.title = eventTitle!!.text.toString()
-                                        textEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
-                                        textEvent.text = description!!.text.toString()
-                                        RepoEvents.updateEvent(textEvent, {
-                                            cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
-                                        })
-                                    }
-                                    EventType.PHOTO -> {
-                                        val photoEvent = this.arguments!!.getSerializable("event") as Photo
-
-                                        photoEvent.title = eventTitle!!.text.toString()
-                                        photoEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
-                                        photoEvent.description = description!!.text.toString()
-
-
-                                        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-                                        StrictMode.setThreadPolicy(policy)
-                                        val eventPhotoBitmap = BitmapFactory.decodeStream(URL(photoEvent.url).openStream())
-                                        val imageViewBitmap = imageView!!.drawingCache
-
-                                        if(eventPhotoBitmap != imageViewBitmap) {
-                                            RepoEvents.savePhotoThenUpdateEvent(photo!!, photoEvent,{
-                                                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
-                                            })
-                                        }
+                                        if(photo == null)
+                                            UpdateTextFragment(textEvent, spinnerDialog)
                                         else {
-                                            RepoEvents.updateEvent(photoEvent, {
+                                            var newEvent = Photo("",
+                                                    textEvent.mg,
+                                                    eventTitle!!.text.toString(),
+                                                    DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString()),
+                                                    description!!.text.toString(),
+                                                    textEvent.geoLocation,
+                                                    textEvent.id,
+                                                    textEvent.userId,
+                                                    textEvent.tripId)
+                                            spinnerDialog.show()
+                                            RepoEvents.savePhotoThenUpdateEvent(photo!!, newEvent, {
                                                 cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
                                             })
                                         }
                                     }
+                                    EventType.PHOTO -> UpdatePhotoFragment(spinnerDialog)
                                     EventType.VIDEO -> {
                                         val videoEvent = event as Video
                                         description!!.text = videoEvent.description
@@ -281,7 +267,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                                 }
                             }
                             else {
-                                CreateEvent(formatedDate, location, spinnerDialog)
+                                CreateEvent(formatedDate, Coordinate.fromLatLng(location), spinnerDialog)
                             }
                         }
                     })
@@ -291,7 +277,41 @@ class CreateEditEventFragment : NavigatorFragment(null) {
         }
     }
 
-    private fun CreateEvent(formatedDate: DateTime, location: LatLng, spinnerDialog: AlertDialog) {
+    private fun UpdateTextFragment(textEvent: Text, spinnerDialog: AlertDialog) {
+
+        textEvent.title = eventTitle!!.text.toString()
+        textEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+        textEvent.text = description!!.text.toString()
+        RepoEvents.updateEvent(textEvent, {
+            cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+        })
+    }
+
+    private fun UpdatePhotoFragment(spinnerDialog: AlertDialog) {
+        val photoEvent = this.arguments!!.getSerializable("event") as Photo
+
+        photoEvent.title = eventTitle!!.text.toString()
+        photoEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+        photoEvent.description = description!!.text.toString()
+
+
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        val eventPhotoBitmap = BitmapFactory.decodeStream(URL(photoEvent.url).openStream())
+        val imageViewBitmap = imageView!!.drawingCache
+
+        if (eventPhotoBitmap != imageViewBitmap) {
+            RepoEvents.savePhotoThenUpdateEvent(photo!!, photoEvent, {
+                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+            })
+        } else {
+            RepoEvents.updateEvent(photoEvent, {
+                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+            })
+        }
+    }
+
+    private fun CreateEvent(formatedDate: DateTime, location: Coordinate, spinnerDialog: AlertDialog) {
         var event : Event
         if (photo == null) {
             event = Text(description?.text.toString(), 0, eventTitle?.text.toString(), formatedDate, location, null, null, null)

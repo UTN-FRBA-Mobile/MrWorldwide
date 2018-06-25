@@ -336,7 +336,6 @@ app.put('/events/:eventId', function(req, res) {
     updatedEvent.userId = event.userId
     updatedEvent.tripId = event.tripId
     updatedEvent.events = event.events
-    updatedEvent.eventType = event.eventType
     updatedEvent.mg = event.mg
     updatedEvent.geoLocation = event.geoLocation
     updatedEvent.geoLocation = event.geoLocation
