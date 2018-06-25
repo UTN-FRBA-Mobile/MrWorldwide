@@ -113,7 +113,8 @@ class CreateEditEventFragment : NavigatorFragment(null) {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(data==null) return
         super.onActivityResult(requestCode, resultCode, data)
         inputStreamImg = null
         if (requestCode == CreateEditTripFragment.PICK_IMAGE_CAMERA) {
