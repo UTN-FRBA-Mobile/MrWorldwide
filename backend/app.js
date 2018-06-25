@@ -34,7 +34,7 @@ var trips = [
                     latitude: 1,
                     longitude: 2
                 }
-            }, 
+            },
             {
                 id: 2,
                 userId: "Agustin Vertebrado",
@@ -49,7 +49,7 @@ var trips = [
                 }
             }
         ]
-    }, 
+    },
     {
         id: 2,
         userId: "Mercedes Hidratada",
@@ -74,11 +74,7 @@ var trips = [
                 longitude: 2
             }
         }]
-<<<<<<< HEAD
     },
-=======
-    }, 
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
     {
         id: 3,
         userId: "Agustin Vertebrado",
@@ -90,11 +86,7 @@ var trips = [
         startDate: "01-02-2018",
         finishDate: "17-02-2018",
         events: []
-<<<<<<< HEAD
     },
-=======
-    }, 
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
     {
         id: 4,
         userId: "Esteban Piro",
@@ -118,11 +110,7 @@ var trips = [
                 longitude: 4
             }
         }]
-<<<<<<< HEAD
     },
-=======
-    }, 
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
     {
         id: 5,
         userId: "Pepe Lotas",
@@ -152,11 +140,7 @@ var events = [
             latitude: 1,
             longitude: 2
         }
-<<<<<<< HEAD
     },
-=======
-    }, 
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
     {
         id: 2,
         userId: "Agustin Vertebrado",
@@ -169,11 +153,7 @@ var events = [
             latitude: 14,
             longitude: 4
         }
-<<<<<<< HEAD
     },
-=======
-    }, 
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
     {
         id: 4,
         userId: "Mercedes Hidratada",
@@ -267,7 +247,6 @@ app.get('/users/:userId/trips', function(req, res) {
     }), tripsWithoutEvents));
 });
 
-<<<<<<< HEAD
 app.get('/users/:userId/tripsWithEvents', function(req, res) {
     res.send(_.map(_.filter(trips,function (trip){return trip.userId === req.params.userId})));
 });
@@ -277,14 +256,29 @@ app.get('/trips/:id', function(req, res) {
         return trip.id === Number(req.params.id)
     }));
 });
-=======
+app.get('/users/:userId/nextTrip', function(req, res) {
+    var nextUserTrips = _.filter(userTrips(req.params.userId), function(trip) {
+        return stringToDate(trip.startDate) > Date.now()
+    });
+    res.send(_.sortBy(nextUserTrips, function(trip) {
+        return stringToDate(trip.startDate)
+    })[0]);
+});
+
+app.get('/users/:userId/actualTrip', function(req, res) {
+    res.send(getActualTrip(req.params.userId));
+});
+
+app.get('/users/:userId/friendEvents', function(req, res) {
+    res.send(friendEvents);
+});
+
 app.get('/trips/:id', function(req, res) {
     res.send(_.find(trips, function(trip) {
         return trip.id === Number(req.params.id)
     }));
 });
 
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
 app.get('/users/:userId/nextTrip', function(req, res) {
     var nextUserTrips = _.filter(userTrips(req.params.userId), function(trip) {
         return stringToDate(trip.startDate) > Date.now()
@@ -365,7 +359,3 @@ app.get('/users/:userId/events', function(req, res) {
 app.get('/events/:id', function(req, res) {
     //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
 });
-<<<<<<< HEAD
-=======
-
->>>>>>> aa4929c2dd4ee5110e03ce20285e6bfd5fcfdd5e
