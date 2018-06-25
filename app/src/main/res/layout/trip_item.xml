@@ -48,6 +48,7 @@
                     android:fontFamily="@font/raleway_semi_bold"/>
 
                 <ImageButton
+                    android:id="@+id/edit_trip"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginEnd="7dp"

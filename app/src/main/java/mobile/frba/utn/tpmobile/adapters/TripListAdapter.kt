@@ -11,13 +11,14 @@ import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
+import mobile.frba.utn.tpmobile.fragments.CreateEditTripFragment
 import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 
 /**
  * Created by Gustavo on 5/6/18.
  */
-class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TripListAdapter(private var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = trips.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -29,9 +30,10 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
     }
 
     class TripViewHolder(tripView: View): RecyclerView.ViewHolder(tripView) {
-        val titleView : TextView = tripView.findViewById(R.id.trip_title)
-        val dateView : TextView = tripView.findViewById(R.id.trip_date)
-        val photoView : ImageView = tripView.findViewById(R.id.trip_image)
+        private val titleView : TextView = tripView.findViewById(R.id.trip_title)
+        private val dateView : TextView = tripView.findViewById(R.id.trip_date)
+        private val photoView : ImageView = tripView.findViewById(R.id.trip_image)
+        private val editButton : View = tripView.findViewById(R.id.edit_trip)
 
         fun bind(trip: Trip) = with(trip) {
             titleView.text = title
@@ -45,6 +47,11 @@ class TripListAdapter(var trips: List<Trip>): RecyclerView.Adapter<RecyclerView.
                         Navigator.navigateTo(selectedFragment )
                     })
                 }
+            }
+
+            editButton.setOnClickListener {
+                val createEditTripFragment = CreateEditTripFragment()
+                Navigator.navigateTo(createEditTripFragment)
             }
         }
     }
