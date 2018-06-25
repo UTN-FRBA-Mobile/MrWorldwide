@@ -21,7 +21,7 @@ var trips = [
         events: [],
         startDate: "01-03-2017",
         finishDate: "31-08-2018"
-    }, 
+    },
   {
         id: 2,
         userId: "Mercedes Hidratada",
@@ -33,7 +33,7 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }, 
+    },
     {
         id: 3,
         userId: "Agustin Vertebrado",
@@ -45,7 +45,7 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }, 
+    },
     {
         id: 4,
         userId: "Esteban Piro",
@@ -57,7 +57,7 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }, 
+    },
     {
         id: 5,
         userId: "Pepe Lotas",
@@ -88,7 +88,7 @@ var events = [
             latitude: 1,
             longitude: 2
         }
-    }, 
+    },
     {
         id: 2,
         userId: "Agustin Vertebrado",
@@ -102,8 +102,8 @@ var events = [
             latitude: 14,
             longitude: 4
         }
-    }, 
-    {
+    },
+    /*{
         id: 3,
         userId: "Agustin Vertebrado",
         tripId: 1,
@@ -117,7 +117,7 @@ var events = [
             latitude: 1,
             longitude: 2
         }
-    },
+    },*/
     {
         id: 4,
         userId: "Mercedes Hidratada",
@@ -350,4 +350,3 @@ app.get('/users/:userId/events', function(req, res) {
 app.get('/events/:id', function(req, res) {
     //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
 });
-
