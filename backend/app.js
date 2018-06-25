@@ -373,12 +373,3 @@ app.delete('events/:id', function(req, res) {
     });
     res.send(trips);
 });
-
-//////////////////ENDPOINTS PENDIENTES//////////////////////////////
-app.get('/users/:userId/events', function(req, res) {
-    //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
-});
-
-app.get('/events/:id', function(req, res) {
-    //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
-});
