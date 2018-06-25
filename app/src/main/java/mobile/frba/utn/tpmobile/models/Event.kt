@@ -9,23 +9,23 @@ import java.time.LocalDate
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,open var id : Int,open var userId : String, open var tripId : Int, open var date : DateTime) {
+abstract class Event(val eventType: EventType, open var geoLocation: LatLng?,open var id : Int?,open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) {
     fun urlUserId(): String {
-       return userId.replace(" ","%20")
+       return userId!!.replace(" ","%20")
     }
 }
 
 fun getEventFromJson (jsonObject: JSONObject) : Event {
     val eventType : EventType = EventType.valueOf(jsonObject.getString("eventType"))
     val jsonGeoLocation = jsonObject.getJSONObject("geoLocation")
-    val geoLocation = LatLng(jsonGeoLocation.getDouble("x"),jsonGeoLocation.getDouble("y"))
+    val geoLocation = LatLng(jsonGeoLocation.getDouble("latitude"),jsonGeoLocation.getDouble("longitude"))
     val id = jsonObject.getInt("id")
     val userId = jsonObject.getString("userId")
     val tripId = jsonObject.getInt("tripId")
     return  when (eventType){
-        EventType.PHOTO -> Photo(jsonObject.getString("url"), DateFormatter.getDateTimeFromString( jsonObject.getString("date")),jsonObject.getString("description"),geoLocation,id,userId,tripId)
+        EventType.PHOTO -> Photo(jsonObject.getString("url"),jsonObject.getString("title"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("description"),geoLocation,id,userId,tripId)
         EventType.TEXT -> Text(jsonObject.getString("text"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("title"),geoLocation,id,userId,tripId)
-        EventType.VIDEO -> Video(jsonObject.getString("description"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
+        EventType.VIDEO -> Video(jsonObject.getString("description"),jsonObject.getString("title"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
     }
 }
 enum class EventType(val viewType: Int) {

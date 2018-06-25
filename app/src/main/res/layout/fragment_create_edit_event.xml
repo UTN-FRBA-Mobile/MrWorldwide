@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
@@ -44,19 +45,21 @@
             android:id="@+id/event_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:inputType="date"
+            android:textSize="15sp"
             android:layout_marginStart="2dp"
-            android:fontFamily="@font/raleway_medium" />
-
+            android:fontFamily="@font/raleway_medium"
+            android:hint="@string/start_date_hint"
+            android:focusable="false"/>
     </LinearLayout>
 
     <EditText
+        android:id="@+id/event_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:lines="3"
-        android:gravity="bottom|left"
+        android:gravity="bottom|start"
         android:hint="@string/eventDescriptionPlaceholder"
         android:scrollbars="vertical" />
 
@@ -69,7 +72,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/trip_image"
+            android:id="@+id/event_image"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -80,9 +83,10 @@
             android:layout_height="25dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
+            android:id="@+id/load_photo_button"
             android:background="@drawable/icon_edit"
             android:backgroundTint="@color/colorAccent"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             />
         <View
             android:layout_width="match_parent"

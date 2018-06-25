@@ -45,7 +45,6 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
 
     }
 
-
     class TextViewHolder(itemView: View) : BitacoraViewHolder(itemView) {
 
         var titleView: TextView
@@ -79,6 +78,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         var dateView: TextView
         var descriptionView: TextView
         var userView : TextView
+        var titleView: TextView
 
         init {
             val frame: FrameLayout = itemView.findViewById(R.id.bitacora_activity_content)
@@ -88,8 +88,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             dateView = itemView.findViewById(R.id.image_item_date)
             descriptionView = itemView.findViewById(R.id.image_item_text)
             userView = itemView.findViewById(R.id.user_id)
-
-
+            titleView = itemView.findViewById(R.id.title)
         }
 
         override fun bind(event: Event) = with(event as Photo) {
@@ -98,7 +97,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             descriptionView.text = description
             userView.text = event.userId
             activatedSharedButton(event,itemView)
-
+            titleView.text = title
         }
 
     }
