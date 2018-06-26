@@ -39,7 +39,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
 
     override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
-    abstract class BitacoraViewHolder(itemView: View) : WithEditEventHolder, AdapterWithSharedButtonHolder , RecyclerView.ViewHolder(itemView) {
+    abstract class BitacoraViewHolder(itemView: View) : WithEditEventHolder, WithDeleteEventHolder, AdapterWithSharedButtonHolder , RecyclerView.ViewHolder(itemView) {
         abstract fun bind(event: Event)
 
     }
@@ -67,6 +67,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)
+            activatedDeleteButton(event, itemView)
         }
     }
 
@@ -96,6 +97,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)
+            activatedDeleteButton(event, itemView)
         }
 
     }
@@ -125,6 +127,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)
+            activatedDeleteButton(event, itemView)
         }
     }
 }

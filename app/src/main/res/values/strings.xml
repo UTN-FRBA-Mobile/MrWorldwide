@@ -40,6 +40,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bitacora_edit">Editar</string>
+    <string name="bitacora_delete">Eliminar</string>
     <string name="bitacora_share">Compartir</string>
     <string name="like_text">Like</string>
     <string name="share_traveler_text">Compartir</string>

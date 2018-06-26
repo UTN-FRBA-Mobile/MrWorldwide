@@ -3,6 +3,7 @@ package mobile.frba.utn.tpmobile.singletons
 import android.os.Build
 import android.support.annotation.RequiresApi
 import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.result.Result
@@ -73,6 +74,16 @@ object RepoEvents {
                 .httpPut()
                 .body(gson.toJson(event))
                 .header(Pair("Content-Type", "application/json"))
+                .response({ _, _, result ->
+                    println(result)
+                    callback.invoke()
+                })
+    }
+
+    fun deleteEvent(event: Event, callback: () -> Unit) {
+        events.remove(event)
+        "$backUrl/events/${event.id}"
+                .httpDelete()
                 .response({ _, _, result ->
                     println(result)
                     callback.invoke()
