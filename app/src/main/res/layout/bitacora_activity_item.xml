@@ -61,6 +61,30 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/bitacora_delete_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp">
+
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/ic_delete"
+                            android:backgroundTint="@color/secondaryColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/bitacora_delete"
+                            android:fontFamily="@font/raleway_regular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/bitacora_edit_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

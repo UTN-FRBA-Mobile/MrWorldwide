@@ -2,6 +2,7 @@ package mobile.frba.utn.tpmobile.singletons
 
 
 import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.result.Result
@@ -204,5 +205,15 @@ object RepoTrips {
                     println(result)
                     callback.invoke()
                 })
+    }
+
+    fun deleteTrip(trip: Trip, callback: () -> Unit) {
+        trips.remove(trip)
+        "$backUrl/trips/${trip.id}"
+            .httpDelete()
+            .response({ _, _, result ->
+                println(result)
+                callback.invoke()
+            })
     }
 }

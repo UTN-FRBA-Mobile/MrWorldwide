@@ -348,8 +348,8 @@ app.put('/events/:eventId', function(req, res) {
     res.send(events);
 });
 
-app.delete('trips/:id', function(req, res) {
-    trips = _.delete(trips, function(trip) {
+app.delete('/trips/:id', function(req, res) {
+    _.remove(trips, function(trip) {
         return trip.id == req.params.id
     });
     res.send(trips);
@@ -369,9 +369,9 @@ app.post('/events/:userId', function(req, res) {
     res.send(events);
 });
 
-app.delete('events/:id', function(req, res) {
-    events = _.delete(events, function(event) {
+app.delete('/events/:id', function(req, res) {
+    _.remove(events, function(event) {
         return event.id == req.params.id
     });
-    res.send(trips);
+    res.send(events);
 });
