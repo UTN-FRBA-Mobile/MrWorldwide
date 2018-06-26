@@ -83,7 +83,7 @@ var events = [
         date: "23-02-2018",
         description: "LALALA",
         eventType: "PHOTO",
-        likes: [],
+        likes: ["Mercedes Hidratada", "Esteban Piro", "Pepe Lotas"],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -97,7 +97,7 @@ var events = [
         date: "24-02-2018",
         title: "Soy un titulo de relleno",
         eventType: "TEXT",
-        likes: [],
+        likes: ["Mercedes Hidratada"],
         geoLocation: {
             latitude: 14,
             longitude: 4
