@@ -348,10 +348,13 @@ app.put('/events/:eventId', function(req, res) {
     res.send(events);
 });
 
-app.delete('trips/:id', function(req, res) {
-    trips = _.delete(trips, function(trip) {
+app.delete('/trips/:id', function(req, res) {
+    console.log("ID", req.params.id)
+    console.log("PREVIOUS TRIPS", trips)
+    _.remove(trips, function(trip) {
         return trip.id == req.params.id
     });
+    console.log("NEW TRIPS", trips)
     res.send(trips);
 });
 

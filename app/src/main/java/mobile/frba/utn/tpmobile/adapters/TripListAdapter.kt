@@ -15,7 +15,7 @@ import mobile.frba.utn.tpmobile.fragments.CreateEditTripFragment
 import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import android.os.Bundle
-
+import mobile.frba.utn.tpmobile.fragments.TripsFragment
 
 
 /**
@@ -37,6 +37,7 @@ class TripListAdapter(private var trips: List<Trip>): RecyclerView.Adapter<Recyc
         private val dateView : TextView = tripView.findViewById(R.id.trip_date)
         private val photoView : ImageView = tripView.findViewById(R.id.trip_image)
         private val editButton : View = tripView.findViewById(R.id.edit_trip)
+        private val deleteButton : View = tripView.findViewById(R.id.delete_trip)
 
         fun bind(trip: Trip) = with(trip) {
             titleView.text = title
@@ -58,6 +59,10 @@ class TripListAdapter(private var trips: List<Trip>): RecyclerView.Adapter<Recyc
                 val createEditTripFragment = CreateEditTripFragment()
                 createEditTripFragment.arguments = bundle
                 Navigator.navigateTo(createEditTripFragment)
+            }
+
+            deleteButton.setOnClickListener {
+                RepoTrips.deleteTrip(trip, { Navigator.navigateTo(TripsFragment()) })
             }
         }
     }
