@@ -31,6 +31,7 @@ import java.io.*
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 
 class CreateEditEventFragment : NavigatorFragment(null) {
     private var date: TextView? = null
@@ -245,7 +246,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                                             UpdateTextFragment(textEvent, spinnerDialog)
                                         else {
                                             var newEvent = Photo("",
-                                                    textEvent.mg,
+                                                    textEvent.likes,
                                                     eventTitle!!.text.toString(),
                                                     DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString()),
                                                     description!!.text.toString(),
@@ -314,14 +315,14 @@ class CreateEditEventFragment : NavigatorFragment(null) {
     private fun CreateEvent(formatedDate: DateTime, location: Coordinate, spinnerDialog: AlertDialog) {
         var event : Event
         if (photo == null) {
-            event = Text(description?.text.toString(), 0, eventTitle?.text.toString(), formatedDate, location, null, null, null)
+            event = Text(description?.text.toString(), HashSet(0), eventTitle?.text.toString(), formatedDate, location, null, null, null)
             spinnerDialog.show()
             RepoEvents.addEvent(event, {
                 spinnerDialog.cancel()
                 Navigator.navigateTo(BitacoraFragment())
             })
         } else {
-            event = Photo("", 0, eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
+            event = Photo("", HashSet(0), eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
             spinnerDialog.show()
             RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
                 spinnerDialog.cancel()

@@ -10,7 +10,7 @@ import java.io.Serializable
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType, val mg: Int, open var geoLocation: Coordinate?, open var id : Int?, open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) : Serializable {
+abstract class Event(val eventType: EventType, val likes: HashSet<String>, open var geoLocation: Coordinate?, open var id : Int?, open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) : Serializable {
     fun urlUserId(): String {
        return userId!!.replace(" ","%20")
     }
@@ -23,13 +23,25 @@ fun getEventFromJson (jsonObject: JSONObject) : Event {
     val id = jsonObject.getInt("id")
     val userId = jsonObject.getString("userId")
     val tripId = jsonObject.getInt("tripId")
-    val mg = jsonObject.getInt("mg")
+    val likesJson = jsonObject.getJSONArray("likes")
+    var x = 0
+    val likes : HashSet<String> = emptyArray<String>().toHashSet()
+    while (x < likesJson.length()) {
+        val like = likesJson.getString(x)
+        likes.add(like)
+        x++
+    }
     return  when (eventType){
-        EventType.PHOTO -> Photo(jsonObject.getString("url"),mg,jsonObject.getString("title"), DateFormatter.getDateTimeFromString( jsonObject.getString("date")),jsonObject.getString("description"),geoLocation,id,userId,tripId)
-        EventType.TEXT -> Text(jsonObject.getString("text"),mg,jsonObject.getString("title"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),geoLocation,id,userId,tripId)
-        EventType.VIDEO -> Video(jsonObject.getString("description"),mg,jsonObject.getString("title"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
+        EventType.PHOTO -> Photo(jsonObject.getString("url"),likes,jsonObject.getString("title"), DateFormatter.getDateTimeFromString( jsonObject.getString("date")),jsonObject.getString("description"),geoLocation,id,userId,tripId)
+        EventType.TEXT -> Text(jsonObject.getString("text"),likes,jsonObject.getString("title"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),geoLocation,id,userId,tripId)
+        EventType.VIDEO -> Video(jsonObject.getString("description"),likes,jsonObject.getString("title"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
     }
 }
+
+fun getLikeFromJson(jsonObject: JSONObject) : String {
+    return jsonObject.getString("userId")
+}
+
 enum class EventType(val viewType: Int) : Serializable {
     PHOTO(1),
     TEXT(0),
@@ -47,3 +59,5 @@ class Coordinate (var latitude: Double, var longitude: Double) : Serializable {
         }
     }
 }
+
+class Like(userId: String)

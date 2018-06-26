@@ -64,7 +64,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             titleView.text = title
             dateView.text = DateFormatter.format(date)
             textView.text = text
-            mgText.text = mg.toString()
+            mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)
         }
@@ -93,7 +93,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
             titleView.text = title
             dateView.text = DateFormatter.format(date)
             descriptionView.text = description
-            mgText.text = mg.toString()
+            mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)
         }
@@ -122,7 +122,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         override fun bind(event: Event): Unit = with(event as Video){
             updateVideoView(url ,videoView)
             dateView.text = DateFormatter.format(date)
-            mgText.text = mg.toString()
+            mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)
         }

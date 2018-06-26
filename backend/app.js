@@ -83,7 +83,7 @@ var events = [
         date: "23-02-2018",
         description: "LALALA",
         eventType: "PHOTO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -97,7 +97,7 @@ var events = [
         date: "24-02-2018",
         title: "Soy un titulo de relleno",
         eventType: "TEXT",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 14,
             longitude: 4
@@ -112,7 +112,7 @@ var events = [
         title: "Soy un titulo de relleno",
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -127,7 +127,7 @@ var events = [
         date: "22-12-2018",
         description: "mira mama, mira!",
         eventType: "PHOTO",
-        mg:0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -141,7 +141,7 @@ var events = [
         date: "24-02-2018",
         title: "Soy un texto de relleno",
         eventType: "TEXT",
-        mg:0,
+        likes: [],
         geoLocation: {
             latitude: 14,
             longitude: 4
@@ -158,7 +158,7 @@ var friendEvents = [{
         date: "22-12-2018",
         description: "mira mama, mira!",
         eventType: "PHOTO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -172,7 +172,7 @@ var friendEvents = [{
         date: "24-02-2018",
         title: "Soy un texto de relleno",
         eventType: "TEXT",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 14,
             longitude: 4
@@ -187,7 +187,7 @@ var friendEvents = [{
         description: "Soy una descripcion de relleno",
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -301,7 +301,10 @@ app.post('/event/:userId/:tripId/:eventId/mg', function(req, res) {
     var event = _.find(events, function(event) {
         return event.id === eventId && event.userId === userId && event.tripId === tripId;
     })
-    event.mg ++;
+
+    console.log(req.body)
+
+    event.likes.push(req.body.userId);
     res.send(event);
 });
 
@@ -336,7 +339,7 @@ app.put('/events/:eventId', function(req, res) {
     updatedEvent.userId = event.userId
     updatedEvent.tripId = event.tripId
     updatedEvent.events = event.events
-    updatedEvent.mg = event.mg
+    updatedEvent.likes = event.likes
     updatedEvent.geoLocation = event.geoLocation
     updatedEvent.geoLocation = event.geoLocation
 

@@ -14,6 +14,7 @@ import android.widget.*
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.google.gson.GsonBuilder
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
@@ -21,10 +22,10 @@ import mobile.frba.utn.tpmobile.fragments.newVideoView
 import mobile.frba.utn.tpmobile.fragments.updateVideoView
 import mobile.frba.utn.tpmobile.models.*
 import mobile.frba.utn.tpmobile.singletons.RepoEvents
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import org.json.JSONObject
 
 class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
         return when(viewType){
             0 -> TextViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.traveler_activity_item, parent, false))
@@ -49,17 +50,21 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
     override fun getItemViewType(position: Int): Int = items[position].eventType.viewType
 
     abstract class TravelersViewHolder(itemView: View): AdapterWithSharedButtonHolder,RecyclerView.ViewHolder(itemView){
+        val gson = GsonBuilder().setPrettyPrinting().create()
+
         fun mgButton(event : Event){
             val likeButton : LinearLayout = itemView.findViewById(R.id.like_button)
             likeButton.setOnClickListener {
                 "${RepoEvents.backUrl}/event/${event.userId}/${event.tripId}/${event.id}/mg"
                         .httpPost()
                         .header(Pair("Content-Type", "application/json"))
+                        .body("{ \"userId\" : \"Agustin Vertebrado\" }")
                         .responseJson({_,_, result ->
                             var event  = getEventFromJson(JSONObject((result as Result.Success).value.content))
                             bind(event)
                         })
             }
+
         }
         abstract fun bind(event: Event)
     }
@@ -88,7 +93,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             dateView.text = DateFormatter.format(date)
             textView.text = text
             userView.text = userId
-            mgText.text = mg.toString()
+            mgText.text = likes.size.toString()
             mgButton(event)
             activatedSharedButton(event,itemView)
         }
@@ -117,7 +122,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
             dateView.text = DateFormatter.format(date)
             descriptionView.text = description
             userView.text = userId
-            mgText.text = mg.toString()
+            mgText.text = likes.size.toString()
             mgButton(event)
             activatedSharedButton(event,itemView)
         }
@@ -144,7 +149,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
         override fun bind(event: Event): Unit = with(event as Video){
             updateVideoView(url ,videoView)
             userView.text = userId
-            mgText.text = mg.toString()
+            mgText.text = likes.size.toString()
             mgButton(event)
             activatedSharedButton(event,itemView)
         }

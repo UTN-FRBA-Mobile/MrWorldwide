@@ -6,5 +6,5 @@ import org.joda.time.DateTime
 /**
  * Created by Gustavo on 5/6/18.
  */
-open class Photo(var url: String,mg: Int,title: String, date: DateTime, var description: String, geoLocation: Coordinate?, id : Int?, userId : String?, tripId : Int?) : Event(EventType.PHOTO,mg, geoLocation,id, userId, tripId,date,title) {
+open class Photo(var url: String,likes: HashSet<String>,title: String, date: DateTime, var description: String, geoLocation: Coordinate?, id : Int?, userId : String?, tripId : Int?) : Event(EventType.PHOTO,likes, geoLocation,id, userId, tripId,date,title) {
 }
