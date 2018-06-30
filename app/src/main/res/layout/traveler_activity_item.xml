@@ -16,97 +16,126 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/man_icon"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/user_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:fontFamily="@font/raleway_regular"
+                    android:text="@string/user_id_placeholder"
+                    android:textColor="@color/userNameColor"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/traveler_activity_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <View
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/secondaryColorLight" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/mg_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/raleway_regular"
-                    android:textColor="@color/secondaryColor"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="5dp"
-                    android:textSize="16sp" />
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/like_icon"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
-                    android:id="@+id/like_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp">
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:orientation="horizontal">
 
+
+                    <TextView
+                        android:id="@+id/mg_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway_regular"
+                        android:textColor="@color/secondaryColor"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="5dp"
+                        android:textSize="16sp" />
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/like_icon"
+                        android:backgroundTint="@color/secondaryColor"
                         />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/like_text"
-                        android:fontFamily="@font/raleway_regular"
-                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/shared_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp">
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/icon_share"
-                        android:backgroundTint="@color/secondaryColor" />
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/like_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/share_traveler_text"
-                        android:fontFamily="@font/raleway_regular"
-                        android:textSize="16sp" />
+                        android:layout_marginRight="20dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/like_icon"
+                            android:backgroundTint="@color/secondaryColor"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/like_text"
+                            android:fontFamily="@font/raleway_regular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shared_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/icon_share"
+                            android:backgroundTint="@color/secondaryColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/share_traveler_text"
+                            android:fontFamily="@font/raleway_regular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </FrameLayout>
+
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

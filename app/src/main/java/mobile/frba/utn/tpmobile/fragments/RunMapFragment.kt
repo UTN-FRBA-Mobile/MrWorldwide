@@ -42,7 +42,7 @@ class RunMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMar
                 val geoLocation = it.geoLocation
                 if (geoLocation != null) {
                     activity?.runOnUiThread({
-                        markerMap?.put(map.addMarker(MarkerOptions().position(geoLocation)
+                        markerMap?.put(map.addMarker(MarkerOptions().position(geoLocation.toLatLng())
                                 .icon(BitmapDescriptorFactory.defaultMarker(color)).title(trip.title)), it)
                     })
                 }

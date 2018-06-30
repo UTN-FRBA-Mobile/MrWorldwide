@@ -40,6 +40,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bitacora_edit">Editar</string>
+    <string name="bitacora_delete">Eliminar</string>
     <string name="bitacora_share">Compartir</string>
     <string name="like_text">Like</string>
     <string name="share_traveler_text">Compartir</string>
@@ -52,9 +53,9 @@
     <string name="save">Guardar</string>
     <string name="starting_date">Fecha de inicio:</string>
     <string name="end_date">Fecha de finalización:</string>
-
     <string name="action_settings">Settings</string>
     <string name="hint_word">Word…</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
+    <string name="user_id_placeholder">user id placeholder</string>
 </resources>

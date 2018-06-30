@@ -1,23 +1,26 @@
 package mobile.frba.utn.tpmobile.adapters
 
 import android.support.v4.app.Fragment
+import android.app.AlertDialog
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import mobile.frba.utn.tpmobile.ImageLoader
 import mobile.frba.utn.tpmobile.R
-import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.activities.DateFormatter
+import mobile.frba.utn.tpmobile.activities.MainActivity
 import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
 import mobile.frba.utn.tpmobile.fragments.CreateEditTripFragment
+import mobile.frba.utn.tpmobile.fragments.TripsFragment
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
-import android.os.Bundle
-
-
+import org.jetbrains.anko.alert
 
 /**
  * Created by Gustavo on 5/6/18.
@@ -39,6 +42,8 @@ class TripListAdapter(val fr: Fragment, private  var trips: List<Trip>): Recycle
         private val dateView : TextView = tripView.findViewById(R.id.trip_date)
         private val photoView : ImageView = tripView.findViewById(R.id.trip_image)
         private val editButton : View = tripView.findViewById(R.id.edit_trip)
+        private val deleteButton : View = tripView.findViewById(R.id.delete_trip)
+        private val viewContext = tripView.context
 
         fun bind(trip: Trip) = with(trip) {
             titleView.text = title
@@ -61,6 +66,26 @@ class TripListAdapter(val fr: Fragment, private  var trips: List<Trip>): Recycle
                 val createEditTripFragment = CreateEditTripFragment()
                 createEditTripFragment.arguments = bundle
                 Navigator.navigateTo(createEditTripFragment)
+            }
+
+            deleteButton.setOnClickListener {
+                val builder = AlertDialog.Builder(viewContext)
+
+                builder.setMessage("¿Seguro que deseas borrar el viaje?")
+
+                builder.setPositiveButton("Aceptar"){ dialog, _ ->
+                    RepoTrips.deleteTrip(trip, {
+                        Navigator.navigateTo(TripsFragment());
+                        dialog.cancel()
+                    })
+                }
+
+                builder.setNegativeButton("Cancelar"){ dialog, _ ->
+                    dialog.cancel()
+                }
+
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
             }
         }
     }

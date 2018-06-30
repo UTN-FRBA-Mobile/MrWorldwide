@@ -19,7 +19,8 @@ import java.util.*
  * Created by Gustavo on 5/6/18.
  */
 @Entity(tableName = "text_table")
-data class Text(var text: String, override var mg:Int, override var title:String, @Ignore override var date: DateTime, var dateForDB: Date, override var geoLocation: LatLng?, @field:PrimaryKey override var id : Int?, override  var userId : String?, override var tripId : Int?) : Event(EventType.TEXT,mg,geoLocation,id,userId,tripId,date, title) {
-    @JvmOverloads constructor(text: String, mg:Int, title:String, date: DateTime, geoLocation: LatLng?,id : Int?,userId : String?, tripId : Int?)
-            : this(text, mg, title, date, date.toDate(),geoLocation,id ,userId, tripId )
+data class Text(var text: String, override var likes: HashSet<String>, override var title:String, @Ignore override var date: DateTime, var dateForDB: Date, override var geoLocation: Coordinate?, @field:PrimaryKey override var id : Int?, override  var userId : String?, override var tripId : Int?) : Event(EventType.TEXT,likes,geoLocation,id,userId,tripId,date, title) {
+    @JvmOverloads constructor(text: String, likes: HashSet<String>, title:String, date: DateTime, geoLocation: Coordinate?,id : Int?,userId : String?, tripId : Int?)
+            : this(text, likes, title, date, date.toDate(),geoLocation,id ,userId, tripId )
+
 }

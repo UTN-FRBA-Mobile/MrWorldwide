@@ -10,4 +10,5 @@
     <color name="secondaryColorLight">#f8bbd0</color>
     <color name="secondaryColor">#f06292</color>
     <color name="buttonLabel">#d3d3d3</color>
+    <color name="userNameColor">#862747</color>
 </resources>

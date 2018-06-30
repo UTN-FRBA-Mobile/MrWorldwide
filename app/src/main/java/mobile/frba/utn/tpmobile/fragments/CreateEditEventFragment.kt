@@ -7,8 +7,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
@@ -17,17 +19,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
-import mobile.frba.utn.tpmobile.models.Event
-import mobile.frba.utn.tpmobile.models.Photo
-import mobile.frba.utn.tpmobile.models.Text
+import mobile.frba.utn.tpmobile.models.*
 import mobile.frba.utn.tpmobile.singletons.LocationProvider
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoEvents
+import org.joda.time.DateTime
 import java.io.*
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 
 class CreateEditEventFragment : NavigatorFragment(null) {
     private var date: TextView? = null
@@ -66,6 +70,36 @@ class CreateEditEventFragment : NavigatorFragment(null) {
 
         buttonSelect!!.setOnClickListener({ selectImage() })
 
+        if(eventAlreadyExits()) {
+            val event = this.arguments!!.getSerializable("event") as Event
+
+            when (event.eventType) {
+                EventType.TEXT -> {
+                    val textEvent = event as Text
+                    description!!.text = textEvent.text
+                }
+                EventType.PHOTO -> {
+                    val photoEvent = event as Photo
+                    description!!.text = photoEvent.description
+
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+                    val bitmap = BitmapFactory.decodeStream(URL((photoEvent).url).openStream())
+                    imageView!!.setImageBitmap(bitmap)
+
+                    val stream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                    photo = stream.toByteArray()
+                }
+                EventType.VIDEO -> {
+                    val videoEvent = event as Video
+                    description!!.text = videoEvent.description
+                }
+            }
+            eventTitle!!.text = event.title
+            date!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", event.date.toDate())
+        }
+
         date!!.setOnClickListener {
             DatePickerDialog(activity,
                     dateSetListener,
@@ -77,6 +111,8 @@ class CreateEditEventFragment : NavigatorFragment(null) {
         onAcceptButtonClick()
         onCancelButtonClick()
     }
+
+    private fun eventAlreadyExits() = this.arguments != null && this.arguments!!.containsKey("event")
 
     private fun selectImage() {
         try {
@@ -197,24 +233,42 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                     incorrectEvent.setMessage("Nombre invalido")
                     incorrectEvent.show()
                 } else {
-                    var event: Event
                     var formatedDate = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
                     LocationProvider.requestSingleUpdate(context!!, { location ->
                         activity?.runOnUiThread {
-                            if (photo == null) {
-                                event = Text(description?.text.toString(), 0, eventTitle?.text.toString(),formatedDate, location, null, null, null)
-                                spinnerDialog.show()
-                                RepoEvents.addEvent(event, {
-                                    spinnerDialog.cancel()
-                                    Navigator.navigateTo(BitacoraFragment())
-                                })
-                            } else {
-                                event = Photo("",0, eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
-                                spinnerDialog.show()
-                                RepoEvents.savePhotoAndThenAddEvent(photo!!, event as Photo, {
-                                    spinnerDialog.cancel()
-                                    Navigator.navigateTo(BitacoraFragment())
-                                })
+                            if(eventAlreadyExits()) {
+                                val event = this.arguments!!.getSerializable("event") as Event
+
+                                when (event.eventType) {
+                                    EventType.TEXT -> {
+                                        val textEvent = this.arguments!!.getSerializable("event") as Text
+                                        if(photo == null)
+                                            UpdateTextFragment(textEvent, spinnerDialog)
+                                        else {
+                                            var newEvent = Photo("",
+                                                    textEvent.likes,
+                                                    eventTitle!!.text.toString(),
+                                                    DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString()),
+                                                    description!!.text.toString(),
+                                                    textEvent.geoLocation,
+                                                    textEvent.id,
+                                                    textEvent.userId,
+                                                    textEvent.tripId)
+                                            spinnerDialog.show()
+                                            RepoEvents.savePhotoThenUpdateEvent(photo!!, newEvent, {
+                                                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+                                            })
+                                        }
+                                    }
+                                    EventType.PHOTO -> UpdatePhotoFragment(spinnerDialog)
+                                    EventType.VIDEO -> {
+                                        val videoEvent = event as Video
+                                        description!!.text = videoEvent.description
+                                    }
+                                }
+                            }
+                            else {
+                                CreateEvent(formatedDate, Coordinate.fromLatLng(location), spinnerDialog)
                             }
                         }
                     })
@@ -222,6 +276,64 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                 }
             }
         }
+    }
+
+    private fun UpdateTextFragment(textEvent: Text, spinnerDialog: AlertDialog) {
+
+        textEvent.title = eventTitle!!.text.toString()
+        textEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+        textEvent.text = description!!.text.toString()
+        RepoEvents.updateEvent(textEvent, {
+            cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+        })
+    }
+
+    private fun UpdatePhotoFragment(spinnerDialog: AlertDialog) {
+        val photoEvent = this.arguments!!.getSerializable("event") as Photo
+
+        photoEvent.title = eventTitle!!.text.toString()
+        photoEvent.date = DateFormatter.getDateTimeFromStringWithSlash(date?.text.toString())
+        photoEvent.description = description!!.text.toString()
+
+
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        val eventPhotoBitmap = BitmapFactory.decodeStream(URL(photoEvent.url).openStream())
+        val imageViewBitmap = imageView!!.drawingCache
+
+        if (eventPhotoBitmap != imageViewBitmap) {
+            RepoEvents.savePhotoThenUpdateEvent(photo!!, photoEvent, {
+                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+            })
+        } else {
+            RepoEvents.updateEvent(photoEvent, {
+                cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog)
+            })
+        }
+    }
+
+    private fun CreateEvent(formatedDate: DateTime, location: Coordinate, spinnerDialog: AlertDialog) {
+        var event : Event
+        if (photo == null) {
+            event = Text(description?.text.toString(), HashSet(0), eventTitle?.text.toString(), formatedDate, location, null, null, null)
+            spinnerDialog.show()
+            RepoEvents.addEvent(event, {
+                spinnerDialog.cancel()
+                Navigator.navigateTo(BitacoraFragment())
+            })
+        } else {
+            event = Photo("", HashSet(0), eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
+            spinnerDialog.show()
+            RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
+                spinnerDialog.cancel()
+                Navigator.navigateTo(BitacoraFragment())
+            })
+        }
+    }
+
+    private fun cancelSpinnerDialogAndReturnToPreviousfragment(spinnerDialog: AlertDialog) {
+        spinnerDialog.cancel()
+        Navigator.navigateTo(BitacoraFragment())
     }
 
     private fun onCancelButtonClick() {

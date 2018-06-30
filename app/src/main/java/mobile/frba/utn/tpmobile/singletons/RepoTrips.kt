@@ -8,7 +8,9 @@ import mobile.frba.utn.tpmobile.models.*
 import mobile.frba.utn.tpmobile.services.RestClient
 
 import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.result.Result
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
@@ -115,24 +117,6 @@ object RepoTrips {
         }
     }
 
-    fun savePhotoAndThenAddTrip(photo: ByteArray,trip: Trip, callback: () -> Unit) {
-        "https://api.imgur.com/3/image"
-                .httpPost()
-                .header(Pair("Authorization", Constants.clientAuth))
-                .body(photo)
-                .responseJson({_,response, result ->
-                    trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
-                    addTrip(trip, callback)
-                })
-    }
-
-    fun addTrip(trip: Trip, callback: () -> Unit) {
-        trips.add(trips.lastIndex + 1, trip)
-        "$backUrl/trips/$userId".httpPost().body(gson.toJson(trip)).header(Pair("Content-Type", "application/json")).response({ _, _, result ->
-            println(result)
-            callback.invoke()
-        })
-    }
 
     fun getLocalTrip(id: Int, lca: Fragment, callback: (Trip)-> Unit): Unit{
         tripsLocalRepository.getTrip(id).observe(lca, Observer { trip ->
@@ -144,6 +128,7 @@ object RepoTrips {
     }
 
     fun getTrip(lca: Fragment, id: Int): ((Trip?)-> Unit)->Unit{
+
         return { callback ->
             if (!RestClient.isOnline()){
                 getLocalTrip(id, lca,callback)
@@ -228,5 +213,57 @@ object RepoTrips {
                         })
             }
         }
+    }
+
+    fun savePhotoAndThenAddTrip(photo: ByteArray,trip: Trip, callback: () -> Unit) {
+        "https://api.imgur.com/3/image"
+                .httpPost()
+                .header(Pair("Authorization", Constants.clientAuth))
+                .body(photo)
+                .responseJson({_,response, result ->
+                    trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
+                    addTrip(trip, callback)
+                })
+    }
+
+    fun addTrip(trip: Trip, callback: () -> Unit) {
+        trips.add(trips.lastIndex + 1, trip)
+        "$backUrl/trips/$userId".httpPost().body(gson.toJson(trip)).header(Pair("Content-Type", "application/json")).response({ _, _, result ->
+            println(result)
+            callback.invoke()
+        })
+    }
+
+    fun savePhotoThenUpdateTrip(photo: ByteArray,trip: Trip, callback: () -> Unit) {
+        "https://api.imgur.com/3/image"
+                .httpPost()
+                .header(Pair("Authorization", Constants.clientAuth))
+                .body(photo)
+                .responseJson({_,response, result ->
+                    trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
+                    updateTrip(trip, callback)
+                })
+    }
+
+    fun updateTrip(trip: Trip, callback: () -> Unit) {
+        trips.add(trips.lastIndex + 1, trip)
+        "$backUrl/trips/${trip.id}"
+                .httpPut()
+                .body(gson.toJson(trip))
+                .header(Pair("Content-Type", "application/json"))
+                .response({ _, _, result ->
+                    println(result)
+                    callback.invoke()
+                })
+    }
+
+    fun deleteTrip(trip: Trip, callback: () -> Unit) {
+        trips.remove(trip)
+        "$backUrl/trips/${trip.id}"
+            .httpDelete()
+            .response({ _, _, result ->
+                println(result)
+                callback.invoke()
+            })
     }
 }

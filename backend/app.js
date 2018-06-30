@@ -21,8 +21,8 @@ var trips = [
         events: [],
         startDate: "01-03-2017",
         finishDate: "31-08-2018"
-    }, 
-    {
+    },
+  {
         id: 2,
         userId: "Mercedes Hidratada",
         title: "New York",
@@ -33,7 +33,7 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }, 
+    },
     {
         id: 3,
         userId: "Agustin Vertebrado",
@@ -45,7 +45,7 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }, 
+    },
     {
         id: 4,
         userId: "Esteban Piro",
@@ -57,7 +57,7 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }, 
+    },
     {
         id: 5,
         userId: "Pepe Lotas",
@@ -83,12 +83,12 @@ var events = [
         date: "23-02-2018",
         description: "LALALA",
         eventType: "PHOTO",
-        mg: 0,
+        likes: ["Mercedes Hidratada", "Esteban Piro", "Pepe Lotas"],
         geoLocation: {
             latitude: 1,
             longitude: 2
         }
-    }, 
+    },
     {
         id: 2,
         userId: "Agustin Vertebrado",
@@ -97,13 +97,13 @@ var events = [
         date: "24-02-2018",
         title: "Soy un titulo de relleno",
         eventType: "TEXT",
-        mg: 0,
+        likes: ["Mercedes Hidratada"],
         geoLocation: {
             latitude: 14,
             longitude: 4
         }
-    }, 
-    {
+    },
+    /*{
         id: 3,
         userId: "Agustin Vertebrado",
         tripId: 1,
@@ -112,12 +112,12 @@ var events = [
         title: "Soy un titulo de relleno",
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
         }
-    },
+    },*/
     {
         id: 4,
         userId: "Mercedes Hidratada",
@@ -127,7 +127,7 @@ var events = [
         date: "22-12-2018",
         description: "mira mama, mira!",
         eventType: "PHOTO",
-        mg:0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -141,7 +141,7 @@ var events = [
         date: "24-02-2018",
         title: "Soy un texto de relleno",
         eventType: "TEXT",
-        mg:0,
+        likes: [],
         geoLocation: {
             latitude: 14,
             longitude: 4
@@ -158,7 +158,7 @@ var friendEvents = [{
         date: "22-12-2018",
         description: "mira mama, mira!",
         eventType: "PHOTO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -172,7 +172,7 @@ var friendEvents = [{
         date: "24-02-2018",
         title: "Soy un texto de relleno",
         eventType: "TEXT",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 14,
             longitude: 4
@@ -187,7 +187,7 @@ var friendEvents = [{
         description: "Soy una descripcion de relleno",
         url: "https://www.youtube.com/watch?v=jdYJf_ybyVo&list=RDjdYJf_ybyVo&start_radio=1&asv=2",
         eventType: "VIDEO",
-        mg: 0,
+        likes: [],
         geoLocation: {
             latitude: 1,
             longitude: 2
@@ -228,11 +228,11 @@ var getActualTrip = function(userId) {
 }
 
 var completeTripEvents = function(trip){
-     tripCopy = _.assign({}, trip);
-        tripCopy.events = _.filter(events,function(event){
-            return event.tripId === tripCopy.id && event.userId === tripCopy.userId;
-        })
-        return tripCopy;
+    tripCopy = _.assign({}, trip);
+    tripCopy.events = _.filter(events,function(event){
+        return event.tripId === tripCopy.id && event.userId === tripCopy.userId;
+    })
+    return tripCopy;
 }
 
 var friendEvents = function(){
@@ -301,7 +301,10 @@ app.post('/event/:userId/:tripId/:eventId/mg', function(req, res) {
     var event = _.find(events, function(event) {
         return event.id === eventId && event.userId === userId && event.tripId === tripId;
     })
-    event.mg ++;
+
+    console.log(req.body)
+
+    event.likes.push(req.body.userId);
     res.send(event);
 });
 
@@ -313,8 +316,40 @@ app.post('/trips/:userId', function(req, res) {
     res.send(trips);
 });
 
-app.delete('trips/:id', function(req, res) {
-    trips = _.delete(trips, function(trip) {
+app.put('/trips/:tripId', function(req, res) {
+    var updatedTrip = req.body;
+    var index = _.findIndex(trips, function(trip) {
+        return trip.id == req.params.tripId
+    }) 
+    var trip = trips[index];
+    updatedTrip.id = trip.id;
+    updatedTrip.userId = trip.userId
+    updatedTrip.events = trip.events
+    trips[index] = updatedTrip;
+    res.send(trips);
+});
+
+app.put('/events/:eventId', function(req, res) {
+    var updatedEvent = req.body;
+    var index = _.findIndex(events, function(event) {
+        return event.id == req.params.eventId
+    }) 
+    var event = events[index];
+    updatedEvent.id = event.id;
+    updatedEvent.userId = event.userId
+    updatedEvent.tripId = event.tripId
+    updatedEvent.events = event.events
+    updatedEvent.likes = event.likes
+    updatedEvent.geoLocation = event.geoLocation
+    updatedEvent.geoLocation = event.geoLocation
+
+
+    events[index] = updatedEvent;
+    res.send(events);
+});
+
+app.delete('/trips/:id', function(req, res) {
+    _.remove(trips, function(trip) {
         return trip.id == req.params.id
     });
     res.send(trips);
@@ -331,23 +366,12 @@ app.post('/events/:userId', function(req, res) {
     newEvent.userId = req.params.userId;
     newEvent.tripId = actualTrip.id;
     events.push(newEvent);
-    console.log(actualTrip.events);
     res.send(events);
 });
 
-app.delete('events/:id', function(req, res) {
-    events = _.delete(events, function(event) {
+app.delete('/events/:id', function(req, res) {
+    _.remove(events, function(event) {
         return event.id == req.params.id
     });
-    res.send(trips);
+    res.send(events);
 });
-
-//////////////////ENDPOINTS PENDIENTES//////////////////////////////
-app.get('/users/:userId/events', function(req, res) {
-    //res.send(_.map(_.filter(events,function (event){return event.userId === Number(req.params.userId)}),tripsWithoutEvents));
-});
-
-app.get('/events/:id', function(req, res) {
-    //res.send(_.find(events,function (event){return  event.id === Number(req.params.id)}));
-});
-
