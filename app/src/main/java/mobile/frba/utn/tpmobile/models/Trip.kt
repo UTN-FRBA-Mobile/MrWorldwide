@@ -12,6 +12,9 @@ import org.json.JSONObject
 import java.lang.reflect.Type
 import java.io.Serializable
 import java.util.Date
+import com.google.gson.GsonBuilder
+
+
 
 /**
  * Created by Gustavo on 5/6/18.
@@ -33,7 +36,8 @@ data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhot
     companion object {
 
         fun EventListToString(events: List<Event>): String {
-            var jsonEvents : String = Gson().toJson(events)
+            val gson = GsonBuilder().setExclusionStrategies(SuperclassExclusionStrategy()).create()
+            var jsonEvents : String = gson.toJson(events)
             return jsonEvents
         }
 
