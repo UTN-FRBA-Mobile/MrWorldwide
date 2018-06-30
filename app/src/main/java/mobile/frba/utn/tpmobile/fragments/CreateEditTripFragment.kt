@@ -6,8 +6,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
@@ -22,8 +25,11 @@ import mobile.frba.utn.tpmobile.models.Trip
 import mobile.frba.utn.tpmobile.models.TripPhoto
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
+import org.jetbrains.anko.image
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormatter
 import java.io.*
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +39,7 @@ class CreateEditTripFragment : NavigatorFragment(null) {
     private var startDate: TextView? = null
     private var finishDate: TextView? = null
     private var calendar = Calendar.getInstance()
-    var imageView: ImageView? = null
+    private var imageView: ImageView? = null
     private var buttonSelect: ImageButton? = null
     private var bitmap: Bitmap? = null
     private var destination: File? = null
@@ -57,6 +63,22 @@ class CreateEditTripFragment : NavigatorFragment(null) {
 
         buttonSelect!!.setOnClickListener({selectImage()})
 
+        if(this.arguments != null && this.arguments!!.containsKey("trip")) {
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+
+            val trip = this.arguments!!.getSerializable("trip") as Trip
+            tripTitle!!.text = trip.title
+
+            val bitmap : Bitmap = BitmapFactory.decodeStream(URL(trip.tripPhoto.url).openStream())
+            imageView!!.setImageBitmap(bitmap)
+
+            startDate!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", trip.startDate.toDate())
+            finishDate!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", trip.finishDate.toDate())
+
+            android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss a", java.util.Date())
+
+        }
 
         setDateOnClick(startDate!!)
         setDateOnClick(finishDate!!)
@@ -129,7 +151,6 @@ class CreateEditTripFragment : NavigatorFragment(null) {
         inputStreamImg = null
         if (requestCode == PICK_IMAGE_CAMERA) {
             try {
-                var selectedImage = data.data
                 bitmap = data.extras.get("data") as Bitmap?
                 var bytes = ByteArrayOutputStream()
                 bitmap!!.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
@@ -226,13 +247,16 @@ class CreateEditTripFragment : NavigatorFragment(null) {
                     }
                     else {
                         spinnerDialog.show()
+
                         val trip = Trip(null, tripTitle?.text.toString(), TripPhoto("", DateTime.now()),
                                 DateFormatter.getDateTimeFromStringWithSlash(startDate?.text.toString()),
                                 DateFormatter.getDateTimeFromStringWithSlash(finishDate?.text.toString()), mutableListOf())
+
                         RepoTrips.savePhotoAndThenAddTrip(photo!!, trip, {
                             spinnerDialog.cancel()
                             Navigator.navigateTo(TripsFragment())
                         })
+
                     }
                 }
             }

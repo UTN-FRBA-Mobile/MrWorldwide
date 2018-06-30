@@ -13,6 +13,8 @@ import com.fatboyindustrial.gsonjodatime.Converters.registerDateTime
 import java.util.*
 
 
+
+
 class WorldConverters {
 
     @TypeConverter
@@ -39,6 +41,16 @@ class WorldConverters {
     fun dateToTimestamp(date: DateTime?): String? {
         val dateNew = date!!.toDate()
         return Gson().toJson(dateNew)
+    }
+
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return if (value == null) null else Date(value)
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
     }
 
 }

@@ -33,6 +33,7 @@ class TripsFragment : NavigatorFragment(null) {
         addButton.setOnClickListener {
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
+
             Navigator.navigateTo(createEditTripFragment)
         }
     }

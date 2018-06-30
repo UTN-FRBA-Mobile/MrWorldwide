@@ -26,7 +26,7 @@ import java.io.IOException
 
 object RepoTrips {
      var trips: MutableList<Trip> = ArrayList()
-     var backUrl = "http://192.168.0.27:3000"
+     var backUrl = "http://192.168.0.29:3000"
      val client = OkHttpClient()
     var userId = "Agustin Vertebrado"
     val gson = GsonBuilder()
@@ -83,6 +83,38 @@ object RepoTrips {
         }
     }
 
+    fun getTripsWithEvents(lca: Fragment): ((MutableList<Trip>) -> Unit) -> Unit {
+        return { callback ->
+            if (!RestClient.isOnline()){
+                getLocalTrips(lca,callback)
+            } else {
+                run {
+                    client.newCall(Request.Builder().url("$backUrl/users/$userId/tripsWithEvents").build())
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    throw Error("rompio todo!")
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    val jsonTrips = JSONArray(response.body()!!.string())
+
+                                    var x = 0
+                                    val trips: MutableList<Trip> = emptyArray<Trip>().toMutableList()
+                                    while (x < jsonTrips.length()) {
+                                        val jtrip = jsonTrips.getJSONObject(x)
+                                        val trip = Trip.getFromJson(jtrip)
+                                        trips.add(trip)
+                                        tripsLocalRepository.insert(trip)
+                                        x++
+                                    }
+                                    callback.invoke(trips)
+                                }
+                            })
+                }
+            }
+        }
+    }
+
     fun savePhotoAndThenAddTrip(photo: ByteArray,trip: Trip, callback: () -> Unit) {
         "https://api.imgur.com/3/image"
                 .httpPost()
@@ -92,7 +124,6 @@ object RepoTrips {
                     trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
                     addTrip(trip, callback)
                 })
-
     }
 
     fun addTrip(trip: Trip, callback: () -> Unit) {

@@ -7,7 +7,6 @@ import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -28,20 +27,26 @@ class RunMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMar
     }
 
     override fun onMapReady(map: GoogleMap) {
-        val trips = alreadyStartedTrips
-        if(trips!=null) {
-            val colorSeparation  = 360f / trips.size
-            trips.forEachIndexed {index, trip ->
-                val color = index*colorSeparation
-                trip.events.forEach {
-                    val geoLocation = it.geoLocation
-                    if (geoLocation != null) {
+        RepoTrips.getTripsWithEvents(this).invoke { trips ->
+            updatePins(map, trips)
+        }
+        map.setOnMarkerClickListener(this)
+    }
+
+    fun updatePins(map: GoogleMap, trips : List<Trip>){
+        var filteredTrips = trips.filter { it.startDate.isBeforeNow }
+        val colorSeparation = 360f / filteredTrips.size
+        filteredTrips.forEachIndexed { index, trip ->
+            val color = index * colorSeparation
+            trip.events.forEach {
+                val geoLocation = it.geoLocation
+                if (geoLocation != null) {
+                    activity?.runOnUiThread({
                         markerMap?.put(map.addMarker(MarkerOptions().position(geoLocation)
                                 .icon(BitmapDescriptorFactory.defaultMarker(color)).title(trip.title)), it)
-                    }
+                    })
                 }
             }
-            map.setOnMarkerClickListener(this)
         }
     }
 
