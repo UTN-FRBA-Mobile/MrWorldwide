@@ -16,7 +16,13 @@ open class Trip(var id : Int?,var title: String, var tripPhoto: TripPhoto, var s
             if(string.isEmpty()){
                 return null
             }
-            return getFromJson(JSONObject(string))
+             return try{
+                 getFromJson(JSONObject(string))
+             }catch (e: Exception){
+                 println("Something failed while parsing trip")
+                 e.printStackTrace()
+                 null
+             }
          }
 
          fun getFromJson (jsonObject:JSONObject): Trip {
