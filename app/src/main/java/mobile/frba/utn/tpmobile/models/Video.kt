@@ -1,6 +1,6 @@
 package mobile.frba.utn.tpmobile.models
 
-import android.arch.persistence.room.Entity
+import android.arch.persistence.room.*
 import org.joda.time.DateTime
 import android.arch.persistence.room.*
 

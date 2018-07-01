@@ -11,5 +11,8 @@
   "dependencies": {
     "express": "^4.16.3",
     "lodash": "^4.17.10"
+  },
+  "scripts": {
+     "start": "node app.js"
   }
 }

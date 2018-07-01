@@ -43,7 +43,7 @@ import java.io.IOException
 object RepoTrips {
      var trips: MutableList<Trip> = ArrayList()
     var prefs: SharedPreferences? = null
-     var backUrl = "http://192.168.0.29:3000"
+    var backUrl = "http://mrworldwide.herokuapp.com"
      val client = OkHttpClient()
     var userId = "Agustin Vertebrado"
     val gson = GsonBuilder()

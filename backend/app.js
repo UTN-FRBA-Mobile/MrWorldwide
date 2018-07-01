@@ -3,6 +3,7 @@ var app = express();
 var _ = require('lodash');
 
 const bodyParser = require("body-parser");
+var port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -373,7 +374,7 @@ app.put('/trips/:tripId', function(req, res) {
     var updatedTrip = req.body;
     var index = _.findIndex(trips, function(trip) {
         return trip.id == req.params.tripId
-    }) 
+    })
     var trip = trips[index];
     updatedTrip.id = trip.id;
     updatedTrip.userId = trip.userId
@@ -386,7 +387,7 @@ app.put('/events/:eventId', function(req, res) {
     var updatedEvent = req.body;
     var index = _.findIndex(events, function(event) {
         return event.id == req.params.eventId
-    }) 
+    })
     var event = events[index];
     updatedEvent.id = event.id;
     updatedEvent.userId = event.userId
@@ -408,16 +409,15 @@ app.delete('/trips/:id', function(req, res) {
     res.send(trips);
 });
 
-app.listen(3000, function() {
+app.listen(port, function() {
     console.log('Example app listening on port 3000!');
 });
 
 app.post('/events/:userId', function(req, res) {
     var newEvent = req.body;
-    var actualTrip = getActualTrip(req.params.userId);
     newEvent.id = _.maxBy(events, 'id').id + 1;
     newEvent.userId = req.params.userId;
-    newEvent.tripId = actualTrip.id;
+    newEvent.tripId = req.body.tripId;
     events.push(newEvent);
     res.send(events);
 });

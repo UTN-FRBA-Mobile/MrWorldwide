@@ -28,7 +28,7 @@ import java.util.Collections.replaceAll
  */
 object RepoEvents {
     var events: MutableList<Event> = ArrayList()
-    var backUrl = "http://10.0.2.2:3000"
+    var backUrl = "https://mrworldwide.herokuapp.com"
     var userId = "Agustin Vertebrado"
     private val gson = GsonBuilder()
             .registerTypeAdapter(DateTime::class.java, JsonSerializer<DateTime> { date, _, _ -> JsonPrimitive(DateFormatter.format(date)) })

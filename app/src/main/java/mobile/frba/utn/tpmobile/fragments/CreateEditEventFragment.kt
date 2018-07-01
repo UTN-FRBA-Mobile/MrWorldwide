@@ -26,6 +26,7 @@ import mobile.frba.utn.tpmobile.models.*
 import mobile.frba.utn.tpmobile.singletons.LocationProvider
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoEvents
+import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import org.joda.time.DateTime
 import java.io.*
 import java.net.URL
@@ -45,6 +46,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
     private var imgPath: String? = null
     private var eventTitle: TextView? = null
     private var description: TextView? = null
+    var trip: Trip? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_edit_event, container, false)
@@ -315,18 +317,26 @@ class CreateEditEventFragment : NavigatorFragment(null) {
     private fun CreateEvent(formatedDate: DateTime, location: Coordinate, spinnerDialog: AlertDialog) {
         var event : Event
         if (photo == null) {
-            event = Text(description?.text.toString(), HashSet(0), eventTitle?.text.toString(), formatedDate, location, null, null, null)
+            event = Text(description?.text.toString(), HashSet(0), eventTitle?.text.toString(), formatedDate, location, null, null, trip?.id)
             spinnerDialog.show()
             RepoEvents.addEvent(event, {
                 spinnerDialog.cancel()
-                Navigator.navigateTo(BitacoraFragment())
+                val fragment = BitacoraFragment()
+                RepoTrips.getTrip(this, trip?.id!!).invoke { newTrip ->
+                    fragment.trip = newTrip
+                    Navigator.navigateTo(fragment)
+                }
             })
         } else {
-            event = Photo("", HashSet(0), eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, null)
+            event = Photo("", HashSet(0), eventTitle?.text.toString(), formatedDate, description?.text.toString(), location, null, null, trip?.id)
             spinnerDialog.show()
             RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
                 spinnerDialog.cancel()
-                Navigator.navigateTo(BitacoraFragment())
+                val fragment = BitacoraFragment()
+                RepoTrips.getTrip(this, trip?.id!!).invoke { newTrip ->
+                    fragment.trip = newTrip
+                    Navigator.navigateTo(fragment)
+                }
             })
         }
     }

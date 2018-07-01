@@ -48,28 +48,13 @@ data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhot
             if (string.isEmpty()) {
                 return null
             }
-            return Trip.getFromJson(JSONObject(string))
-        }
-
-        fun getFromJson(jsonObject: JSONObject): Trip {
-            val tripPhoto = jsonObject.getJSONObject("tripPhoto")
-            val eventsJson = jsonObject.getJSONArray("events")
-            var x = 0
-            val events: MutableList<Event> = emptyArray<Event>().toMutableList()
-            while (x < eventsJson.length()) {
-                val event = eventsJson.getJSONObject(x)
-                events.add(getEventFromJson(event))
-                x++
+            return try{
+                getFromJson(JSONObject(string))
+            }catch (e: Exception){
+                println("Something failed while parsing trip")
+                e.printStackTrace()
+                null
             }
-
-            val fTrip =  Trip(jsonObject.getInt("id"),
-                    jsonObject.getString("title"),
-                    TripPhoto(tripPhoto.getString("url"), DateFormatter.getDateTimeFromString(tripPhoto.getString("date"))),
-                    DateFormatter.getDateTimeFromString(jsonObject.getString("startDate")),
-                    DateFormatter.getDateTimeFromString(jsonObject.getString("finishDate")),
-                    events
-            )
-            return fTrip
         }
 
 
@@ -111,5 +96,25 @@ data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhot
             return finalEvents
         }
 
-    }
+
+         fun getFromJson (jsonObject:JSONObject): Trip {
+             val tripPhoto = jsonObject.getJSONObject("tripPhoto")
+             val eventsJson = jsonObject.getJSONArray("events")
+             var x = 0
+             val events : MutableList<Event> = emptyArray<Event>().toMutableList()
+             while (x < eventsJson.length()) {
+                 val event = eventsJson.getJSONObject(x)
+                 events.add(getEventFromJson(event))
+                 x++
+             }
+
+             return Trip(jsonObject.getInt("id"),
+                     jsonObject.getString("title"),
+                     TripPhoto(tripPhoto.getString("url"), DateFormatter.getDateTimeFromString(tripPhoto.getString("date"))),
+                     DateFormatter.getDateTimeFromString(jsonObject.getString("startDate")),
+                     DateFormatter.getDateTimeFromString(jsonObject.getString("finishDate")),
+                     events
+             )
+         }
+     }
 }
