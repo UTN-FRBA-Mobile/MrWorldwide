@@ -51,6 +51,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
         else {
             RepoTrips.getActualTripFor().invoke { actualTrip ->
                 if(actualTrip != null){
+                    trip = actualTrip
                     events = actualTrip.events
                     activity?.runOnUiThread{ recyclerView.adapter = BitacoraListAdapter(events)}
                 }
@@ -64,6 +65,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
         addButton.setOnClickListener {
             addButton.hide()
             val createEditEventFragment = CreateEditEventFragment()
+            createEditEventFragment.trip = trip
            Navigator.navigateTo(createEditEventFragment)
         }
     }
