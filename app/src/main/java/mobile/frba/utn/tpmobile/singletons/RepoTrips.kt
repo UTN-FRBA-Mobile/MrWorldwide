@@ -48,7 +48,7 @@ object RepoTrips {
                     tr ->
                     tr.events = Trip.ListStringToEventList(tr.eventsString!!).toMutableList()
                 }
-                callback.invoke(RepoTrips.trips)
+                callback.invoke(trips.toMutableList())
             }
         })
     }
@@ -73,7 +73,7 @@ object RepoTrips {
                                     while (x < jsonTrips.length()) {
                                         val trip = jsonTrips.getJSONObject(x)
                                         val fTrip = Trip.getFromJson(trip)
-                                        tripsLocalRepository.insert(fTrip)
+                                        //tripsLocalRepository.insert(fTrip)
                                         trips.add(fTrip)
                                         x++
                                     }
@@ -190,27 +190,35 @@ object RepoTrips {
         }
     }
 
-    fun getFriendEvents(): ((MutableList<Event>)-> Unit)->Unit {
-        return { callback ->
-            run {
-                client.newCall(Request.Builder().url("$backUrl/users/${RepoTrips.userId}/friendEvents").build())
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                throw Error("rompio todo!")
-                            }
+    fun getLocalFriendEvents(lca: Fragment, callback: (MutableList<Event>)-> Unit): Unit{
+        tripsLocalRepository.getFriendsEvents(lca, callback)
+    }
 
-                            override fun onResponse(call: Call, response: Response) {
-                                val jsonEvents = JSONArray(response.body()!!.string())
-                                var x = 0
-                                val events: MutableList<Event> = emptyArray<Event>().toMutableList()
-                                while (x < jsonEvents.length()) {
-                                    val event = jsonEvents.getJSONObject(x)
-                                    events.add(getEventFromJson(event))
-                                    x++
+    fun getFriendEvents(lca: Fragment): ((MutableList<Event>)-> Unit)->Unit {
+        return { callback ->
+            if (!RestClient.isOnline()){
+                getLocalFriendEvents(lca, callback)
+            } else {
+                run {
+                    client.newCall(Request.Builder().url("$backUrl/users/${RepoTrips.userId}/friendEvents").build())
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    throw Error("rompio todo!")
                                 }
-                                callback.invoke(events)
-                            }
-                        })
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    val jsonEvents = JSONArray(response.body()!!.string())
+                                    var x = 0
+                                    val events: MutableList<Event> = emptyArray<Event>().toMutableList()
+                                    while (x < jsonEvents.length()) {
+                                        val event = jsonEvents.getJSONObject(x)
+                                        events.add(getEventFromJson(event))
+                                        x++
+                                    }
+                                    callback.invoke(events)
+                                }
+                            })
+                }
             }
         }
     }

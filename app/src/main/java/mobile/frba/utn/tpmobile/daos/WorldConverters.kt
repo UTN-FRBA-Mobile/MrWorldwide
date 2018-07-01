@@ -10,6 +10,8 @@ import org.joda.time.DateTime
 import java.lang.reflect.Type
 import com.google.gson.GsonBuilder
 import com.fatboyindustrial.gsonjodatime.Converters.registerDateTime
+import mobile.frba.utn.tpmobile.models.Coordinate
+import mobile.frba.utn.tpmobile.models.EventType
 import java.util.*
 
 
@@ -51,6 +53,42 @@ class WorldConverters {
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
+    }
+
+    @TypeConverter
+    fun setToString(likes: HashSet<String>): String {
+        return likes.toString()
+    }
+
+    @TypeConverter
+    fun stringToSet(likesString: String): HashSet<String> {
+        val likes : HashSet<String> = HashSet<String>()
+        likesString.split(",").forEach{
+            like ->
+            likes.add(like)
+        }
+        return likes
+    }
+
+    @TypeConverter
+    fun geolocToString(latlong: Coordinate): String {
+        return latlong.latitude.toString() + "--" + latlong.longitude.toString()
+    }
+
+    @TypeConverter
+    fun stringToGeoloc(stringLatlong: String): Coordinate {
+        val parts: List<String> =  stringLatlong.split("--")
+        return Coordinate(parts.get(0).toDouble(), parts.get(1).toDouble())
+    }
+
+    @TypeConverter
+    fun toEventType(ordinal: Int): EventType {
+        return EventType.values()[ordinal]
+    }
+
+    @TypeConverter
+    fun toOrdinal(eventType: EventType): Int {
+        return eventType.ordinal
     }
 
 }

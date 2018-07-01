@@ -97,7 +97,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                 }
             }
             eventTitle!!.text = event.title
-            date!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", event.date.toDate())
+            date!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", event.date!!.toDate())
         }
 
         date!!.setOnClickListener {

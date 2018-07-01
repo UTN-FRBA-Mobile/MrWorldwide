@@ -19,6 +19,7 @@ import mobile.frba.utn.tpmobile.models.Photo
 import mobile.frba.utn.tpmobile.models.Text
 import mobile.frba.utn.tpmobile.models.Video
 import org.jetbrains.anko.find
+import org.joda.time.DateTime
 
 class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -62,7 +63,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
 
         override fun bind(event: Event) = with(event as Text) {
             titleView.text = title
-            dateView.text = DateFormatter.format(date)
+            dateView.text = DateFormatter.format(date!!)
             textView.text = text
             mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
@@ -92,7 +93,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         override fun bind(event: Event) = with(event as Photo) {
             ImageLoader.loadImageIn(photoView, url)
             titleView.text = title
-            dateView.text = DateFormatter.format(date)
+            dateView.text = DateFormatter.format(date!!)
             descriptionView.text = description
             mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
@@ -123,7 +124,7 @@ class BitacoraListAdapter(var items: List<Event>) : RecyclerView.Adapter<Recycle
         }
         override fun bind(event: Event): Unit = with(event as Video){
             updateVideoView(url ,videoView)
-            dateView.text = DateFormatter.format(date)
+            dateView.text = DateFormatter.format(date!!)
             mgText.text = likes.size.toString()
             activatedSharedButton(event,itemView)
             activatedEditButton(event, itemView)

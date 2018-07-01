@@ -90,7 +90,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
 
         override fun bind(event: Event) = with(event as Text) {
             titleView.text = title
-            dateView.text = DateFormatter.format(date)
+            dateView.text = DateFormatter.format(date!!)
             textView.text = text
             userView.text = userId
             mgText.text = likes.size.toString()
@@ -119,7 +119,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
 
         override fun bind(event: Event) = with(event as Photo) {
             ImageLoader.loadImageIn(photoView, url)
-            dateView.text = DateFormatter.format(date)
+            dateView.text = DateFormatter.format(date!!)
             descriptionView.text = description
             userView.text = userId
             mgText.text = likes.size.toString()

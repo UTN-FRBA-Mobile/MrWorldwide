@@ -24,7 +24,7 @@ class TravelersFragment : NavigatorFragment(R.id.action_travelers) {
 
 		recyclerView = getView()!!.findViewById(R.id.travelers_view_list)
 		recyclerView.layoutManager=LinearLayoutManager(activity)
-		RepoTrips.getFriendEvents().invoke{events -> activity?.runOnUiThread{  recyclerView.adapter = TravelerActivityListAdapter(events)}}
+		RepoTrips.getFriendEvents(this).invoke{events -> activity?.runOnUiThread{  recyclerView.adapter = TravelerActivityListAdapter(events)}}
 
 	}
 }

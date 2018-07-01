@@ -9,7 +9,7 @@ import mobile.frba.utn.tpmobile.models.Trip
 
 
 @Dao
-interface TripDao {
+interface TripDao : BaseDao<Trip>{
 
     @get:Query("SELECT * from trip_table ORDER BY id ASC")
     val allTrips: LiveData<List<Trip>>
@@ -19,9 +19,6 @@ interface TripDao {
 
     @Query("SELECT * FROM trip_table WHERE id = :id ")
     fun getTrip(id: String): LiveData<Trip>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(trip: Trip)
 
     @Query("DELETE FROM trip_table")
     fun deleteAll()
