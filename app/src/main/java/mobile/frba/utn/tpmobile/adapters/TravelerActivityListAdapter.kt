@@ -1,11 +1,6 @@
 package mobile.frba.utn.tpmobile.adapters
 
-import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -58,7 +53,7 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
                 "${RepoEvents.backUrl}/event/${event.userId}/${event.tripId}/${event.id}/mg"
                         .httpPost()
                         .header(Pair("Content-Type", "application/json"))
-                        .body("{ \"userId\" : \"Agustin Vertebrado\" }")
+                        .body("{ \"userId\" : \"${RepoTrips.userId}\" }")
                         .responseJson({_,_, result ->
                             var event  = getEventFromJson(JSONObject((result as Result.Success).value.content))
                             bind(event)

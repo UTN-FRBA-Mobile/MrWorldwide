@@ -7,17 +7,21 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.fragments.MainActivityFragment
 import mobile.frba.utn.tpmobile.fragments.MyProfileFragment
 import mobile.frba.utn.tpmobile.models.getEventFromJson
 import mobile.frba.utn.tpmobile.services.FacebookService
 import mobile.frba.utn.tpmobile.singletons.Navigator
+import mobile.frba.utn.tpmobile.singletons.RepoEvents
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import net.danlew.android.joda.JodaTimeAndroid
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import java.net.URL
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,14 +31,29 @@ class MainActivity : AppCompatActivity() {
         JodaTimeAndroid.init(this)
         if (!FacebookService.sessionAlive()){
             startActivity(Intent(this, LoginActivity::class.java))
+            loadUserName()
             return
         }
+        loadUserName()
         setContentView(R.layout.main_activity)
         val vpPager = findViewById<ViewPager>(R.id.viewPager)
         adapterViewPager = MyPagerAdapter(supportFragmentManager)
         vpPager.adapter = adapterViewPager
     }
-
+    private fun loadUserName(){
+        GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                { jsonObject, response ->
+                    try {
+                        val userName = jsonObject.getString("name")
+                        RepoTrips.userId = userName
+                        RepoEvents.userId = userName
+                    }  catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+        ).executeAsync()
+    }
     fun impactIntent(){
         var userId =intent?.data?.getQueryParameter("userId")
         var tripId =intent?.data?.getQueryParameter("tripId")

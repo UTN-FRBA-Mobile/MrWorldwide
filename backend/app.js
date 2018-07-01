@@ -253,8 +253,8 @@ app.get('/users/:userId/trips', function(req, res) {
 });
 
 app.get('/users/:userId/tripsWithEvents', function(req, res) {
-    trips = _.filter(trips,function (trip){return trip.userId === req.params.userId});
-    res.send(_.map(trips,function(trip){
+    var atrips = _.filter(trips,function (trip){return trip.userId === req.params.userId});
+    res.send(_.map(atrips,function(trip){
         return completeTripEvents(trip);
     }));
 });
