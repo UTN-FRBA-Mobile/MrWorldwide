@@ -3,6 +3,7 @@ var app = express();
 var _ = require('lodash');
 
 const bodyParser = require("body-parser");
+var port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -355,7 +356,7 @@ app.delete('/trips/:id', function(req, res) {
     res.send(trips);
 });
 
-app.listen(3000, function() {
+app.listen(port, function() {
     console.log('Example app listening on port 3000!');
 });
 

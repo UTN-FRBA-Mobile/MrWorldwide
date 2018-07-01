@@ -23,7 +23,7 @@ import java.io.IOException
 
 object RepoTrips {
     var trips: MutableList<Trip> = ArrayList()
-    var backUrl = "http://10.0.2.2:3000"
+    var backUrl = "https://mrworldwide.herokuapp.com"
     var userId = "Agustin Vertebrado"
     val client = OkHttpClient()
     val gson = GsonBuilder()
