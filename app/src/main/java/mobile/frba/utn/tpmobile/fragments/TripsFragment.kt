@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
+import mobile.frba.utn.tpmobile.services.RestClient
 
 
 class TripsFragment : NavigatorFragment(null) {
@@ -31,6 +33,10 @@ class TripsFragment : NavigatorFragment(null) {
         }
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
+            if (!RestClient.isOnline()){
+                Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
 

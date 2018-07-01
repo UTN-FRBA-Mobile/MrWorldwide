@@ -16,6 +16,8 @@ import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.fragments.newVideoView
 import mobile.frba.utn.tpmobile.fragments.updateVideoView
 import mobile.frba.utn.tpmobile.models.*
+import mobile.frba.utn.tpmobile.services.RestClient
+import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoEvents
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import org.json.JSONObject
@@ -50,6 +52,10 @@ class TravelerActivityListAdapter(var items: List<Event>): RecyclerView.Adapter<
         fun mgButton(event : Event){
             val likeButton : LinearLayout = itemView.findViewById(R.id.like_button)
             likeButton.setOnClickListener {
+                if (!RestClient.isOnline()){
+                    Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
                 "${RepoEvents.backUrl}/event/${event.userId}/${event.tripId}/${event.id}/mg"
                         .httpPost()
                         .header(Pair("Content-Type", "application/json"))

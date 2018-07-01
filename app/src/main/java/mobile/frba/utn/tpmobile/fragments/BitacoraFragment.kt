@@ -11,10 +11,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.adapters.BitacoraListAdapter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.services.RestClient
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 
@@ -63,6 +65,10 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
 
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.bitacora_add) as FloatingActionButton
         addButton.setOnClickListener {
+            if (!RestClient.isOnline()){
+                Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             addButton.hide()
             val createEditEventFragment = CreateEditEventFragment()
             createEditEventFragment.trip = trip
@@ -77,6 +83,10 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
         builder1.setPositiveButton(
                 "Yes",
                 { dialog, _ ->
+                    if (!RestClient.isOnline()){
+                        Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
+                        return@setPositiveButton
+                    }
                     val createEditTripFragment = CreateEditTripFragment()
                     Navigator.navigateTo(createEditTripFragment)
                     dialog.cancel() })

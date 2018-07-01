@@ -18,6 +18,7 @@ import mobile.frba.utn.tpmobile.fragments.BitacoraFragment
 import mobile.frba.utn.tpmobile.fragments.CreateEditTripFragment
 import mobile.frba.utn.tpmobile.fragments.TripsFragment
 import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.services.RestClient
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import org.jetbrains.anko.alert
@@ -63,12 +64,20 @@ class TripListAdapter(val fr: Fragment, private  var trips: List<Trip>): Recycle
             editButton.setOnClickListener {
                 var bundle = Bundle()
                 bundle.putSerializable("trip", trip)
+                if (!RestClient.isOnline()){
+                    Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
                 val createEditTripFragment = CreateEditTripFragment()
                 createEditTripFragment.arguments = bundle
                 Navigator.navigateTo(createEditTripFragment)
             }
 
             deleteButton.setOnClickListener {
+                if (!RestClient.isOnline()){
+                    Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
                 val builder = AlertDialog.Builder(viewContext)
 
                 builder.setMessage("¿Seguro que deseas borrar el viaje?")
