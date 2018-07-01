@@ -21,12 +21,14 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.preference.PreferenceManager
 import android.util.Base64
+import com.facebook.FacebookSdk
+import mobile.frba.utn.tpmobile.Constants
 import java.io.ByteArrayOutputStream
 
 
 class MyProfileFragment: Fragment() {
-    val PREFS_FILENAME = "mobile.frba.utn.tpmobile.prefs"
     var prefs: SharedPreferences? = null
     var userName: String? = null
     var urlUserImg: String? = null
@@ -38,8 +40,7 @@ class MyProfileFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val namePlaceholder = view!!.findViewById(R.id.userNameValue) as EditText
-        prefs = this.context!!.getSharedPreferences(
-                PREFS_FILENAME, Context.MODE_PRIVATE)
+        prefs = PreferenceManager.getDefaultSharedPreferences(FacebookSdk.getApplicationContext())
         if (!RestClient.isOnline()){
             getDataFromPrefs(view)
         } else {

@@ -49,7 +49,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
             activity?.runOnUiThread  {recyclerView.adapter = BitacoraListAdapter(events)}
         }
         else {
-            RepoTrips.getActualTripFor().invoke { actualTrip ->
+            RepoTrips.getActualTripFor(this).invoke { actualTrip ->
                 if(actualTrip != null){
                     events = actualTrip.events
                     activity?.runOnUiThread{ recyclerView.adapter = BitacoraListAdapter(events)}
@@ -83,7 +83,7 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
                 "No",
                 { dialog, _ -> dialog.cancel() })
 
-        RepoTrips.getNextTripFor().invoke { nextTrip ->
+        RepoTrips.getNextTripFor(this).invoke { nextTrip ->
             message = if(nextTrip != null){
                 "Actualmente no te encuentras en ningún viaje. " +
                         "Tu próximo viaje es el " +

@@ -5,8 +5,7 @@ import android.arch.lifecycle.LiveData
 import android.app.Application
 import android.arch.lifecycle.Observer
 import android.support.v4.app.Fragment
-import mobile.frba.utn.tpmobile.models.Event
-import mobile.frba.utn.tpmobile.models.Trip
+import mobile.frba.utn.tpmobile.models.*
 
 
 class TripsRepository internal constructor(application: Application) {
@@ -27,7 +26,17 @@ class TripsRepository internal constructor(application: Application) {
     }
 
     fun insert(trip: Trip) {
-        insertAsyncTask(mTripDao).execute(trip)
+        InsertTripAsyncTask(mTripDao).execute(trip)
+    }
+
+    fun insert(event: Event) {
+        val eventDao : BaseDao<Event> = when (event.eventType){
+            EventType.PHOTO -> mPhotoDao as BaseDao<Event>
+            EventType.TEXT -> mTextDao as BaseDao<Event>
+            EventType.VIDEO -> mVideoDao as BaseDao<Event>
+        }
+
+        InsertEventAsyncTask(eventDao).execute(event)
     }
 
     fun getAllTrips(): LiveData<List<Trip>> {
@@ -71,9 +80,17 @@ class TripsRepository internal constructor(application: Application) {
     }
 
 
-    private class insertAsyncTask internal constructor(private val mAsyncTaskDao: TripDao) : AsyncTask<Trip, Void, Void>() {
+    private class InsertTripAsyncTask internal constructor(private val mAsyncTaskDao: TripDao) : AsyncTask<Trip, Void, Void>() {
 
         override fun doInBackground(vararg params: Trip): Void? {
+            mAsyncTaskDao.insert(params[0])
+            return null
+        }
+    }
+
+    private class InsertEventAsyncTask internal constructor(private val mAsyncTaskDao: BaseDao<Event>) : AsyncTask<Event, Void, Void>() {
+
+        override fun doInBackground(vararg params: Event): Void? {
             mAsyncTaskDao.insert(params[0])
             return null
         }

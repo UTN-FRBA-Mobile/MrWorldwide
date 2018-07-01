@@ -1,7 +1,19 @@
 package mobile.frba.utn.tpmobile.singletons
 
 import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.util.Base64
+import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
+import com.facebook.FacebookSdk.getApplicationContext
 import com.google.android.gms.maps.model.LatLng
 import mobile.frba.utn.tpmobile.daos.TripsRepository
 import mobile.frba.utn.tpmobile.models.*
@@ -16,6 +28,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
 import mobile.frba.utn.tpmobile.Constants
+import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.activities.DateFormatter
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Trip
@@ -24,10 +37,12 @@ import okhttp3.*
 import org.joda.time.DateTime
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 object RepoTrips {
      var trips: MutableList<Trip> = ArrayList()
+    var prefs: SharedPreferences? = null
      var backUrl = "http://192.168.0.29:3000"
      val client = OkHttpClient()
     var userId = "Agustin Vertebrado"
@@ -143,7 +158,6 @@ object RepoTrips {
                                 override fun onResponse(call: Call, response: Response) {
 
                                     val trip = Trip.getFromString(response.body()!!.string())
-
                                     callback.invoke(trip)
                                 }
                             })
@@ -152,40 +166,83 @@ object RepoTrips {
         }
     }
 
-    fun getActualTripFor(): ((Trip?) -> Unit) -> Unit {
-        return { callback ->
-            run {
-                client.newCall(Request.Builder().url("$backUrl/users/$userId/actualTrip").build())
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                throw Error("rompio todo!")
-                            }
-
-                            override fun onResponse(call: Call, response: Response) {
-
-                                val trip = Trip.getFromString(response.body()!!.string())
-
-                                callback.invoke(trip)
-                            }
-                        })
-            }
-        }
+    fun saveActualTripIdToPrefs(tripId : String){
+        val editor = prefs!!.edit()
+        editor.putString("actualTripId", tripId)
+        editor.apply()
     }
 
-    fun getNextTripFor(): ((Trip?) -> Unit) -> Unit {
-        return { callback ->
-            run {
-                client.newCall(Request.Builder().url("$backUrl/users/$userId/nextTrip").build())
-                        .enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                throw Error("rompio todo!")
-                            }
+    fun saveNextTripIdToPrefs(tripId : String){
+        val editor = prefs!!.edit()
+        editor.putString("nextTripId", tripId)
+        editor.apply()
+    }
 
-                            override fun onResponse(call: Call, response: Response) {
-                                val trip = Trip.getFromString(response.body()!!.string())
-                                callback.invoke(trip)
-                            }
-                        })
+    fun getNextTripIdFromPrefs(): Int{
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        return prefs!!.getString("nextTripId", "notFound").toInt()
+    }
+
+    fun getActualTripIdFromPrefs(): Int{
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+        return prefs!!.getString("actualTripId", "notFound").toInt()
+    }
+
+    fun getActualTripFor(lca: Fragment): ((Trip?) -> Unit) -> Unit {
+        return { callback ->
+            if (!RestClient.isOnline()){
+                try {
+                    getLocalTrip(getActualTripIdFromPrefs(), lca,callback)
+                } catch (e: Exception){
+                    callback.invoke(null)
+                }
+            } else {
+                run {
+                    client.newCall(Request.Builder().url("$backUrl/users/$userId/actualTrip").build())
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    throw Error("rompio todo!")
+                                }
+                                override fun onResponse(call: Call, response: Response) {
+                                    try {
+                                        val trip = Trip.getFromString(response.body()!!.string())
+                                        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                                        saveActualTripIdToPrefs(trip?.id.toString())
+                                        callback.invoke(trip)
+                                    } catch (e: Exception){
+                                        callback.invoke(null)
+                                    }
+                                }
+                            })
+                }
+            }
+        }
+
+    }
+
+    fun getNextTripFor(lca: Fragment): ((Trip?) -> Unit) -> Unit {
+        return { callback ->
+            if (!RestClient.isOnline()){
+                try {
+                    getLocalTrip(getNextTripIdFromPrefs(), lca,callback)
+                } catch (e: Exception){
+                    callback.invoke(null)
+                }
+            } else {
+                run {
+                    client.newCall(Request.Builder().url("$backUrl/users/$userId/nextTrip").build())
+                            .enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    throw Error("rompio todo!")
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                    val trip = Trip.getFromString(response.body()!!.string())
+                                    saveNextTripIdToPrefs(trip?.id.toString())
+                                    callback.invoke(trip)
+                                }
+                            })
+                }
             }
         }
     }
@@ -211,8 +268,10 @@ object RepoTrips {
                                     var x = 0
                                     val events: MutableList<Event> = emptyArray<Event>().toMutableList()
                                     while (x < jsonEvents.length()) {
-                                        val event = jsonEvents.getJSONObject(x)
-                                        events.add(getEventFromJson(event))
+                                        val jEvent = jsonEvents.getJSONObject(x)
+                                        val ev = getEventFromJson(jEvent)
+                                        events.add(ev)
+                                        tripsLocalRepository.insert(ev)
                                         x++
                                     }
                                     callback.invoke(events)
