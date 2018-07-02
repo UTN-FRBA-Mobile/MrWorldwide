@@ -8,7 +8,7 @@ import android.arch.persistence.room.TypeConverters
 import mobile.frba.utn.tpmobile.models.*
 
 
-@Database(entities = arrayOf(Trip::class, Text::class, Photo::class, Video::class), version = 1)
+@Database(entities = arrayOf(Trip::class, Text::class, Photo::class, Video::class, ImageCreate::class), version = 1)
 @TypeConverters(WorldConverters::class)
 abstract class WorldRoomDatabase : RoomDatabase() {
 
@@ -17,6 +17,7 @@ abstract class WorldRoomDatabase : RoomDatabase() {
     abstract fun textDao(): TextDao
     abstract fun videoDao(): VideoDao
     abstract fun photoDao(): PhotoDao
+    abstract fun imageCreateDao(): ImagesDao
 
     companion object {
         private var DBINSTANCE: WorldRoomDatabase? = null

@@ -83,10 +83,6 @@ class BitacoraFragment : NavigatorFragment(R.id.action_bitacora) {
         builder1.setPositiveButton(
                 "Yes",
                 { dialog, _ ->
-                    if (!RestClient.isOnline()){
-                        Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
-                        return@setPositiveButton
-                    }
                     val createEditTripFragment = CreateEditTripFragment()
                     Navigator.navigateTo(createEditTripFragment)
                     dialog.cancel() })

@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.support.v4.app.SupportActivity
 import android.util.Base64
 import android.view.View
 import android.widget.EditText
@@ -43,7 +44,7 @@ import java.io.IOException
 object RepoTrips {
      var trips: MutableList<Trip> = ArrayList()
     var prefs: SharedPreferences? = null
-    var backUrl = "http://mrworldwide.herokuapp.com"
+    var backUrl = "http://192.168.0.29:3000"
      val client = OkHttpClient()
     var userId = "Agustin Vertebrado"
     val gson = GsonBuilder()
@@ -283,14 +284,44 @@ object RepoTrips {
     }
 
     fun savePhotoAndThenAddTrip(photo: ByteArray,trip: Trip, callback: () -> Unit) {
-        "https://api.imgur.com/3/image"
-                .httpPost()
-                .header(Pair("Authorization", Constants.clientAuth))
-                .body(photo)
-                .responseJson({_,response, result ->
-                    trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
-                    addTrip(trip, callback)
-                })
+        if (!RestClient.isOnline()){
+            tripsLocalRepository.saveTripWithImage(photo, trip)
+            callback.invoke()
+        } else {
+            "https://api.imgur.com/3/image"
+                    .httpPost()
+                    .header(Pair("Authorization", Constants.clientAuth))
+                    .body(photo)
+                    .responseJson({ _, response, result ->
+                        trip.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
+                        trip.id = null
+                        addTrip(trip, callback)
+                    })
+        }
+    }
+    fun synchronizeLocalTrips(context: Context){
+        val imagesCreate = tripsLocalRepository.getAllLocalImages()
+        tripsLocalRepository.getAllTrips().observe(context as SupportActivity, Observer { trips ->
+            if (trips != null && RestClient.isOnline()) {
+                trips.forEach {
+                    tr ->
+                    if (!tr.saved){
+                        val tripImage = imagesCreate.find { img -> img.ownerId.equals(tr.id) }
+                        "https://api.imgur.com/3/image"
+                                .httpPost()
+                                .header(Pair("Authorization", Constants.clientAuth))
+                                .body(tripImage?.data!!)
+                                .responseJson({ _, response, result ->
+                                    tr.tripPhoto.url = JSONObject((result as Result.Success).value.content).getJSONObject("data").getString("link")
+                                    addTrip(tr, {})
+                                    tr.saved = true
+                                    tripsLocalRepository.insert(tr)
+                                    tripsLocalRepository.deleteImageCreate(tripImage)
+                                })
+                    }
+                }
+            }
+        })
     }
 
     fun addTrip(trip: Trip, callback: () -> Unit) {

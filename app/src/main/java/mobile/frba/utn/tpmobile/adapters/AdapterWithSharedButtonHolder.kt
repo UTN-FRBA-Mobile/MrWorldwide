@@ -16,7 +16,7 @@ interface AdapterWithSharedButtonHolder{
         val sharedButton : LinearLayout = itemView.findViewById(R.id.shared_button)
         sharedButton.setOnClickListener {
             val alertDialog = AlertDialog.Builder(itemView.context)
-            val url = "http://mr.world.wide?userId=${event.urlUserId()}&tripId=${event.tripId}&eventId=${event.id}"
+            val url = "http://mr.world.wide?userId=${event.urlUserId()}&ownerId=${event.tripId}&eventId=${event.id}"
             alertDialog.setTitle("Link para compartir")
             alertDialog.setMessage(url)
             alertDialog.setPositiveButton("copiar",{dialog, _ ->

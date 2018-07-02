@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import mobile.frba.utn.tpmobile.R
+import mobile.frba.utn.tpmobile.connectivity.NetworkChangeReceiver
 import mobile.frba.utn.tpmobile.fragments.MainActivityFragment
 import mobile.frba.utn.tpmobile.fragments.MyProfileFragment
 import mobile.frba.utn.tpmobile.models.getEventFromJson
@@ -22,13 +24,19 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
+import android.content.IntentFilter
+import mobile.frba.utn.tpmobile.singletons.AppHolder
 
 
 class MainActivity : AppCompatActivity() {
     private var adapterViewPager: FragmentPagerAdapter? = null
+    private val networkChangeReceiver = NetworkChangeReceiver(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         JodaTimeAndroid.init(this)
+        val netFilter = IntentFilter()
+        netFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        AppHolder.getContext().registerReceiver(networkChangeReceiver,netFilter)
         if (!FacebookService.sessionAlive()){
             startActivity(Intent(this, LoginActivity::class.java))
             loadUserName()
@@ -40,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         adapterViewPager = MyPagerAdapter(supportFragmentManager)
         vpPager.adapter = adapterViewPager
     }
+
     private fun loadUserName(){
         GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -56,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun impactIntent(){
         var userId =intent?.data?.getQueryParameter("userId")
-        var tripId =intent?.data?.getQueryParameter("tripId")
+        var tripId =intent?.data?.getQueryParameter("ownerId")
         var eventId =intent?.data?.getQueryParameter("eventId")
         if(!eventId.isNullOrEmpty()) {
             OkHttpClient().newCall(Request.Builder().url(RepoTrips.backUrl + "/event/$userId/$tripId/$eventId").build())
@@ -100,5 +109,7 @@ class MainActivity : AppCompatActivity() {
             private val NUM_ITEMS = 2
         }
     }
+
+
 
 }

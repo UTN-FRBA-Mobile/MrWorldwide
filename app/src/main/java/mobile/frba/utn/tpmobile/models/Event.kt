@@ -11,7 +11,7 @@ import java.util.*
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(var eventType: EventType, open var likes: HashSet<String>, open var geoLocation: Coordinate?,open var id : Int?,open var userId : String?, open var tripId : Int?,  open var date : DateTime, var dateDb : Long, open var title:String) :Serializable {
+abstract class Event(var eventType: EventType, open var likes: HashSet<String>, open var geoLocation: Coordinate?,open var id : Int?,open var userId : String?, open var tripId : Int?,  open var date : DateTime, var dateDb : Long, open var title:String ) :Serializable {
 
     fun urlUserId(): String {
        return userId!!.replace(" ","%20")

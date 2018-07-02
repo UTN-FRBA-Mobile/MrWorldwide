@@ -6,6 +6,7 @@ import android.app.Application
 import android.arch.lifecycle.Observer
 import android.support.v4.app.Fragment
 import mobile.frba.utn.tpmobile.models.*
+import java.util.*
 
 
 class TripsRepository internal constructor(application: Application) {
@@ -14,6 +15,7 @@ class TripsRepository internal constructor(application: Application) {
     private val mTextDao: TextDao
     private val mPhotoDao: PhotoDao
     private val mVideoDao: VideoDao
+    private val mImageCreateDao: ImagesDao
     internal val mAllTrips: LiveData<List<Trip>>
 
     init {
@@ -22,7 +24,29 @@ class TripsRepository internal constructor(application: Application) {
         mTextDao = db!!.textDao()
         mPhotoDao = db!!.photoDao()
         mVideoDao = db!!.videoDao()
+        mImageCreateDao = db!!.imageCreateDao()
         mAllTrips = mTripDao.allTrips
+    }
+
+    fun getAllLocalImages(): List<ImageCreate> {
+        return mImageCreateDao.getAll()
+    }
+
+    fun deleteImageCreate(img : ImageCreate){
+        mImageCreateDao.delete(img)
+    }
+
+    fun saveTripWithImage(photo: ByteArray,trip: Trip) {
+        val rand =  Random()
+        val min = 1
+        val max = 9999
+        val randomNum = rand.nextInt(max - min + 1) + min
+        trip.id = randomNum
+        trip.tripPhoto.url = "@drawable/trip_photo_example"
+        val imgSave = ImageCreate(ownerId = randomNum, data = photo)
+        mImageCreateDao.insert(imgSave)
+        trip.saved  = false
+        mTripDao.insert(trip)
     }
 
     fun insert(trip: Trip) {

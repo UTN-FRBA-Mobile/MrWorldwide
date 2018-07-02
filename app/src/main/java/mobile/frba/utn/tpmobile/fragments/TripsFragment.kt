@@ -33,10 +33,6 @@ class TripsFragment : NavigatorFragment(null) {
         }
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {
-            if (!RestClient.isOnline()){
-                Toast.makeText(Navigator.supportFragmentManager.fragments.first().activity, "No hay conectividad, intente más tarde.", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
             addButton.hide()
             val createEditTripFragment = CreateEditTripFragment()
 

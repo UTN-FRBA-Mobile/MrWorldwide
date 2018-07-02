@@ -25,7 +25,7 @@ import kotlin.collections.ArrayList
 
 
 @Entity(tableName = "trip_table")
-data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhoto: TripPhoto, @Ignore var startDate: DateTime, var startDateForDB: Date, @Ignore var finishDate: DateTime, var endDateForDB: Date, @Ignore var events: MutableList<Event>, var eventsString: String?) : Serializable {
+data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhoto: TripPhoto, @Ignore var startDate: DateTime, var startDateForDB: Date, @Ignore var finishDate: DateTime, var endDateForDB: Date, @Ignore var events: MutableList<Event>, var eventsString: String?, var saved : Boolean = true) : Serializable {
     @JvmOverloads constructor(id: Int?, title: String, tripPhoto: TripPhoto, startDate: DateTime, finishDate: DateTime, events: MutableList<Event>)
             : this(id, title, tripPhoto, startDate, startDate.toDate() ,finishDate, finishDate.toDate(), events, Trip.EventListToString(events))
 
@@ -85,8 +85,10 @@ data class Trip(@field:PrimaryKey var id : Int?, var title: String, var tripPhot
                         else -> {
                             if (key.equals("dateDb"))
                                 (entry.value as Double).toDouble()
-                            else
-                              entry.value as String
+                            else{
+                                entry.value as String
+                            }
+
                         }
                     }
                     jsonObj.put(key, value)
