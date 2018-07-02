@@ -5,18 +5,20 @@ import mobile.frba.utn.tpmobile.activities.DateFormatter
 import org.joda.time.DateTime
 import org.json.JSONObject
 import java.io.Serializable
-
+import android.arch.persistence.room.*
+import java.util.*
 
 /**
  * Created by Gustavo on 5/6/18.
  */
-abstract class Event(val eventType: EventType, val likes: HashSet<String>, open var geoLocation: Coordinate?, open var id : Int?, open var userId : String?, open var tripId : Int?, open var date : DateTime, open var title:String) : Serializable {
+abstract class Event(var eventType: EventType, open var likes: HashSet<String>, open var geoLocation: Coordinate?,open var id : Int?,open var userId : String?, open var tripId : Int?,  open var date : DateTime, var dateDb : Long, open var title:String ) :Serializable {
+
     fun urlUserId(): String {
        return userId!!.replace(" ","%20")
     }
 }
 
-fun getEventFromJson (jsonObject: JSONObject) : Event {
+fun getEventFromJson (jsonObject: JSONObject, fromRoomDB : Boolean = false ) : Event {
     val eventType : EventType = EventType.valueOf(jsonObject.getString("eventType"))
     val jsonGeoLocation = jsonObject.getJSONObject("geoLocation")
     val geoLocation = Coordinate(jsonGeoLocation.getDouble("latitude"),jsonGeoLocation.getDouble("longitude"))
@@ -25,17 +27,27 @@ fun getEventFromJson (jsonObject: JSONObject) : Event {
     val tripId = jsonObject.getInt("tripId")
     val likesJson = jsonObject.getJSONArray("likes")
     var x = 0
+    val date : DateTime
+    if (fromRoomDB) {
+        val timestamp = jsonObject.getLong("dateDb")
+        val juDate = Date(timestamp)
+        date = DateTime(juDate)
+
+    } else {
+        date  = DateFormatter.getDateTimeFromString( jsonObject.getString("date"))
+    }
     val likes : HashSet<String> = emptyArray<String>().toHashSet()
     while (x < likesJson.length()) {
         val like = likesJson.getString(x)
         likes.add(like)
         x++
     }
-    return  when (eventType){
-        EventType.PHOTO -> Photo(jsonObject.getString("url"),likes,jsonObject.getString("title"), DateFormatter.getDateTimeFromString( jsonObject.getString("date")),jsonObject.getString("description"),geoLocation,id,userId,tripId)
-        EventType.TEXT -> Text(jsonObject.getString("text"),likes,jsonObject.getString("title"), DateFormatter.getDateTimeFromString(jsonObject.getString("date")),geoLocation,id,userId,tripId)
-        EventType.VIDEO -> Video(jsonObject.getString("description"),likes,jsonObject.getString("title"),DateFormatter.getDateTimeFromString(jsonObject.getString("date")),jsonObject.getString("url"),geoLocation,id,userId,tripId)
+    val event =   when (eventType){
+        EventType.PHOTO -> Photo(jsonObject.getString("url"),likes,jsonObject.getString("title"), date ,jsonObject.getString("description"),geoLocation,id,userId,tripId)
+        EventType.TEXT -> Text(jsonObject.getString("text"),likes,jsonObject.getString("title"), date,geoLocation,id,userId,tripId)
+        EventType.VIDEO -> Video(jsonObject.getString("description"),likes,jsonObject.getString("title"),date,jsonObject.getString("url"),geoLocation,id,userId,tripId)
     }
+    return event
 }
 
 fun getLikeFromJson(jsonObject: JSONObject) : String {

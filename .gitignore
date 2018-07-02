@@ -35,10 +35,16 @@ captures/
 # Intellij
 *.iml
 .idea/workspace.xml
+.idea/vcs.xml
+.idea/runConfigurations.xml
 .idea/tasks.xml
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
+.idea/codestyles
+.idea/codeStyles
+.idea/misc.xml
+.idea/
 
 # Keystore files
 *.jks

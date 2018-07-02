@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import mobile.frba.utn.tpmobile.R
 import mobile.frba.utn.tpmobile.singletons.Navigator
 import mobile.frba.utn.tpmobile.singletons.RepoTrips
 import mobile.frba.utn.tpmobile.adapters.TripListAdapter
+import mobile.frba.utn.tpmobile.services.RestClient
 
 
 class TripsFragment : NavigatorFragment(null) {
@@ -26,8 +28,8 @@ class TripsFragment : NavigatorFragment(null) {
         recyclerView = getView()!!.findViewById(R.id.trip_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val activity = this.activity
-        RepoTrips.getTrips().invoke { trips ->
-            activity?.runOnUiThread { recyclerView.adapter = TripListAdapter(trips) }
+        RepoTrips.getTrips(this).invoke { trips ->
+            activity?.runOnUiThread { recyclerView.adapter = TripListAdapter(this, trips) }
         }
         val addButton: FloatingActionButton = getView()!!.findViewById<View>(R.id.trip_add) as FloatingActionButton
         addButton.setOnClickListener {

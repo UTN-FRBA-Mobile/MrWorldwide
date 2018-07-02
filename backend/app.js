@@ -70,7 +70,31 @@ var trips = [
         events: [],
         startDate: "01-02-2018",
         finishDate: "17-02-2018"
-    }
+    },
+    {
+            id: 311,
+            userId: "Marcos Paulucci",
+            title: "Roma",
+            tripPhoto: {
+                url: "https://www.losmundosdeceli.com/wp-content/uploads/2017/05/coliseo_roma_atardecer-1080x640.jpg",
+                date: "22-02-2018"
+            },
+            events: [],
+            startDate: "01-03-2017",
+            finishDate: "31-08-2018"
+        },
+      {
+            id: 312,
+            userId: "Marcos Paulucci",
+            title: "New York",
+            tripPhoto: {
+                url: "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5244714388001_5205235439001-vs.jpg?pubId=5104226627001&videoId=5205235439001",
+                date: "18-02-2018"
+            },
+            events: [],
+            startDate: "01-02-2018",
+            finishDate: "17-02-2018"
+        }
 
 ];
 
@@ -143,6 +167,35 @@ var events = [
         title: "Soy un texto de relleno",
         eventType: "TEXT",
         likes: [],
+        geoLocation: {
+            latitude: 14,
+            longitude: 4
+        }
+    },
+    {
+        id: 1,
+        userId: "Marcos Paulucci",
+        tripId: 311,
+        title: "El título",
+        url: "http://thewowstyle.com/wp-content/uploads/2014/11/iStock_000012776246Small.jpg",
+        date: "23-02-2018",
+        description: "LALALA",
+        eventType: "PHOTO",
+        likes: ["Mercedes Hidratada", "Esteban Piro", "Pepe Lotas"],
+        geoLocation: {
+            latitude: 1,
+            longitude: 2
+        }
+    },
+    {
+        id: 2,
+        userId: "Marcos Paulucci",
+        tripId: 312,
+        text: "Soy un texto de relleno",
+        date: "24-02-2018",
+        title: "Soy un titulo de relleno",
+        eventType: "TEXT",
+        likes: ["Mercedes Hidratada"],
         geoLocation: {
             latitude: 14,
             longitude: 4

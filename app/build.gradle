@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -13,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -42,6 +45,19 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation "org.jetbrains.anko:anko:$anko_version"
+    // Room components
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    androidTestImplementation "android.arch.persistence.room:testing:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
+    // Lifecycle components
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.code.gson:gson:2.8.4'
+    implementation ('com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.6.0') {
+        exclude group:'joda-time'
+    }
     implementation 'com.github.kittinunf.fuel:fuel-coroutines:1.13.0'
     implementation 'com.github.kittinunf.fuel:fuel-android:1.13.0'
     implementation 'com.github.kittinunf.fuel:fuel-gson:1.13.0'

@@ -99,7 +99,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
                 }
             }
             eventTitle!!.text = event.title
-            date!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", event.date.toDate())
+            date!!.text = android.text.format.DateFormat.format("dd/MM/yyyy", event.date!!.toDate())
         }
 
         date!!.setOnClickListener {
@@ -322,7 +322,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
             RepoEvents.addEvent(event, {
                 spinnerDialog.cancel()
                 val fragment = BitacoraFragment()
-                RepoTrips.getTrip(trip?.id!!).invoke { newTrip ->
+                RepoTrips.getTrip(this, trip?.id!!).invoke { newTrip ->
                     fragment.trip = newTrip
                     Navigator.navigateTo(fragment)
                 }
@@ -333,7 +333,7 @@ class CreateEditEventFragment : NavigatorFragment(null) {
             RepoEvents.savePhotoAndThenAddEvent(photo!!, event, {
                 spinnerDialog.cancel()
                 val fragment = BitacoraFragment()
-                RepoTrips.getTrip(trip?.id!!).invoke { newTrip ->
+                RepoTrips.getTrip(this, trip?.id!!).invoke { newTrip ->
                     fragment.trip = newTrip
                     Navigator.navigateTo(fragment)
                 }
