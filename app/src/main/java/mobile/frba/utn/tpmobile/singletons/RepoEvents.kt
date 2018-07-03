@@ -12,8 +12,10 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
 import mobile.frba.utn.tpmobile.Constants
 import mobile.frba.utn.tpmobile.activities.DateFormatter
+import mobile.frba.utn.tpmobile.models.CustomExclusionStrategies
 import mobile.frba.utn.tpmobile.models.Event
 import mobile.frba.utn.tpmobile.models.Photo
+import mobile.frba.utn.tpmobile.models.SuperclassExclusionStrategy
 import org.joda.time.DateTime
 import org.json.JSONObject
 import java.util.Collections.replaceAll
@@ -37,9 +39,10 @@ object RepoEvents {
 
     fun addEvent(event: Event, callback: () -> Unit) {
         RepoEvents.events.add(RepoEvents.events.lastIndex + 1, event)
+        val gson = GsonBuilder().setExclusionStrategies(SuperclassExclusionStrategy() ).create()
         "${RepoEvents.backUrl}/events/${RepoEvents.userId}"
                 .httpPost()
-                .body(RepoEvents.gson.toJson(event))
+                .body(gson.toJson(event))
                 .header(Pair("Content-Type", "application/json"))
                 .response({ _, _, result ->
                     println(result)
@@ -70,6 +73,7 @@ object RepoEvents {
     }
 
     fun updateEvent(event: Event, callback: () -> Unit) {
+        val gson = GsonBuilder().setExclusionStrategies(SuperclassExclusionStrategy()).create()
         "$backUrl/events/${event.id}"
                 .httpPut()
                 .body(gson.toJson(event))

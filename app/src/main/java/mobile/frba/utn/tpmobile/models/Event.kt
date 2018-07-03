@@ -27,14 +27,21 @@ fun getEventFromJson (jsonObject: JSONObject, fromRoomDB : Boolean = false ) : E
     val tripId = jsonObject.getInt("tripId")
     val likesJson = jsonObject.getJSONArray("likes")
     var x = 0
-    val date : DateTime
+    var date : DateTime? = null
     if (fromRoomDB) {
         val timestamp = jsonObject.getLong("dateDb")
         val juDate = Date(timestamp)
         date = DateTime(juDate)
 
     } else {
-        date  = DateFormatter.getDateTimeFromString( jsonObject.getString("date"))
+        try {
+            date  = DateFormatter.getDateTimeFromString( jsonObject.getString("date"))
+        } catch (e : Exception) {
+            val dateDb = jsonObject.getString("dateDb")
+            val myDate = Date(dateDb.toLong())
+            date = DateTime(myDate)
+        }
+
     }
     val likes : HashSet<String> = emptyArray<String>().toHashSet()
     while (x < likesJson.length()) {
@@ -43,9 +50,9 @@ fun getEventFromJson (jsonObject: JSONObject, fromRoomDB : Boolean = false ) : E
         x++
     }
     val event =   when (eventType){
-        EventType.PHOTO -> Photo(jsonObject.getString("url"),likes,jsonObject.getString("title"), date ,jsonObject.getString("description"),geoLocation,id,userId,tripId)
-        EventType.TEXT -> Text(jsonObject.getString("text"),likes,jsonObject.getString("title"), date,geoLocation,id,userId,tripId)
-        EventType.VIDEO -> Video(jsonObject.getString("description"),likes,jsonObject.getString("title"),date,jsonObject.getString("url"),geoLocation,id,userId,tripId)
+        EventType.PHOTO -> Photo(jsonObject.getString("url"),likes,jsonObject.getString("title"), date!! ,jsonObject.getString("description"),geoLocation,id,userId,tripId)
+        EventType.TEXT -> Text(jsonObject.getString("text"),likes,jsonObject.getString("title"), date!!,geoLocation,id,userId,tripId)
+        EventType.VIDEO -> Video(jsonObject.getString("description"),likes,jsonObject.getString("title"),date!!,jsonObject.getString("url"),geoLocation,id,userId,tripId)
     }
     return event
 }
