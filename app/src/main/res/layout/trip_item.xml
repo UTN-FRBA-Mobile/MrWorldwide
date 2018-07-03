@@ -49,9 +49,9 @@
 
                 <ImageButton
                     android:id="@+id/delete_trip"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="50dp"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/ic_delete"
                     android:backgroundTint="@color/colorPrimary"
@@ -60,8 +60,8 @@
 
                 <ImageButton
                     android:id="@+id/edit_trip"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginEnd="7dp"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/icon_edit"
